@@ -1,0 +1,6 @@
+{
+  "release-type": "php",
+  "package-name": "metalinked/laravel-defender",
+  "bump-minor-pre-major": true,
+  "changelog-path": "CHANGELOG.md"
+}
