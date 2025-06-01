@@ -31,6 +31,13 @@ class DefenderServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/../resources/views/components/honeypot.blade.php' => resource_path('views/vendor/defender/components/honeypot.blade.php'),
         ], 'defender-views');
+
+        // Register the IP logging middleware if enabled
+        $this->app['router']->aliasMiddleware('defender.iplogger', \Metalinked\LaravelDefender\Http\Middleware\IpLoggerMiddleware::class);
+
+        $this->publishes([
+            __DIR__.'/../database/migrations/2024_06_01_000001_create_ip_logs_table.php' => database_path('migrations/2024_06_01_000001_create_ip_logs_table.php'),
+        ], 'defender-migrations');
     }
 
     public function register()

@@ -101,14 +101,27 @@ If you discover a security vulnerability, please report it via email to [securit
 
 ## 📍 Roadmap
 
-- [x] Project bootstrapped  
-- [x] Honeypot protection  
-- [ ] IP logging and alert manager  
-- [ ] Central API endpoint (SaaS)  
-- [ ] Laravel Nova/Telescope integration  
-- [ ] Token authentication system  
-- [ ] Packagist release  
-- [ ] Premium version support  
+### MVP
+- [x] Project bootstrapped
+- [x] Honeypot spam protection
+- [ ] IP logging and alert manager
+- [ ] Local dashboard (optional)
+- [ ] Basic SaaS API connection
+
+### Freemium & Premium Features
+- [ ] Advanced attack signatures (JSON-based rule engine, regex matching)
+- [ ] AI-powered risk scoring for suspicious requests
+- [ ] Integration with external IP reputation services (AbuseIPDB, Project Honeypot, etc.)
+- [ ] Instant notifications (Telegram, Slack, email)
+- [ ] Security audit module with PDF reports (correlate logs with public CVEs)
+- [ ] Automated onboarding and security baseline checks (exposed .env, APP_DEBUG, CORS, cookies, etc.)
+- [ ] Centralized SaaS dashboard (separate from client app)
+- [ ] API endpoints for enterprise clients (event/alert consumption)
+- [ ] Privacy-friendly client fingerprinting (IP, UA, headers, timezone, etc.)
+
+---
+
+**This roadmap is inspired by expert security feedback and aims to make Laravel Defender a truly advanced, modern, and extensible security solution for Laravel and beyond.**
 
 ---
 
