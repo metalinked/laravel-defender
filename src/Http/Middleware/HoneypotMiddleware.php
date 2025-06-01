@@ -1,5 +1,5 @@
 <?php
-namespace LaravelDefender\Http\Middleware;
+namespace Metalinked\LaravelDefender\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
