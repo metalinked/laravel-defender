@@ -34,6 +34,55 @@ php artisan vendor:publish --tag=defender-config
 
 ---
 
+### SaaS Token Configuration
+
+After publishing the config file, you can set your SaaS token in `config/defender.php`:
+
+```php
+'saas_token' => 'TOKEN_FROM_SAAS',
+```
+
+---
+
+## 🛡️ Honeypot Spam Protection
+
+This package provides configurable honeypot protection for your Laravel forms.
+
+### Quick start
+
+1. **Publish the Blade view (optional):**
+   ```bash
+   php artisan vendor:publish --tag=defender-views
+   ```
+
+2. **Add the honeypot field to your forms:**
+   ```blade
+   @defenderHoneypot
+   ```
+
+3. **Configure automatic protection (optional):**
+   In `config/defender.php`, set:
+   ```php
+   'honeypot' => [
+       'auto_protect_forms' => true, // or false for manual middleware
+       // ...other options
+   ],
+   ```
+
+4. **Manual middleware (if auto protection is disabled):**
+   Add the middleware to your route:
+   ```php
+   Route::post('/your-form', ...)->middleware('defender.honeypot');
+   ```
+
+### How it works
+
+- The honeypot adds hidden fields to your forms via the Blade directive.
+- Submissions that fill the honeypot field or submit too quickly are blocked with a 422 error.
+- All options are configurable in `config/defender.php`.
+
+---
+
 ## 📊 Viewing IP Logs and Alerts
 
 Laravel Defender provides an Artisan command to review access logs and suspicious activity directly from the console.  
@@ -73,53 +122,15 @@ You can combine options as needed.
 
 _You can extend or export logs as needed for further analysis. A web dashboard is planned for future releases._
 
+---
+
 ## 📦 Usage
 
 Basic usage examples will be added as the package stabilizes. Planned usage will include:
 
 - Publishing config files  
 - Using middleware and Blade components  
-- Dashboard access from your app (or SaaS)  
-
----
-
-## 🛡️ Honeypot Spam Protection
-
-This package provides configurable honeypot protection for your Laravel forms.
-
-### Quick start
-
-1. **Publish the config and Blade view (optional):**
-   ```bash
-   php artisan vendor:publish --tag=defender-config
-   php artisan vendor:publish --tag=defender-views
-   ```
-
-2. **Add the honeypot field to your forms:**
-   ```blade
-   @defenderHoneypot
-   ```
-
-3. **Configure automatic protection (optional):**
-   In `config/defender.php`, set:
-   ```php
-   'honeypot' => [
-       'auto_protect_forms' => true, // or false for manual middleware
-       // ...other options
-   ],
-   ```
-
-4. **Manual middleware (if auto protection is disabled):**
-   Add the middleware to your route:
-   ```php
-   Route::post('/your-form', ...)->middleware('defender.honeypot');
-   ```
-
-### How it works
-
-- The honeypot adds hidden fields to your forms via the Blade directive.
-- Submissions that fill the honeypot field or submit too quickly are blocked with a 422 error.
-- All options are configurable in `config/defender.php`.
+- Accessing the centralized SaaS dashboard  
 
 ---
 
@@ -154,16 +165,6 @@ If you discover a security vulnerability, please report it via email to [securit
 - **Freemium (offline):** All users can use the basic security features locally, without connecting to the SaaS. No registration required.
 - **Freemium (SaaS-connected):** Users can optionally register on the SaaS platform to monitor and manage up to 1 Laravel project for free, with centralized logs and basic dashboard.
 - **Premium (SaaS-connected):** Paid plans unlock premium features (AI risk scoring, advanced signatures, multi-project management, etc.) and/or allow monitoring more Laravel projects from the SaaS dashboard. Each project is linked to a unique token generated in the SaaS panel.
-
----
-
-### SaaS Token Configuration
-
-After publishing the config file, you can set your SaaS token in `config/defender.php`:
-
-```php
-'saas_token' => 'TOKEN_FROM_SAAS',
-```
 
 ---
 
