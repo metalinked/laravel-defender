@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.4.0](https://github.com/metalinked/laravel-defender/compare/v1.3.0...v1.4.0) (2025-06-04)
+
+
+### Features
+
+* **saas:** add basic SaaS connection and Artisan check command ([3cd7339](https://github.com/metalinked/laravel-defender/commit/3cd7339946b597db734d31aeee7d902789d07864))
+
+
+### Bug Fixes
+
+* **middleware:** correct namespace for HoneypotAutoMiddleware ([8ffeca2](https://github.com/metalinked/laravel-defender/commit/8ffeca2b2b183ba3af5a94d94d4436ca80296051))
+
 ## [1.3.0](https://github.com/metalinked/laravel-defender/compare/v1.2.0...v1.3.0) (2025-06-04)
 
 
