@@ -14,11 +14,11 @@ class DefenderServiceProvider extends ServiceProvider
         ], 'defender-config');
 
         // Manually register the middleware in case the user wants to add it to specific routes
-        $this->app['router']->aliasMiddleware('defender.honeypot', \LaravelDefender\Http\Middleware\HoneypotMiddleware::class);
+        $this->app['router']->aliasMiddleware('defender.honeypot', \Metalinked\LaravelDefender\Http\Middleware\HoneypotMiddleware::class);
 
         // Register global middleware for honeypot protection if configured
         if (config('defender.honeypot.auto_protect_forms') && config('defender.honeypot.enabled')) {
-            $this->app['router']->pushMiddlewareToGroup('web', \LaravelDefender\Http\Middleware\HoneypotAutoMiddleware::class);
+            $this->app['router']->pushMiddlewareToGroup('web', \Metalinked\LaravelDefender\Http\Middleware\HoneypotAutoMiddleware::class);
         }
 
         // Register the Blade directive for the honeypot component
@@ -32,8 +32,12 @@ class DefenderServiceProvider extends ServiceProvider
             __DIR__.'/../resources/views/components/honeypot.blade.php' => resource_path('views/vendor/defender/components/honeypot.blade.php'),
         ], 'defender-views');
 
-        // Register the IP logging middleware if enabled
-        $this->app['router']->aliasMiddleware('defender.iplogger', \Metalinked\LaravelDefender\Http\Middleware\IpLoggerMiddleware::class);
+        // Register the IP logging middleware alias so it can be used in route definitions.
+        // This allows users to apply IP logging to specific routes or groups.
+        $this->app['router']->aliasMiddleware(
+            'defender.iplogger',
+            \Metalinked\LaravelDefender\Http\Middleware\IpLoggerMiddleware::class
+        );
 
         $this->publishes([
             __DIR__.'/../database/migrations/2024_06_01_000001_create_ip_logs_table.php' => database_path('migrations/2024_06_01_000001_create_ip_logs_table.php'),
@@ -43,5 +47,13 @@ class DefenderServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(__DIR__.'/../config/defender.php', 'defender');
+
+        $this->mergeConfigFrom(__DIR__.'/../config/defender.php', 'defender');
+
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                \Metalinked\LaravelDefender\Console\Commands\ShowIpLogs::class,
+            ]);
+        }
     }
 }

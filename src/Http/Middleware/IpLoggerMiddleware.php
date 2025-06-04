@@ -26,15 +26,19 @@ class IpLoggerMiddleware
             ->where('created_at', '>=', Carbon::now()->subMinutes($decayMinutes))
             ->count();
 
-        $isSuspicious = $recentAttempts > $maxAttempts;
-        $reason = $isSuspicious ? "Too many attempts in $decayMinutes minutes" : null;
+        $attemptsIncludingCurrent = $recentAttempts + 1;
+        $isSuspicious = $attemptsIncludingCurrent >= $maxAttempts;
+        $reason = $isSuspicious ? "Too many login attempts" : null;
 
         // Block if configured and suspicious
         if ($isSuspicious && ($config['block_suspicious'] ?? false)) {
             if ($config['log_all'] || $isSuspicious) {
+                $route = $request->route();
+                $routeName = ($route && $route->getName()) ? $route->getName() : $request->path();
+
                 $log = [
                     'ip' => $ip,
-                    'route' => $request->route() ? $request->route()->getName() : $request->path(),
+                    'route' => $routeName,
                     'method' => $request->method(),
                     'user_id' => auth()->id(),
                     'is_suspicious' => $isSuspicious,
@@ -68,9 +72,12 @@ class IpLoggerMiddleware
 
         // Only log if log_all is enabled or if it is suspicious
         if ($config['log_all'] || $isSuspicious) {
+            $route = $request->route();
+            $routeName = ($route && $route->getName()) ? $route->getName() : $request->path();
+
             $log = [
                 'ip' => $ip,
-                'route' => $request->route() ? $request->route()->getName() : $request->path(),
+                'route' => $routeName,
                 'method' => $request->method(),
                 'user_id' => auth()->id(),
                 'is_suspicious' => $isSuspicious,

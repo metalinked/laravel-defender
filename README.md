@@ -10,6 +10,7 @@ A modular security package for Laravel designed to help you monitor and protect 
 
 - 🛡️ Honeypot-based spam protection for forms  
 - 👁️ Request logging and alert system for suspicious activity  
+- 📝 View logs and alerts via Artisan command
 - ☁️ Centralized SaaS control panel (optional)  
 - ⚙️ Customizable rules and middleware  
 - 🔐 Token-based authentication for external API reporting  
@@ -26,6 +27,45 @@ composer require metalinked/laravel-defender
 ```
 
 ---
+
+## 📊 Viewing IP Logs and Alerts
+
+Laravel Defender provides an Artisan command to review access logs and suspicious activity directly from the console.  
+This approach is secure and convenient, as it does not expose sensitive data via the web and works even if your app does not have a backoffice.
+
+### Why via Artisan?
+
+- **Security:** Only accessible from the server/CLI, not exposed to the public.
+- **Simplicity:** No need to build or protect a web dashboard for basic log review.
+- **Flexibility:** Easily filter, search, and export logs as needed.
+
+### Usage
+
+Show the latest 50 logs:
+```sh
+php artisan defender:ip-logs
+```
+
+Show only suspicious logs:
+```sh
+php artisan defender:ip-logs --suspicious
+```
+
+Filter by IP:
+```sh
+php artisan defender:ip-logs --ip=1.2.3.4
+```
+
+Limit the number of results:
+```sh
+php artisan defender:ip-logs --limit=100
+```
+
+You can combine options as needed.
+
+---
+
+_You can extend or export logs as needed for further analysis. A web dashboard is planned for future releases._
 
 ## 📦 Usage
 
@@ -91,6 +131,10 @@ Or if using Pest:
 ./vendor/bin/pest
 ```
 
+> **Note:**  
+> Make sure your PHP installation has the `sqlite3` and `pdo_sqlite` extensions enabled.  
+> These are required for running the package tests (Testbench uses SQLite in-memory by default).
+
 ---
 
 ## 🛡️ Security
@@ -104,7 +148,7 @@ If you discover a security vulnerability, please report it via email to [securit
 ### MVP
 - [x] Project bootstrapped
 - [x] Honeypot spam protection
-- [ ] IP logging and alert manager
+- [x] IP logging and alert manager
 - [ ] Local dashboard (optional)
 - [ ] Basic SaaS API connection
 
