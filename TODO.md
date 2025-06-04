@@ -33,3 +33,4 @@
 - [ ] Integrate with more IP reputation services
 - [ ] Add multi-language support for dashboard and alerts
 - [ ] Write more unit and integration tests
+- [ ] Make the package translatable (i18n)

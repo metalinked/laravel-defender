@@ -26,6 +26,12 @@ _Not yet available on Packagist_
 composer require metalinked/laravel-defender
 ```
 
+After installation, publish the config file:
+
+```bash
+php artisan vendor:publish --tag=defender-config
+```
+
 ---
 
 ## 📊 Viewing IP Logs and Alerts
@@ -148,6 +154,16 @@ If you discover a security vulnerability, please report it via email to [securit
 - **Freemium (offline):** All users can use the basic security features locally, without connecting to the SaaS. No registration required.
 - **Freemium (SaaS-connected):** Users can optionally register on the SaaS platform to monitor and manage up to 1 Laravel project for free, with centralized logs and basic dashboard.
 - **Premium (SaaS-connected):** Paid plans unlock premium features (AI risk scoring, advanced signatures, multi-project management, etc.) and/or allow monitoring more Laravel projects from the SaaS dashboard. Each project is linked to a unique token generated in the SaaS panel.
+
+---
+
+### SaaS Token Configuration
+
+After publishing the config file, you can set your SaaS token in `config/defender.php`:
+
+```php
+'saas_token' => 'TOKEN_FROM_SAAS',
+```
 
 ---
 

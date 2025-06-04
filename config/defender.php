@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'dashboard_route' => 'defender',
+    'saas_token' => null,
     'enable_logging' => true,
     // SaaS configuration
     // Set 'enabled' to true to enable SaaS integration

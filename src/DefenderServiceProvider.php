@@ -38,7 +38,7 @@ class DefenderServiceProvider extends ServiceProvider {
         );
 
         $this->publishes([
-            __DIR__.'/../database/migrations/2024_06_01_000001_create_ip_logs_table.php' => database_path('migrations/2024_06_01_000001_create_ip_logs_table.php'),
+            __DIR__.'/../database/migrations/2025_06_01_000001_create_ip_logs_table.php' => database_path('migrations/2025_06_01_000001_create_ip_logs_table.php'),
         ], 'defender-migrations');
     }
 
@@ -50,6 +50,7 @@ class DefenderServiceProvider extends ServiceProvider {
         if ($this->app->runningInConsole()) {
             $this->commands([
                 \Metalinked\LaravelDefender\Console\Commands\ShowIpLogs::class,
+                \Metalinked\LaravelDefender\Console\Commands\DefenderCheckSaas::class,
             ]);
         }
     }

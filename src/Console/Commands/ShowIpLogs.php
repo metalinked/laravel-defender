@@ -5,13 +5,11 @@ namespace Metalinked\LaravelDefender\Console\Commands;
 use Illuminate\Console\Command;
 use Metalinked\LaravelDefender\Models\IpLog;
 
-class ShowIpLogs extends Command
-{
+class ShowIpLogs extends Command {
     protected $signature = 'defender:ip-logs {--suspicious : Only show suspicious logs} {--ip= : Filter by IP} {--limit=50 : Number of logs to show}';
     protected $description = 'Show recent IP logs and alerts from Laravel Defender';
 
-    public function handle()
-    {
+    public function handle() {
         $query = IpLog::query()->latest();
 
         if ($this->option('suspicious')) {
