@@ -1,13 +1,13 @@
 <?php
-namespace LaravelDefender\Http\Middleware;
+namespace Metalinked\LaravelDefender\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
 
-class HoneypotAutoMiddleware
-{
+class HoneypotAutoMiddleware {
+    
     public function handle(Request $request, Closure $next) {
-        // Només per POST
+        // Only process POST requests
         if ($request->isMethod('post')) {
             $prefix = config('defender.honeypot.field_prefix', 'my_full_name_');
             $honeypotField = collect($request->all())
