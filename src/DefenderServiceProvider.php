@@ -4,10 +4,8 @@ namespace Metalinked\LaravelDefender;
 
 use Illuminate\Support\ServiceProvider;
 
-class DefenderServiceProvider extends ServiceProvider
-{
-    public function boot()
-    {
+class DefenderServiceProvider extends ServiceProvider {
+    public function boot() {
         // Publish the configuration file
         $this->publishes([
             __DIR__.'/../config/defender.php' => config_path('defender.php'),
@@ -44,8 +42,7 @@ class DefenderServiceProvider extends ServiceProvider
         ], 'defender-migrations');
     }
 
-    public function register()
-    {
+    public function register() {
         $this->mergeConfigFrom(__DIR__.'/../config/defender.php', 'defender');
 
         $this->mergeConfigFrom(__DIR__.'/../config/defender.php', 'defender');

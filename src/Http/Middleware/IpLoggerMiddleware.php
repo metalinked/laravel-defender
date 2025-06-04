@@ -8,10 +8,8 @@ use Metalinked\LaravelDefender\Models\IpLog;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Http;
 
-class IpLoggerMiddleware
-{
-    public function handle(Request $request, Closure $next)
-    {
+class IpLoggerMiddleware {
+    public function handle(Request $request, Closure $next) {
         $config = config('defender.ip_logging');
         if (!($config['enabled'] ?? true)) {
             return $next($request);
@@ -111,8 +109,7 @@ class IpLoggerMiddleware
         return $next($request);
     }
 
-    protected function checkAbuseIpDb($ip, $apiKey)
-    {
+    protected function checkAbuseIpDb($ip, $apiKey) {
         try {
             $response = Http::withHeaders([
                 'Key' => $apiKey,

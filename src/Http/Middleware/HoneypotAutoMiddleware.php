@@ -6,8 +6,7 @@ use Illuminate\Http\Request;
 
 class HoneypotAutoMiddleware
 {
-    public function handle(Request $request, Closure $next)
-    {
+    public function handle(Request $request, Closure $next) {
         // Només per POST
         if ($request->isMethod('post')) {
             $prefix = config('defender.honeypot.field_prefix', 'my_full_name_');

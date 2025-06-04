@@ -21,7 +21,7 @@ Thank you for your interest in contributing! This project follows best practices
 
 ## Code Style
 
-- Follow PSR-12.
+- Follow PSR-12, except for brace placement: **use the "One True Brace Style" (OTBS)**, where the opening brace `{` is placed at the end of the line for control structures, functions, and classes.
 - Use strict typing and docblocks.
 - Keep code consistent with the rest of the project.
 
