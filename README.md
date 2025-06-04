@@ -143,25 +143,35 @@ If you discover a security vulnerability, please report it via email to [securit
 
 ---
 
+## Usage Model
+
+- **Freemium (offline):** All users can use the basic security features locally, without connecting to the SaaS. No registration required.
+- **Freemium (SaaS-connected):** Users can optionally register on the SaaS platform to monitor and manage up to 1 Laravel project for free, with centralized logs and basic dashboard.
+- **Premium (SaaS-connected):** Paid plans unlock premium features (AI risk scoring, advanced signatures, multi-project management, etc.) and/or allow monitoring more Laravel projects from the SaaS dashboard. Each project is linked to a unique token generated in the SaaS panel.
+
+---
+
 ## 📍 Roadmap
 
-### MVP
-- [x] Project bootstrapped
+### MVP (Freemium, Offline)
+- [x] IP logging & alert manager
 - [x] Honeypot spam protection
-- [x] IP logging and alert manager
-- [ ] Local dashboard (optional)
-- [ ] Basic SaaS API connection
+- [ ] Local notifications (mail, Slack, Telegram)
+- [ ] Security audit module (env, debug, CORS, etc.)
+- [ ] Privacy-friendly client fingerprinting (IP, UA, headers, timezone, etc.)
 
-### Freemium & Premium Features
+### SaaS Integration (Freemium/Premium)
+- [ ] Basic SaaS API connection (token-based)
+- [ ] Centralized SaaS dashboard (1 project free)
+- [ ] Token management and activation flow
+
+### Premium Features (SaaS only)
 - [ ] Advanced attack signatures (JSON-based rule engine, regex matching)
 - [ ] AI-powered risk scoring for suspicious requests
 - [ ] Integration with external IP reputation services (AbuseIPDB, Project Honeypot, etc.)
-- [ ] Instant notifications (Telegram, Slack, email)
-- [ ] Security audit module with PDF reports (correlate logs with public CVEs)
-- [ ] Automated onboarding and security baseline checks (exposed .env, APP_DEBUG, CORS, cookies, etc.)
-- [ ] Centralized SaaS dashboard (separate from client app)
 - [ ] API endpoints for enterprise clients (event/alert consumption)
-- [ ] Privacy-friendly client fingerprinting (IP, UA, headers, timezone, etc.)
+- [ ] Multi-project management
+- [ ] Security audit module with PDF reports (correlate logs with public CVEs)
 
 ---
 
