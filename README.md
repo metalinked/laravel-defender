@@ -129,8 +129,8 @@ _You can extend or export logs as needed for further analysis. A web dashboard i
 Basic usage examples will be added as the package stabilizes. Planned usage will include:
 
 - Publishing config files  
-- Using middleware and Blade components  
-- Dashboard access from your app (or SaaS)  
+- Using middleware and Blade components 
+- Accessing the centralized SaaS dashboard 
 
 ---
 
