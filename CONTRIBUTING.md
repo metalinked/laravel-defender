@@ -1,5 +1,10 @@
 # Contributing to Laravel Defender
 
+> **Note:**  
+> This package is 100% open source and does not include any SaaS integration code.  
+> All SaaS-related features and connectors will be maintained in a separate package.  
+> **Please do not add or modify code for SaaS integration in this repository.**
+
 Thank you for your interest in contributing! This project follows best practices for code, documentation, and security. Please read these guidelines before submitting a pull request.
 
 ## Project Structure
@@ -7,7 +12,7 @@ Thank you for your interest in contributing! This project follows best practices
 - `src/` — Main package code
 - `config/` — Configuration files (if needed)
 - `database/migrations/` — Database migrations
-- `resources/views/` — Blade views for the dashboard
+- `resources/views/` — Blade views for local package features (not SaaS dashboard)
 - `tests/` — Tests (Pest or PHPUnit)
 - `.github/` — Workflows and issue/PR templates
 
@@ -33,7 +38,7 @@ Thank you for your interest in contributing! This project follows best practices
 
 ## Security
 
-- Do not disclose vulnerabilities publicly. Please email [security@metalinked.dev](mailto:security@metalinked.dev).
+- Do not disclose vulnerabilities publicly. Please email [security@metalinked.net](mailto:security@metalinked.net).
 - Do not add dependencies without prior discussion.
 
 ## Contact

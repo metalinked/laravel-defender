@@ -4,6 +4,10 @@ A modular security package for Laravel designed to help you monitor and protect 
 
 > ⚠️ **Currently under development**. Contributions and feedback are welcome.
 
+> **Note:**  
+> This package is 100% open source and does not connect to any external service by default.  
+> In the future, an optional SaaS connector will be available as a separate package to unlock advanced features.
+
 ---
 
 ## ✨ Features (Planned)
@@ -11,9 +15,7 @@ A modular security package for Laravel designed to help you monitor and protect 
 - 🛡️ Honeypot-based spam protection for forms  
 - 👁️ Request logging and alert system for suspicious activity  
 - 📝 View logs and alerts via Artisan command
-- ☁️ Centralized SaaS control panel (optional)  
 - ⚙️ Customizable rules and middleware  
-- 🔐 Token-based authentication for external API reporting  
 - 🎛️ Optional Laravel Nova/Telescope integration  
 
 ---
@@ -30,16 +32,6 @@ After installation, publish the config file:
 
 ```bash
 php artisan vendor:publish --tag=defender-config
-```
-
----
-
-### SaaS Token Configuration
-
-After publishing the config file, you can set your SaaS token in `config/defender.php`:
-
-```php
-'saas_token' => 'TOKEN_FROM_SAAS',
 ```
 
 ---
@@ -120,7 +112,7 @@ You can combine options as needed.
 
 ---
 
-_You can extend or export logs as needed for further analysis. A web dashboard is planned for future releases._
+_You can extend or export logs as needed for further analysis. A web dashboard is planned for future releases via SaaS integration._
 
 ---
 
@@ -130,7 +122,6 @@ Basic usage examples will be added as the package stabilizes. Planned usage will
 
 - Publishing config files  
 - Using middleware and Blade components 
-- Accessing the centralized SaaS dashboard 
 
 ---
 
@@ -156,15 +147,15 @@ Or if using Pest:
 
 ## 🛡️ Security
 
-If you discover a security vulnerability, please report it via email to [security@metalinked.dev](mailto:security@metalinked.dev). All reports will be handled responsibly and in confidence.
+If you discover a security vulnerability, please report it via email to [security@metalinked.net](mailto:security@metalinked.net). All reports will be handled responsibly and in confidence.
 
 ---
 
 ## Usage Model
 
 - **Freemium (offline):** All users can use the basic security features locally, without connecting to the SaaS. No registration required.
-- **Freemium (SaaS-connected):** Users can optionally register on the SaaS platform to monitor and manage up to 1 Laravel project for free, with centralized logs and basic dashboard.
-- **Premium (SaaS-connected):** Paid plans unlock premium features (AI risk scoring, advanced signatures, multi-project management, etc.) and/or allow monitoring more Laravel projects from the SaaS dashboard. Each project is linked to a unique token generated in the SaaS panel.
+- **Freemium (SaaS-connected):** _[Planned]_ Users will optionally be able to register on the SaaS platform to monitor and manage up to 1 Laravel project for free, with centralized logs and basic dashboard.
+- **Premium (SaaS-connected):** _[Planned]_ Paid plans will unlock premium features (AI risk scoring, advanced signatures, multi-project management, etc.) and/or allow monitoring more Laravel projects from the SaaS dashboard. Each project will be linked to a unique token generated in the SaaS panel.
 
 ---
 
@@ -177,7 +168,7 @@ If you discover a security vulnerability, please report it via email to [securit
 - [ ] Security audit module (env, debug, CORS, etc.)
 - [ ] Privacy-friendly client fingerprinting (IP, UA, headers, timezone, etc.)
 
-### SaaS Integration (Freemium/Premium)
+### SaaS Integration (Freemium/Premium) — _via separate connector package_
 - [ ] Basic SaaS API connection (token-based)
 - [ ] Centralized SaaS dashboard (1 project free)
 - [ ] Token management and activation flow
@@ -204,7 +195,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on how to contribute.
 
 ## 📄 License
 
-MIT © [Metalinked](https://metalinked.dev)
+MIT © [Metalinked](https://metalinked.net)
 
 ---
 

@@ -1,5 +1,9 @@
 # TODOs & Ideas – Laravel Defender
 
+> **Note:**  
+> All SaaS-related tasks refer to a future connector package.  
+> This package is OSS-only and does not include SaaS code.
+
 ## MVP (Freemium, Offline)
 - [ ] Implement mail/Slack/webhook alert methods
 - [ ] Security audit module (env, debug, CORS, etc.)

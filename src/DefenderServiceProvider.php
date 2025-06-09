@@ -50,7 +50,6 @@ class DefenderServiceProvider extends ServiceProvider {
         if ($this->app->runningInConsole()) {
             $this->commands([
                 \Metalinked\LaravelDefender\Console\Commands\ShowIpLogs::class,
-                \Metalinked\LaravelDefender\Console\Commands\DefenderCheckSaas::class,
             ]);
         }
     }
