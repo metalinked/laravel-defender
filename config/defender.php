@@ -21,7 +21,7 @@ return [
     'advanced_detection' => [
         'enabled' => true,
         'suspicious_user_agents' => [
-            'curl', 'python', 'sqlmap', 'nmap', 'nikto', 'fuzzer', 'scanner'
+            'curl', 'python', 'sqlmap', 'nmap', 'nikto', 'fuzzer', 'scanner', 'masscan', 'libwww-perl', 'wget', 'httpclient'
         ],
         'suspicious_routes' => [
             '/wp-admin', '/wp-login', '/phpmyadmin', '/admin.php', '/xmlrpc.php'

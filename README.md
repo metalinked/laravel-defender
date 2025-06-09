@@ -160,7 +160,7 @@ DEFENDER_ALERT_MAIL_TO=your@email.com
 
 ---
 
-## 📊 Viewing IP Logs and Alerts
+## 📊 Viewing and Exporting IP Logs and Alerts
 
 Laravel Defender provides an Artisan command to review access logs and suspicious activity directly from the console.  
 This approach is secure and convenient, as it does not expose sensitive data via the web and works even if your app does not have a backoffice.
@@ -188,6 +188,25 @@ php artisan defender:ip-logs --limit=100
 ```
 
 You can combine options as needed.
+
+---
+
+### Export logs to CSV or JSON
+
+Export all logs to CSV:
+```sh
+php artisan defender:export-logs --format=csv
+```
+
+Export only suspicious logs to JSON:
+```sh
+php artisan defender:export-logs --suspicious --format=json --output=suspicious-logs.json
+```
+
+Export logs for a specific IP and date range:
+```sh
+php artisan defender:export-logs --ip=1.2.3.4 --from=2024-06-01 --to=2024-06-09 --format=csv --output=logs.csv
+```
 
 ---
 

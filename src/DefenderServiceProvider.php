@@ -51,6 +51,7 @@ class DefenderServiceProvider extends ServiceProvider {
             $this->commands([
                 \Metalinked\LaravelDefender\Console\Commands\ShowIpLogs::class,
                 \Metalinked\LaravelDefender\Console\Commands\DefenderAuditCommand::class,
+                \Metalinked\LaravelDefender\Console\Commands\DefenderExportLogsCommand::class,
             ]);
         }
     }

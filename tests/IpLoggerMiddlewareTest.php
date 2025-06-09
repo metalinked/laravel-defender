@@ -89,4 +89,56 @@ class IpLoggerMiddlewareTest extends TestCase {
             'is_suspicious' => false,
         ]);
     }
+
+    public function test_marks_log_as_suspicious_for_bad_user_agent() {
+        $this->withHeaders(['User-Agent' => 'sqlmap'])->post('/test-ip');
+        $this->assertDatabaseHas('ip_logs', [
+            'route' => 'test-ip',
+            'is_suspicious' => true,
+            'reason' => 'Suspicious user-agent: sqlmap'
+        ]);
+    }
+
+    public function test_marks_log_as_suspicious_for_suspicious_route() {
+        // Register a suspicious route for this test
+        Route::middleware('defender.iplogger')->post('/wp-admin', function () {
+            return response('ok');
+        });
+        $this->post('/wp-admin');
+        $this->assertDatabaseHas('ip_logs', [
+            'route' => 'wp-admin',
+            'is_suspicious' => true,
+            'reason' => 'Suspicious route accessed: /wp-admin'
+        ]);
+    }
+
+    public function test_marks_log_as_suspicious_for_common_username() {
+        // Register a login route for this test
+        Route::middleware('defender.iplogger')->post('/login', function () {
+            return response('ok');
+        });
+        $this->post('/login', ['username' => 'admin']);
+        $this->assertDatabaseHas('ip_logs', [
+            'route' => 'login',
+            'is_suspicious' => true,
+            'reason' => 'Login attempt with common username: admin'
+        ]);
+    }
+
+    public function test_marks_log_as_suspicious_for_non_allowed_country() {
+        // Simula una IP d'un país no permès (ex: RU)
+        // Pots mockejar la resposta de ip-api.com
+        $this->mock(\Illuminate\Support\Facades\Http::class, function ($mock) {
+            $mock->shouldReceive('timeout')->andReturnSelf();
+            $mock->shouldReceive('get')->andReturnSelf();
+            $mock->shouldReceive('json')->andReturn(['countryCode' => 'RU']);
+        });
+
+        $this->post('/test-ip');
+        $this->assertDatabaseHas('ip_logs', [
+            'route' => 'test-ip',
+            'is_suspicious' => true,
+            'reason' => 'Access from non-allowed country: RU'
+        ]);
+    }
 }
