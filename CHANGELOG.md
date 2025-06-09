@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.0](https://github.com/metalinked/laravel-defender/compare/v1.5.0...v1.6.0) (2025-06-09)
+
+
+### Features
+
+* add local alert system and security audit Artisan command ([9cbb68b](https://github.com/metalinked/laravel-defender/commit/9cbb68b7bf28c0abbf31fe75088506d8c3837ab0))
+
 ## [1.5.0](https://github.com/metalinked/laravel-defender/compare/v1.4.0...v1.5.0) (2025-06-04)
 
 
