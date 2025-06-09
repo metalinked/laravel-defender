@@ -5,6 +5,7 @@ namespace Metalinked\LaravelDefender\Tests\Unit;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Route;
 use Metalinked\LaravelDefender\Models\IpLog;
+use Metalinked\LaravelDefender\Alert\AlertManager;
 use Orchestra\Testbench\TestCase;
 
 class IpLoggerMiddlewareTest extends TestCase {

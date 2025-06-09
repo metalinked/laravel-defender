@@ -116,6 +116,25 @@ _You can extend or export logs as needed for further analysis. A web dashboard i
 
 ---
 
+## 🔒 Security Audit
+
+Run a local security audit of your Laravel project:
+
+```sh
+php artisan defender:audit
+```
+
+This command checks for:
+- Publicly accessible `.env` file
+- APP_DEBUG enabled
+- Permissive CORS configuration
+- Insecure session cookies
+- Laravel version
+
+It gives clear recommendations for each issue found.
+
+---
+
 ## 📦 Usage
 
 Basic usage examples will be added as the package stabilizes. Planned usage will include:

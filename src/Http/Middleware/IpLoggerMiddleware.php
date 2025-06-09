@@ -45,25 +45,13 @@ class IpLoggerMiddleware {
                 $ipLog = IpLog::create($log);
 
                 // Alerts for configured channels
-                if (!empty($config['alert_channels'])) {
-                    foreach ($config['alert_channels'] as $channel) {
-                        if ($channel === 'log') {
-                            \Log::warning("Suspicious IP detected: $ip ($reason)");
-                        }
-                        if ($channel === 'mail') {
-                            // TODO: Send alert email
-                        }
-                        if ($channel === 'slack') {
-                            // TODO: Send Slack alert
-                        }
-                        if ($channel === 'webhook') {
-                            // TODO: Send webhook alert
-                        }
-                        if ($channel === 'abuseipdb' && !empty($config['abuseipdb_api_key'])) {
-                            $this->checkAbuseIpDb($ip, $config['abuseipdb_api_key']);
-                        }
-                    }
-                }
+                AlertManager::send('Suspicious IP detected', [
+                    'ip' => $ip,
+                    'route' => $routeName,
+                    'method' => $request->method(),
+                    'user_id' => auth()->id(),
+                    'reason' => $reason,
+                ]);
             }
             return response('Access blocked due to suspicious activity.', 429);
         }
