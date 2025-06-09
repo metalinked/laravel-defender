@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.8.0](https://github.com/metalinked/laravel-defender/compare/v1.7.0...v1.8.0) (2025-06-09)
+
+
+### Features
+
+* **export-logs:** add Artisan command to export logs with advanced filters and tests ([9f17107](https://github.com/metalinked/laravel-defender/commit/9f17107441c8742007eceaf862ca11606e5bbd81))
+
 ## [1.7.0](https://github.com/metalinked/laravel-defender/compare/v1.6.0...v1.7.0) (2025-06-09)
 
 
