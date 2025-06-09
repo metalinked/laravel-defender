@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.7.0](https://github.com/metalinked/laravel-defender/compare/v1.6.0...v1.7.0) (2025-06-09)
+
+
+### Features
+
+* **advanced-detection:** add advanced risk pattern detection and country/IP access control ([0e2bd7c](https://github.com/metalinked/laravel-defender/commit/0e2bd7cdcc37ed00386fad85b3ca775a92d642a7))
+
 ## [1.6.0](https://github.com/metalinked/laravel-defender/compare/v1.5.0...v1.6.0) (2025-06-09)
 
 
