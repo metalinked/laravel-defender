@@ -18,8 +18,25 @@ return [
         'decay_minutes' => 10,
         'block_suspicious' => true,
     ],
+    'advanced_detection' => [
+        'enabled' => true,
+        'suspicious_user_agents' => [
+            'curl', 'python', 'sqlmap', 'nmap', 'nikto', 'fuzzer', 'scanner'
+        ],
+        'suspicious_routes' => [
+            '/wp-admin', '/wp-login', '/phpmyadmin', '/admin.php', '/xmlrpc.php'
+        ],
+        'common_usernames' => [
+            'admin', 'administrator', 'root', 'test', 'user'
+        ],
+        'country_access' => [
+            'mode' => 'allow', // 'allow' (only allow these countries) or 'deny' (block these countries)
+            'countries' => ['ES'],
+            'whitelist_ips' => ['1.2.3.4'], // These IPs always have access, regardless of country or mode
+        ],
+    ],
     // Alert configuration
-    // Note: You can enable or disable specific channels by commenting/uncommenting them.
+    // Note: Enable or disable specific channels by commenting/uncommenting them.
     'alerts' => [
         'channels' => [
             'log',      // Save the alert to the Laravel log

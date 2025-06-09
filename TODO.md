@@ -5,15 +5,16 @@
 > This package is OSS-only and does not include SaaS code.
 
 ## MVP (Freemium, Offline)
-- [ ] Implement mail/Slack/webhook alert methods
-- [ ] Security audit module (env, debug, CORS, etc.)
+- [x] Implement mail/Slack/webhook alert methods
+- [x] Security audit module (env, debug, CORS, etc.)
 - [ ] Add filters/search to the log viewer (by IP, route, suspicious, date)
 - [ ] Add export to CSV/PDF for logs
-- [ ] Add detection for more suspicious login patterns (e.g. non-existent users, common usernames, unusual countries, suspicious user-agents, login at odd hours, etc.)
+- [x] Add detection for more suspicious login patterns (e.g. non-existent users, common usernames, unusual countries, suspicious user-agents, login at odd hours, etc.)
 - [ ] Add configuration for custom honeypot field names
 - [ ] Add option to enable/disable honeypot per route
-- [ ] Security audit module (env, debug, CORS, etc.)
+- [x] Advanced risk pattern detection (user-agent, route, login, country/IP)
 - [ ] Privacy-friendly client fingerprinting (IP, UA, headers, timezone, etc.)
+- [ ] Improve country detection and add support for more geolocation services
 
 ## SaaS Integration (Freemium/Premium)
 - [ ] Implement SaaS connection logic (API endpoint, token)

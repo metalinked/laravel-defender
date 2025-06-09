@@ -5,6 +5,7 @@ namespace Metalinked\LaravelDefender\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Metalinked\LaravelDefender\Models\IpLog;
+use Metalinked\LaravelDefender\Alert\AlertManager;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Http;
 
@@ -19,14 +20,82 @@ class IpLoggerMiddleware {
         $maxAttempts = $config['max_attempts'] ?? 5;
         $decayMinutes = $config['decay_minutes'] ?? 10;
 
-        // Count recent attempts
+        // Advanced detection config
+        $advConfig = config('defender.advanced_detection', []);
+        $advancedDetectionEnabled = $advConfig['enabled'] ?? false;
+        $isSuspicious = false;
+        $reason = null;
+
+        // --- COUNTRY ACCESS CONTROL ---
+        $countryConfig = $advConfig['country_access'] ?? [];
+        $allowedCountries = $countryConfig['countries'] ?? [];
+        $mode = $countryConfig['mode'] ?? 'allow';
+        $whitelistIps = $countryConfig['whitelist_ips'] ?? [];
+        $clientIp = $ip;
+
+        // 1. Whitelist IP: always allow
+        if (!in_array($clientIp, $whitelistIps)) {
+            // 2. Geolocate the IP (with ip-api.com)
+            $countryCode = null;
+            try {
+                $geo = Http::timeout(2)->get("http://ip-api.com/json/{$clientIp}?fields=countryCode")->json();
+                $countryCode = $geo['countryCode'] ?? null;
+            } catch (\Exception $e) {}
+
+            if ($countryCode) {
+                if ($mode === 'allow' && !in_array($countryCode, $allowedCountries)) {
+                    $isSuspicious = true;
+                    $reason = "Access from non-allowed country: $countryCode";
+                }
+                if ($mode === 'deny' && in_array($countryCode, $allowedCountries)) {
+                    $isSuspicious = true;
+                    $reason = "Access from denied country: $countryCode";
+                }
+            }
+        }
+
+        // Suspicious user-agent
+        if (!$isSuspicious && $advancedDetectionEnabled && !empty($advConfig['suspicious_user_agents'])) {
+            $userAgent = strtolower($request->header('User-Agent', ''));
+            foreach ($advConfig['suspicious_user_agents'] as $pattern) {
+                if (str_contains($userAgent, $pattern)) {
+                    $isSuspicious = true;
+                    $reason = "Suspicious user-agent: $userAgent";
+                    break;
+                }
+            }
+        }
+
+        // Suspicious routes
+        if (!$isSuspicious && $advancedDetectionEnabled && !empty($advConfig['suspicious_routes'])) {
+            $path = '/' . ltrim($request->path(), '/');
+            foreach ($advConfig['suspicious_routes'] as $route) {
+                if (str_starts_with($path, $route)) {
+                    $isSuspicious = true;
+                    $reason = "Suspicious route accessed: $path";
+                    break;
+                }
+            }
+        }
+
+        // Login with common username
+        if (!$isSuspicious && $advancedDetectionEnabled && !empty($advConfig['common_usernames'])) {
+            if ($request->is('login') && in_array(strtolower($request->input('username', '')), $advConfig['common_usernames'])) {
+                $isSuspicious = true;
+                $reason = "Login attempt with common username: " . $request->input('username');
+            }
+        }
+
+        // Brute force detection
         $recentAttempts = IpLog::where('ip', $ip)
             ->where('created_at', '>=', Carbon::now()->subMinutes($decayMinutes))
             ->count();
 
         $attemptsIncludingCurrent = $recentAttempts + 1;
-        $isSuspicious = $attemptsIncludingCurrent >= $maxAttempts;
-        $reason = $isSuspicious ? "Too many login attempts" : null;
+        if (!$isSuspicious && $attemptsIncludingCurrent >= $maxAttempts) {
+            $isSuspicious = true;
+            $reason = "Too many login attempts";
+        }
 
         // Block if configured and suspicious
         if ($isSuspicious && ($config['block_suspicious'] ?? false)) {
@@ -44,7 +113,7 @@ class IpLoggerMiddleware {
                 ];
                 $ipLog = IpLog::create($log);
 
-                // Alerts for configured channels
+                // Alert system
                 AlertManager::send('Suspicious IP detected', [
                     'ip' => $ip,
                     'route' => $routeName,
@@ -72,25 +141,20 @@ class IpLoggerMiddleware {
 
             $ipLog = IpLog::create($log);
 
-            // Alerts for configured channels
-            if ($isSuspicious && !empty($config['alert_channels'])) {
-                foreach ($config['alert_channels'] as $channel) {
-                    if ($channel === 'log') {
-                        \Log::warning("Suspicious IP detected: $ip ($reason)");
-                    }
-                    if ($channel === 'mail') {
-                        // TODO: Send alert email
-                    }
-                    if ($channel === 'slack') {
-                        // TODO: Send Slack alert
-                    }
-                    if ($channel === 'webhook') {
-                        // TODO: Send webhook alert
-                    }
-                    if ($channel === 'abuseipdb' && !empty($config['abuseipdb_api_key'])) {
-                        $this->checkAbuseIpDb($ip, $config['abuseipdb_api_key']);
-                    }
-                }
+            // Alert system
+            if ($isSuspicious) {
+                AlertManager::send('Suspicious IP detected', [
+                    'ip' => $ip,
+                    'route' => $routeName,
+                    'method' => $request->method(),
+                    'user_id' => auth()->id(),
+                    'reason' => $reason,
+                ]);
+            }
+
+            // AbuseIPDB check (optional)
+            if (!empty($config['alert_channels']) && in_array('abuseipdb', $config['alert_channels']) && !empty($config['abuseipdb_api_key'])) {
+                $this->checkAbuseIpDb($ip, $config['abuseipdb_api_key']);
             }
         }
 
@@ -111,7 +175,7 @@ class IpLoggerMiddleware {
                 $data = $response->json();
                 $score = $data['data']['abuseConfidenceScore'] ?? null;
                 \Log::info("AbuseIPDB score for $ip: $score");
-                // Pots afegir accions segons el score si vols
+                // TODO: add actions based on the score?
             } else {
                 \Log::warning("AbuseIPDB API error for $ip: " . $response->body());
             }

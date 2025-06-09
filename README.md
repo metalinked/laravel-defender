@@ -10,13 +10,16 @@ A modular security package for Laravel designed to help you monitor and protect 
 
 ---
 
-## ✨ Features (Planned)
+## ✨ Features
 
 - 🛡️ Honeypot-based spam protection for forms  
 - 👁️ Request logging and alert system for suspicious activity  
 - 📝 View logs and alerts via Artisan command
 - ⚙️ Customizable rules and middleware  
-- 🎛️ Optional Laravel Nova/Telescope integration  
+- 🚨 **Advanced risk pattern detection** (user-agents, routes, login attempts, country/IP restrictions)
+- 🔔 Local real-time alerts (log, mail, Slack, webhook)
+- 🔍 Security audit command for common Laravel misconfigurations
+- 🎛️ Optional Laravel Nova/Telescope integration (planned)
 
 ---
 
@@ -67,11 +70,93 @@ This package provides configurable honeypot protection for your Laravel forms.
    Route::post('/your-form', ...)->middleware('defender.honeypot');
    ```
 
-### How it works
+---
 
-- The honeypot adds hidden fields to your forms via the Blade directive.
-- Submissions that fill the honeypot field or submit too quickly are blocked with a 422 error.
-- All options are configurable in `config/defender.php`.
+## 🚨 Advanced Risk Pattern Detection
+
+Laravel Defender can detect and alert on suspicious patterns beyond just IPs.
+
+### What is detected?
+
+- **Suspicious user-agents:** (e.g. curl, python, sqlmap, scanner, etc.)
+- **Access to common attack routes:** `/wp-admin`, `/phpmyadmin`, `/xmlrpc.php`, etc.
+- **Login attempts with common usernames:** `admin`, `root`, `test`, etc.
+- **Access from blocked or non-allowed countries:** (with free IP geolocation)
+- **Brute force attempts:** Too many requests from the same IP in a short period
+
+### How to configure
+
+In your `config/defender.php`:
+
+```php
+'advanced_detection' => [
+    'enabled' => true,
+    'suspicious_user_agents' => [
+        'curl', 'python', 'sqlmap', 'nmap', 'nikto', 'fuzzer', 'scanner'
+    ],
+    'suspicious_routes' => [
+        '/wp-admin', '/wp-login', '/phpmyadmin', '/admin.php', '/xmlrpc.php'
+    ],
+    'common_usernames' => [
+        'admin', 'administrator', 'root', 'test', 'user'
+    ],
+    'country_access' => [
+        'mode' => 'allow', // 'allow': only allow these countries, 'deny': block these countries
+        'countries' => ['ES'],
+        'whitelist_ips' => ['1.2.3.4'], // Always allowed, regardless of country/mode
+    ],
+],
+```
+
+**Note:**  
+- You can set `mode` to `'allow'` (only allow listed countries) or `'deny'` (block listed countries).
+- IPs in `whitelist_ips` are always allowed, regardless of country or mode.
+- Country detection uses [ip-api.com](https://ip-api.com/) (free tier, no registration required).
+
+---
+
+## 🔔 Alert System
+
+Laravel Defender supports local real-time alerts via multiple channels.
+
+### Supported channels
+
+- `log` (Laravel log)
+- `mail` (send to a configured email)
+- `slack` (send to a Slack webhook)
+- `webhook` (send to any external URL)
+
+### How to configure
+
+In your `config/defender.php`:
+
+```php
+'alerts' => [
+    'channels' => [
+        'log',      // Always enabled by default
+        // 'mail',   // Enable to receive email alerts
+        // 'slack',  // Enable to receive Slack alerts
+        // 'webhook' // Enable to receive alerts via webhook
+    ],
+    'mail' => [
+        'to' => env('DEFENDER_ALERT_MAIL_TO', null),
+    ],
+    'slack' => [
+        'webhook_url' => env('DEFENDER_SLACK_WEBHOOK', null),
+    ],
+    'webhook' => [
+        'url' => env('DEFENDER_ALERT_WEBHOOK', null),
+    ],
+],
+```
+
+#### To receive email alerts
+
+Add this to your `.env` file:
+
+```
+DEFENDER_ALERT_MAIL_TO=your@email.com
+```
 
 ---
 
@@ -79,12 +164,6 @@ This package provides configurable honeypot protection for your Laravel forms.
 
 Laravel Defender provides an Artisan command to review access logs and suspicious activity directly from the console.  
 This approach is secure and convenient, as it does not expose sensitive data via the web and works even if your app does not have a backoffice.
-
-### Why via Artisan?
-
-- **Security:** Only accessible from the server/CLI, not exposed to the public.
-- **Simplicity:** No need to build or protect a web dashboard for basic log review.
-- **Flexibility:** Easily filter, search, and export logs as needed.
 
 ### Usage
 
@@ -109,10 +188,6 @@ php artisan defender:ip-logs --limit=100
 ```
 
 You can combine options as needed.
-
----
-
-_You can extend or export logs as needed for further analysis. A web dashboard is planned for future releases via SaaS integration._
 
 ---
 
@@ -183,9 +258,11 @@ If you discover a security vulnerability, please report it via email to [securit
 ### MVP (Freemium, Offline)
 - [x] IP logging & alert manager
 - [x] Honeypot spam protection
-- [ ] Local notifications (mail, Slack, Telegram)
-- [ ] Security audit module (env, debug, CORS, etc.)
+- [x] Local notifications (log, mail, Slack, webhook)
+- [x] Security audit module (env, debug, CORS, etc.)
+- [x] Advanced risk pattern detection (user-agent, route, login, country/IP)
 - [ ] Privacy-friendly client fingerprinting (IP, UA, headers, timezone, etc.)
+- [ ] Export logs to CSV/JSON
 
 ### SaaS Integration (Freemium/Premium) — _via separate connector package_
 - [ ] Basic SaaS API connection (token-based)
