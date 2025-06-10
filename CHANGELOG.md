@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.9.0](https://github.com/metalinked/laravel-defender/compare/v1.8.0...v1.9.0) (2025-06-10)
+
+
+### Features
+
+* **i18n:** add multi-language support and translations for Catalan and Spanish ([94ecef8](https://github.com/metalinked/laravel-defender/commit/94ecef8bdd38401618bacdc51db429cbc9790f58))
+
 ## [1.8.0](https://github.com/metalinked/laravel-defender/compare/v1.7.0...v1.8.0) (2025-06-09)
 
 
