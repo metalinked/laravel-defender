@@ -15,7 +15,7 @@ class HoneypotMiddleware {
             ->first();
 
         if ($honeypotField && $request->filled($honeypotField)) {
-            abort(422, 'Bot detected');
+            abort(422, __('defender.honeypot_bot_detected'));
         }
 
         if ($request->has('valid_from')) {
@@ -23,13 +23,13 @@ class HoneypotMiddleware {
                 $timestamp = decrypt($request->input('valid_from'));
                 $minTime = config('defender.honeypot.minimum_time', 2);
                 if (now()->timestamp - $timestamp < $minTime) {
-                    abort(422, 'Form submitted too quickly');
+                    abort(422, __('defender.honeypot_too_quick'));
                 }
             } catch (\Exception $e) {
-                abort(422, 'Invalid honeypot');
+                abort(422, __('defender.honeypot_invalid'));
             }
         } else {
-            abort(422, 'Missing honeypot');
+            abort(422, __('defender.honeypot_missing'));
         }
 
         return $next($request);

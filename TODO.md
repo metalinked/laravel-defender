@@ -8,7 +8,7 @@
 - [x] Implement mail/Slack/webhook alert methods
 - [x] Security audit module (env, debug, CORS, etc.)
 - [ ] Add filters/search to the log viewer (by IP, route, suspicious, date)
-- [ ] Add export to CSV/PDF for logs
+- [x] Add export to CSV/PDF for logs
 - [x] Add detection for more suspicious login patterns (e.g. non-existent users, common usernames, unusual countries, suspicious user-agents, login at odd hours, etc.)
 - [ ] Add configuration for custom honeypot field names
 - [ ] Add option to enable/disable honeypot per route
@@ -36,6 +36,6 @@
 ## General Ideas & Improvements
 - [ ] Add more suspicious pattern detections (e.g. path traversal, fuzzing)
 - [ ] Integrate with more IP reputation services
-- [ ] Add multi-language support for dashboard and alerts
+- [x] Add multi-language support
 - [ ] Write more unit and integration tests
 - [ ] Make the package translatable (i18n)

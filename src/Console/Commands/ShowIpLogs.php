@@ -24,12 +24,21 @@ class ShowIpLogs extends Command {
         ]);
 
         if ($logs->isEmpty()) {
-            $this->info('No logs found.');
+            $this->info(__('defender.logs_no_results'));
             return;
         }
 
+        $this->info(__('defender.logs_header'));
         $this->table(
-            ['Date', 'IP', 'Route', 'Method', 'User', 'Suspicious', 'Reason'],
+            [
+                __('defender.logs_date', [], 'en') ?? 'Date',
+                __('defender.logs_ip', [], 'en') ?? 'IP',
+                __('defender.logs_route', [], 'en') ?? 'Route',
+                __('defender.logs_method', [], 'en') ?? 'Method',
+                __('defender.logs_user', [], 'en') ?? 'User',
+                __('defender.logs_suspicious', [], 'en') ?? 'Suspicious',
+                __('defender.logs_reason', [], 'en') ?? 'Reason',
+            ],
             $logs->map(function ($log) {
                 return [
                     $log->created_at,
@@ -42,5 +51,6 @@ class ShowIpLogs extends Command {
                 ];
             })->toArray()
         );
+        $this->info(__('defender.logs_total', ['count' => $logs->count()]));
     }
 }

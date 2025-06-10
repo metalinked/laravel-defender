@@ -281,7 +281,7 @@ If you discover a security vulnerability, please report it via email to [securit
 - [x] Security audit module (env, debug, CORS, etc.)
 - [x] Advanced risk pattern detection (user-agent, route, login, country/IP)
 - [ ] Privacy-friendly client fingerprinting (IP, UA, headers, timezone, etc.)
-- [ ] Export logs to CSV/JSON
+- [x] Export logs to CSV/JSON
 
 ### SaaS Integration (Freemium/Premium) — _via separate connector package_
 - [ ] Basic SaaS API connection (token-based)

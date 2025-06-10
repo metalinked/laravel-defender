@@ -11,7 +11,7 @@ class DefenderAuditCommand extends Command {
     protected $description = 'Run a local security audit of your Laravel project';
 
     public function handle() {
-        $this->info('🔒 Running Laravel Defender Security Audit...');
+        $this->info(__('defender.audit_running'));
 
         // 1. Exposed .env
         $this->checkEnvExposed();
@@ -28,7 +28,7 @@ class DefenderAuditCommand extends Command {
         // 5. Vulnerable versions
         $this->checkLaravelVersion();
 
-        $this->info('✅ Audit complete.');
+        $this->info(__('defender.audit_complete'));
     }
 
     protected function checkEnvExposed() {
@@ -41,29 +41,29 @@ class DefenderAuditCommand extends Command {
         } catch (\Exception $e) {}
 
         if ($response && $response->ok() && str_contains($response->body(), 'APP_KEY=')) {
-            $this->error('⚠️  .env file is publicly accessible at ' . $envUrl);
-            $this->line('    ➜ Block access to .env in your web server config (Apache/Nginx).');
+            $this->error(__('defender.audit_env_exposed', ['url' => $envUrl]));
+            $this->line('    ' . __('defender.audit_env_exposed_tip'));
         } else {
-            $this->info('✔️  .env file is not publicly accessible.');
+            $this->info(__('defender.audit_env_not_exposed'));
         }
     }
 
     protected function checkAppDebug() {
         if (config('app.debug')) {
-            $this->error('⚠️  APP_DEBUG is enabled!');
-            $this->line('    ➜ Set APP_DEBUG=false in your .env for production.');
+            $this->error(__('defender.audit_debug_enabled'));
+            $this->line('    ' . __('defender.audit_debug_tip'));
         } else {
-            $this->info('✔️  APP_DEBUG is disabled.');
+            $this->info(__('defender.audit_debug_disabled'));
         }
     }
 
     protected function checkCors() {
         $cors = config('cors.allowed_origins') ?? [];
         if (in_array('*', $cors)) {
-            $this->error('⚠️  CORS is permissive (allowed_origins = "*")!');
-            $this->line('    ➜ Restrict CORS origins in config/cors.php for better security.');
+            $this->error(__('defender.audit_cors_permissive'));
+            $this->line('    ' . __('defender.audit_cors_tip'));
         } else {
-            $this->info('✔️  CORS configuration is not permissive.');
+            $this->info(__('defender.audit_cors_ok'));
         }
     }
 
@@ -72,24 +72,24 @@ class DefenderAuditCommand extends Command {
         $httpOnly = config('session.http_only', true);
 
         if (!$secure) {
-            $this->error('⚠️  Session cookies are not set as secure!');
-            $this->line('    ➜ Set SESSION_SECURE_COOKIE=true in your .env for HTTPS.');
+            $this->error(__('defender.audit_cookies_insecure'));
+            $this->line('    ' . __('defender.audit_cookies_secure_tip'));
         } else {
-            $this->info('✔️  Session cookies are secure.');
+            $this->info(__('defender.audit_cookies_secure'));
         }
 
         if (!$httpOnly) {
-            $this->error('⚠️  Session cookies are not HTTP only!');
-            $this->line('    ➜ Set SESSION_HTTP_ONLY=true in your .env.');
+            $this->error(__('defender.audit_cookies_http_only_missing'));
+            $this->line('    ' . __('defender.audit_cookies_http_only_tip'));
         } else {
-            $this->info('✔️  Session cookies are HTTP only.');
+            $this->info(__('defender.audit_cookies_http_only'));
         }
     }
 
     protected function checkLaravelVersion() {
         $laravel = app();
         $version = $laravel::VERSION;
-        $this->info('ℹ️  Laravel version: ' . $version);
+        $this->info(__('defender.audit_laravel_version', ['version' => $version]));
 
         // TODO: add a check for known vulnerabilities
         // (but this would require querying an external API or maintaining a list)
