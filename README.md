@@ -1,6 +1,7 @@
 # Laravel Defender
 
-A modular security package for Laravel designed to help you monitor and protect your Laravel applications with tools similar to Wordfence in the WordPress ecosystem.
+A modular security package for Laravel that helps you monitor, detect, and block suspicious activity in your applications.  
+Laravel Defender provides advanced request logging, risk pattern detection, spam protection, and real-time alerts—all fully configurable and privacy-friendly.
 
 > ⚠️ **Currently under development**. Contributions and feedback are welcome.
 
@@ -51,7 +52,14 @@ php artisan migrate
 
 ## 🔒 Global Protection (Recommended)
 
-To ensure Defender can detect and log suspicious access attempts to non-existent routes (such as `/wp-admin`, `/phpmyadmin`, etc.), you should register the IP logger middleware and the advanced detection middleware as **global middlewares**.
+> To ensure Defender can detect and block a wide range of suspicious and malicious access attempts—including requests to non-existent routes (like `/wp-admin`), brute force attacks, access from non-allowed countries, and risky login patterns—you should register all Defender middlewares as global middlewares:
+>
+> - **IpLoggerMiddleware:** Logs all requests or only suspicious ones.
+> - **AdvancedDetectionMiddleware:** Detects suspicious user-agents, common attack routes, and login attempts with common usernames.
+> - **BruteForceMiddleware:** Detects and blocks brute force attempts from the same IP.
+> - **CountryAccessMiddleware:** Allows or denies access based on country or IP whitelist/denylist.
+>
+> Registering these middlewares globally ensures your application is protected against a broad spectrum of attacks, even on non-existent routes.
 
 ### For Laravel 11 or higher
 
