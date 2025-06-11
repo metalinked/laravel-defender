@@ -37,6 +37,18 @@ After installation, publish the config file:
 php artisan vendor:publish --tag=defender-config
 ```
 
+**Publish the migration file:**
+
+```bash
+php artisan vendor:publish --tag=defender-migrations
+```
+
+**Run the migrations:**
+
+```bash
+php artisan migrate
+```
+
 ---
 
 ## 🛡️ Honeypot Spam Protection

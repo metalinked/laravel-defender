@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration {
     public function up() {
-        Schema::create('ip_logs', function (Blueprint $table) {
+        Schema::create('defender_ip_logs', function (Blueprint $table) {
             $table->id();
             $table->string('ip', 45);
             $table->string('route')->nullable();
@@ -19,6 +19,6 @@ return new class extends Migration {
     }
 
     public function down() {
-        Schema::dropIfExists('ip_logs');
+        Schema::dropIfExists('defender_ip_logs');
     }
 };
