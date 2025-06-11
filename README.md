@@ -313,17 +313,13 @@ If you discover a security vulnerability, please report it via email to [securit
 ## Usage Model
 
 - **Freemium (offline):**  
-  All users can use the basic security features locally, without connecting to any external service. No registration required.
+  All users can use the basic security features locally, without connecting to any external service. No registration required. Privacy-friendly and self-hosted.
 
-- **Freemium (SaaS-connected):** _[Planned]_  
+- **Freemium (SaaS-connected):** *(Planned)*  
   Users will optionally be able to register on the SaaS platform to monitor and manage up to 1 Laravel project for free, with centralized logs and a basic dashboard.
 
-- **Premium (SaaS-connected):** _[Planned]_  
+- **Premium (SaaS-connected):** *(Planned)*  
   Paid plans will unlock premium features (AI risk scoring, advanced signatures, multi-project management, etc.) and/or allow monitoring more Laravel projects from the SaaS dashboard. Each project will be linked to a unique token generated in the SaaS panel.
-
-> **Note:**  
-> All SaaS and premium features will be provided via a separate connector package in the future.  
-> This open source package does **not** connect to any external service by default.
 
 ---
 
