@@ -65,9 +65,10 @@ Add the following to your `bootstrap/app.php` inside the `withMiddleware` callba
 
 ```php
 ->withMiddleware(function (Middleware $middleware) {
-    $middleware->append(
-        \Metalinked\LaravelDefender\Http\Middleware\IpLoggerMiddleware::class
-    );
+    $middleware->append(\Metalinked\LaravelDefender\Http\Middleware\IpLoggerMiddleware::class);
+    $middleware->append(\Metalinked\LaravelDefender\Http\Middleware\AdvancedDetectionMiddleware::class);
+    $middleware->append(\Metalinked\LaravelDefender\Http\Middleware\BruteForceMiddleware::class);
+    $middleware->append(\Metalinked\LaravelDefender\Http\Middleware\CountryAccessMiddleware::class);
 })
 ```
 
@@ -79,10 +80,14 @@ Add the following to the `$middleware` array in your `app/Http/Kernel.php`:
 protected $middleware = [
     // ...existing Laravel middleware...
     \Metalinked\LaravelDefender\Http\Middleware\IpLoggerMiddleware::class,
+    \Metalinked\LaravelDefender\Http\Middleware\AdvancedDetectionMiddleware::class,
+    \Metalinked\LaravelDefender\Http\Middleware\BruteForceMiddleware::class,
+    \Metalinked\LaravelDefender\Http\Middleware\CountryAccessMiddleware::class,
 ];
 ```
 
-This will ensure that all incoming requests, even to routes that do not exist, are processed by Defender and logged if suspicious.
+> **Recommended:**  
+> Registering these middlewares globally ensures all requests are protected, including non-existent routes, without needing to add them to individual routes.
 
 ---
 
