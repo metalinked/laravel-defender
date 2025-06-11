@@ -281,15 +281,6 @@ It gives clear recommendations for each issue found.
 
 ---
 
-## 📦 Usage
-
-Basic usage examples will be added as the package stabilizes. Planned usage will include:
-
-- Publishing config files  
-- Using middleware and Blade components 
-
----
-
 ## 🧪 Testing
 
 Run tests with:
