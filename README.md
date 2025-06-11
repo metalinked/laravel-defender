@@ -25,8 +25,6 @@ A modular security package for Laravel designed to help you monitor and protect 
 
 ## 🚀 Installation
 
-_Not yet available on Packagist_
-
 ```bash
 composer require metalinked/laravel-defender
 ```
