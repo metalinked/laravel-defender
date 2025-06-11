@@ -1,6 +1,7 @@
 {
     "name": "metalinked/laravel-defender",
     "description": "Modular security package for Laravel",
+    "license": "MIT",
     "type": "library",
     "require": {
         "php": "^8.1",
