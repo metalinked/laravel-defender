@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.9.1](https://github.com/metalinked/laravel-defender/compare/v1.9.0...v1.9.1) (2025-06-11)
+
+
+### Bug Fixes
+
+* resolve honeypot template issue, translation loading, and update README with middleware instructions ([c1bb48f](https://github.com/metalinked/laravel-defender/commit/c1bb48f3dc4169ada8a0ca049000a116d753e6c5))
+
 ## [1.9.0](https://github.com/metalinked/laravel-defender/compare/v1.8.0...v1.9.0) (2025-06-10)
 
 
