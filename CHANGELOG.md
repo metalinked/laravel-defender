@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.9.2](https://github.com/metalinked/laravel-defender/compare/v1.9.1...v1.9.2) (2025-06-11)
+
+
+### Miscellaneous Chores
+
+* add license field to composer.json ([5fc4b82](https://github.com/metalinked/laravel-defender/commit/5fc4b82fe4c099658f31c19482c241370e31ada1))
+* **docs:** remove unused Usage section from README ([7951f21](https://github.com/metalinked/laravel-defender/commit/7951f2172e010da93dc3c463edebc8c2e996b042))
+
 ## [1.9.1](https://github.com/metalinked/laravel-defender/compare/v1.9.0...v1.9.1) (2025-06-11)
 
 
