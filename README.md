@@ -51,10 +51,6 @@ php artisan migrate
 
 ## 🔒 Global Protection (Recommended)
 
-To ensure Defender can detect and log suspicious access attempts to non-existent routes (such as `/wp-admin`, `/phpmyadmin`, etc.), you should register the IP logger middleware as a **global middleware**.
-
-## 🔒 Global Protection (Recommended)
-
 To ensure Defender can detect and log suspicious access attempts to non-existent routes (such as `/wp-admin`, `/phpmyadmin`, etc.), you should register the IP logger middleware and the advanced detection middleware as **global middlewares**.
 
 ### For Laravel 11 or higher
