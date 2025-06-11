@@ -24,20 +24,20 @@ class ShowIpLogs extends Command {
         ]);
 
         if ($logs->isEmpty()) {
-            $this->info(__('defender.logs_no_results'));
+            $this->info(__('defender::defender.logs_no_results'));
             return;
         }
 
-        $this->info(__('defender.logs_header'));
+        $this->info(__('defender::defender.logs_header'));
         $this->table(
             [
-                __('defender.logs_date', [], 'en') ?? 'Date',
-                __('defender.logs_ip', [], 'en') ?? 'IP',
-                __('defender.logs_route', [], 'en') ?? 'Route',
-                __('defender.logs_method', [], 'en') ?? 'Method',
-                __('defender.logs_user', [], 'en') ?? 'User',
-                __('defender.logs_suspicious', [], 'en') ?? 'Suspicious',
-                __('defender.logs_reason', [], 'en') ?? 'Reason',
+                __('defender::defender.logs_date', [], 'en') ?? 'Date',
+                __('defender::defender.logs_ip', [], 'en') ?? 'IP',
+                __('defender::defender.logs_route', [], 'en') ?? 'Route',
+                __('defender::defender.logs_method', [], 'en') ?? 'Method',
+                __('defender::defender.logs_user', [], 'en') ?? 'User',
+                __('defender::defender.logs_suspicious', [], 'en') ?? 'Suspicious',
+                __('defender::defender.logs_reason', [], 'en') ?? 'Reason',
             ],
             $logs->map(function ($log) {
                 return [
@@ -51,6 +51,6 @@ class ShowIpLogs extends Command {
                 ];
             })->toArray()
         );
-        $this->info(__('defender.logs_total', ['count' => $logs->count()]));
+        $this->info(__('defender::defender.logs_total', ['count' => $logs->count()]));
     }
 }

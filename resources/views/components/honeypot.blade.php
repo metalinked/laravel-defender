@@ -1,4 +1,3 @@
-<?php
 @php
     $prefix = config('defender.honeypot.field_prefix', 'my_full_name_');
     $fieldName = $prefix . \Illuminate\Support\Str::random(12);

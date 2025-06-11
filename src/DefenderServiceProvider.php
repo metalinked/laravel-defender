@@ -24,7 +24,11 @@ class DefenderServiceProvider extends ServiceProvider {
             return "<?php echo view('defender::components.honeypot')->render(); ?>";
         });
 
+        // Load views from the package
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'defender');
+        
+        // Load translations from the package
+        $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'defender');
 
         $this->publishes([
             __DIR__.'/../resources/views/components/honeypot.blade.php' => resource_path('views/vendor/defender/components/honeypot.blade.php'),
@@ -38,7 +42,7 @@ class DefenderServiceProvider extends ServiceProvider {
         );
 
         $this->publishes([
-            __DIR__.'/../database/migrations/2025_06_01_000001_create_ip_logs_table.php' => database_path('migrations/2025_06_01_000001_create_ip_logs_table.php'),
+            __DIR__.'/../database/migrations/2025_06_01_000001_create_defender_ip_logs_table.php' => database_path('migrations/2025_06_01_000001_create_defender_ip_logs_table.php'),
         ], 'defender-migrations');
     }
 

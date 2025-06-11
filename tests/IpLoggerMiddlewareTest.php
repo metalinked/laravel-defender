@@ -46,14 +46,14 @@ class IpLoggerMiddlewareTest extends TestCase {
             'is_suspicious' => false,
             'reason' => null,
         ]);
-        $this->assertDatabaseHas('ip_logs', [
+        $this->assertDatabaseHas('defender_ip_logs', [
             'route' => 'test-ip',
         ]);
     }
 
     public function test_logs_ip_on_request() {
         $this->post('/test-ip');
-        $this->assertDatabaseHas('ip_logs', [
+        $this->assertDatabaseHas('defender_ip_logs', [
             'route' => 'test-ip',
         ]);
     }
@@ -64,7 +64,7 @@ class IpLoggerMiddlewareTest extends TestCase {
             $this->post('/test-ip');
         }
 
-        $this->assertDatabaseHas('ip_logs', [
+        $this->assertDatabaseHas('defender_ip_logs', [
             'route' => 'test-ip',
             'is_suspicious' => true,
             'reason' => 'Too many login attempts', // or the reason you have in your logic
@@ -84,7 +84,7 @@ class IpLoggerMiddlewareTest extends TestCase {
 
     public function test_does_not_mark_as_suspicious_below_threshold() {
         $this->post('/test-ip');
-        $this->assertDatabaseHas('ip_logs', [
+        $this->assertDatabaseHas('defender_ip_logs', [
             'route' => 'test-ip',
             'is_suspicious' => false,
         ]);
@@ -92,7 +92,7 @@ class IpLoggerMiddlewareTest extends TestCase {
 
     public function test_marks_log_as_suspicious_for_bad_user_agent() {
         $this->withHeaders(['User-Agent' => 'sqlmap'])->post('/test-ip');
-        $this->assertDatabaseHas('ip_logs', [
+        $this->assertDatabaseHas('defender_ip_logs', [
             'route' => 'test-ip',
             'is_suspicious' => true,
             'reason' => 'Suspicious user-agent: sqlmap'
@@ -105,7 +105,7 @@ class IpLoggerMiddlewareTest extends TestCase {
             return response('ok');
         });
         $this->post('/wp-admin');
-        $this->assertDatabaseHas('ip_logs', [
+        $this->assertDatabaseHas('defender_ip_logs', [
             'route' => 'wp-admin',
             'is_suspicious' => true,
             'reason' => 'Suspicious route accessed: /wp-admin'
@@ -118,7 +118,7 @@ class IpLoggerMiddlewareTest extends TestCase {
             return response('ok');
         });
         $this->post('/login', ['username' => 'admin']);
-        $this->assertDatabaseHas('ip_logs', [
+        $this->assertDatabaseHas('defender_ip_logs', [
             'route' => 'login',
             'is_suspicious' => true,
             'reason' => 'Login attempt with common username: admin'
@@ -135,7 +135,7 @@ class IpLoggerMiddlewareTest extends TestCase {
         });
 
         $this->post('/test-ip');
-        $this->assertDatabaseHas('ip_logs', [
+        $this->assertDatabaseHas('defender_ip_logs', [
             'route' => 'test-ip',
             'is_suspicious' => true,
             'reason' => 'Access from non-allowed country: RU'

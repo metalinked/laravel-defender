@@ -40,7 +40,7 @@ class DefenderExportLogsCommand extends Command {
 
         if ($format === 'json') {
             File::put($output, $logs->toJson(JSON_PRETTY_PRINT));
-            $this->info(__('defender.export_logs_json', [
+            $this->info(__('defender::defender.export_logs_json', [
                 'count' => $logs->count(),
                 'output' => $output,
             ]));
@@ -48,7 +48,7 @@ class DefenderExportLogsCommand extends Command {
             // CSV export
             $csv = $this->toCsv($logs);
             File::put($output, $csv);
-            $this->info(__('defender.export_logs_csv', [
+            $this->info(__('defender::defender.export_logs_csv', [
                 'count' => $logs->count(),
                 'output' => $output,
             ]));

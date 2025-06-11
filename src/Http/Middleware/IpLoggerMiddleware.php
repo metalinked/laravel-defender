@@ -45,11 +45,11 @@ class IpLoggerMiddleware {
             if ($countryCode) {
                 if ($mode === 'allow' && !in_array($countryCode, $allowedCountries)) {
                     $isSuspicious = true;
-                    $reason = __('defender.alert_non_allowed_country', ['country' => $countryCode]);
+                    $reason = __('defender::defender.alert_non_allowed_country', ['country' => $countryCode]);
                 }
                 if ($mode === 'deny' && in_array($countryCode, $allowedCountries)) {
                     $isSuspicious = true;
-                    $reason = __('defender.alert_denied_country', ['country' => $countryCode]);
+                    $reason = __('defender::defender.alert_denied_country', ['country' => $countryCode]);
                 }
             }
         }
@@ -60,7 +60,7 @@ class IpLoggerMiddleware {
             foreach ($advConfig['suspicious_user_agents'] as $pattern) {
                 if (str_contains($userAgent, $pattern)) {
                     $isSuspicious = true;
-                    $reason = __('defender.alert_suspicious_user_agent', ['user_agent' => $userAgent]);
+                    $reason = __('defender::defender.alert_suspicious_user_agent', ['user_agent' => $userAgent]);
                     break;
                 }
             }
@@ -72,7 +72,7 @@ class IpLoggerMiddleware {
             foreach ($advConfig['suspicious_routes'] as $route) {
                 if (str_starts_with($path, $route)) {
                     $isSuspicious = true;
-                    $reason = __('defender.alert_suspicious_route', ['route' => $path]);
+                    $reason = __('defender::defender.alert_suspicious_route', ['route' => $path]);
                     break;
                 }
             }
@@ -82,7 +82,7 @@ class IpLoggerMiddleware {
         if (!$isSuspicious && $advancedDetectionEnabled && !empty($advConfig['common_usernames'])) {
             if ($request->is('login') && in_array(strtolower($request->input('username', '')), $advConfig['common_usernames'])) {
                 $isSuspicious = true;
-                $reason = __('defender.alert_common_username', ['username' => $request->input('username')]);
+                $reason = __('defender::defender.alert_common_username', ['username' => $request->input('username')]);
             }
         }
 
@@ -94,7 +94,7 @@ class IpLoggerMiddleware {
         $attemptsIncludingCurrent = $recentAttempts + 1;
         if (!$isSuspicious && $attemptsIncludingCurrent >= $maxAttempts) {
             $isSuspicious = true;
-            $reason = __('defender.alert_too_many_attempts');
+            $reason = __('defender::defender.alert_too_many_attempts');
         }
 
         // Block if configured and suspicious
@@ -114,7 +114,7 @@ class IpLoggerMiddleware {
                 $ipLog = IpLog::create($log);
 
                 // Alert system
-                AlertManager::send(__('defender.alert_suspicious_ip'), [
+                AlertManager::send(__('defender::defender.alert_suspicious_ip'), [
                     'ip' => $ip,
                     'route' => $routeName,
                     'method' => $request->method(),
@@ -122,7 +122,7 @@ class IpLoggerMiddleware {
                     'reason' => $reason,
                 ]);
             }
-            return response(__('defender.access_blocked'), 429);
+            return response(__('defender::defender.access_blocked'), 429);
         }
 
         // Only log if log_all is enabled or if it is suspicious
@@ -143,7 +143,7 @@ class IpLoggerMiddleware {
 
             // Alert system
             if ($isSuspicious) {
-                AlertManager::send(__('defender.alert_suspicious_ip'), [
+                AlertManager::send(__('defender::defender.alert_suspicious_ip'), [
                     'ip' => $ip,
                     'route' => $routeName,
                     'method' => $request->method(),

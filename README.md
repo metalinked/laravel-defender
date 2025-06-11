@@ -51,6 +51,41 @@ php artisan migrate
 
 ---
 
+## 🔒 Global Protection (Recommended)
+
+To ensure Defender can detect and log suspicious access attempts to non-existent routes (such as `/wp-admin`, `/phpmyadmin`, etc.), you should register the IP logger middleware as a **global middleware**.
+
+## 🔒 Global Protection (Recommended)
+
+To ensure Defender can detect and log suspicious access attempts to non-existent routes (such as `/wp-admin`, `/phpmyadmin`, etc.), you should register the IP logger middleware and the advanced detection middleware as **global middlewares**.
+
+### For Laravel 11 or higher
+
+Add the following to your `bootstrap/app.php` inside the `withMiddleware` callback:
+
+```php
+->withMiddleware(function (Middleware $middleware) {
+    $middleware->append(
+        \Metalinked\LaravelDefender\Http\Middleware\IpLoggerMiddleware::class
+    );
+})
+```
+
+### For Laravel 10 and earlier
+
+Add the following to the `$middleware` array in your `app/Http/Kernel.php`:
+
+```php
+protected $middleware = [
+    // ...existing Laravel middleware...
+    \Metalinked\LaravelDefender\Http\Middleware\IpLoggerMiddleware::class,
+];
+```
+
+This will ensure that all incoming requests, even to routes that do not exist, are processed by Defender and logged if suspicious.
+
+---
+
 ## 🛡️ Honeypot Spam Protection
 
 This package provides configurable honeypot protection for your Laravel forms.
