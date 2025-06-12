@@ -59,7 +59,6 @@ php artisan migrate
 
 To ensure Defender can detect and block a wide range of suspicious and malicious access attempts—including requests to non-existent routes (such as `/wp-admin`, `/phpmyadmin`, `/xmlrpc.php`), brute force attacks, access from non-allowed countries, and risky login patterns, you should register all Defender middlewares as global middlewares:
 
-- **IpLoggerMiddleware**: logs all requests or only suspicious ones.
 - **AdvancedDetectionMiddleware**: detects suspicious user-agents, common attack routes, and login attempts with common usernames.
 - **BruteForceMiddleware**: detects and blocks brute force attempts from the same IP.
 - **CountryAccessMiddleware**: allows or denies access based on country or IP whitelist/denylist.
