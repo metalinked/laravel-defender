@@ -36,8 +36,15 @@ class IpLoggerMiddlewareTest extends TestCase {
     }
 
     public function test_logs_ip_on_request() {
-        $this->post('/test-ip');
-        $this->assertDatabaseHas('defender_ip_logs', ['route' => 'test-ip']);
+        $this->post('/test-ip', [], [
+            'User-Agent' => 'TestAgent',
+            'Referer' => 'https://example.com'
+        ]);
+        $this->assertDatabaseHas('defender_ip_logs', [
+            'route' => 'test-ip',
+            'user_agent' => 'TestAgent',
+            'referer' => 'https://example.com',
+        ]);
     }
 
     public function test_does_not_mark_as_suspicious_below_threshold() {

@@ -20,7 +20,8 @@ class ShowIpLogs extends Command {
         }
 
         $logs = $query->limit((int)$this->option('limit'))->get([
-            'created_at', 'ip', 'route', 'method', 'user_id', 'is_suspicious', 'reason'
+            'created_at', 'ip', 'route', 'method', 'user_id', 'is_suspicious', 'reason',
+            'user_agent', 'referer', 'country_code', 'headers_hash'
         ]);
 
         if ($logs->isEmpty()) {
@@ -38,6 +39,7 @@ class ShowIpLogs extends Command {
                 __('defender::defender.logs_user', [], 'en') ?? 'User',
                 __('defender::defender.logs_suspicious', [], 'en') ?? 'Suspicious',
                 __('defender::defender.logs_reason', [], 'en') ?? 'Reason',
+                'User-Agent', 'Referer', 'Country', 'Headers Hash'
             ],
             $logs->map(function ($log) {
                 return [
@@ -48,6 +50,10 @@ class ShowIpLogs extends Command {
                     $log->user_id ?? '-',
                     $log->is_suspicious ? 'Yes' : 'No',
                     $log->reason ?? '-',
+                    $log->user_agent ?? '-',
+                    $log->referer ?? '-',
+                    $log->country_code ?? '-',
+                    $log->headers_hash ?? '-',
                 ];
             })->toArray()
         );

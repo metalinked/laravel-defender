@@ -9,9 +9,13 @@ return new class extends Migration {
         Schema::create('defender_ip_logs', function (Blueprint $table) {
             $table->id();
             $table->string('ip', 45);
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->string('route')->nullable();
             $table->string('method', 10);
-            $table->unsignedBigInteger('user_id')->nullable();
+            $table->string('user_agent', 512)->nullable();
+            $table->string('referer', 512)->nullable();
+            $table->string('country_code', 8)->nullable();
+            $table->string('headers_hash', 128)->nullable();
             $table->boolean('is_suspicious')->default(false);
             $table->string('reason')->nullable();
             $table->timestamps();
