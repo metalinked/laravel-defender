@@ -23,6 +23,6 @@ class CountryAccessMiddlewareTest extends TestCase {
     public function test_marks_log_as_suspicious_for_non_allowed_country() {
         // Simulate IP from a non-allowed country (geoip can be mocked)
         $this->post('/test-country', [], ['X-Forwarded-For' => '203.0.113.1']);
-        $this->assertDatabaseHas('ip_logs', ['is_suspicious' => true]);
+        $this->assertDatabaseHas('defender_ip_logs', ['is_suspicious' => true]);
     }
 }

@@ -32,12 +32,12 @@ class IpLoggerMiddlewareTest extends TestCase {
             'route' => '/test',
             'method' => 'POST',
         ]);
-        $this->assertDatabaseHas('ip_logs', ['ip' => '127.0.0.1']);
+        $this->assertDatabaseHas('defender_ip_logs', ['ip' => '127.0.0.1']);
     }
 
     public function test_logs_ip_on_request() {
         $this->post('/test-ip');
-        $this->assertDatabaseHas('ip_logs', ['route' => 'test-ip']);
+        $this->assertDatabaseHas('defender_ip_logs', ['route' => 'test-ip']);
     }
 
     public function test_does_not_mark_as_suspicious_below_threshold() {
@@ -45,6 +45,6 @@ class IpLoggerMiddlewareTest extends TestCase {
         for ($i = 0; $i < 3; $i++) {
             $this->post('/test-ip');
         }
-        $this->assertDatabaseMissing('ip_logs', ['is_suspicious' => true]);
+        $this->assertDatabaseMissing('defender_ip_logs', ['is_suspicious' => true]);
     }
 }

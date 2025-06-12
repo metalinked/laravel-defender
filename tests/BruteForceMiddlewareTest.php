@@ -25,7 +25,7 @@ class BruteForceMiddlewareTest extends TestCase {
         for ($i = 0; $i < 3; $i++) {
             $this->post('/test-brute');
         }
-        $this->assertDatabaseHas('ip_logs', ['is_suspicious' => true]);
+        $this->assertDatabaseHas('defender_ip_logs', ['is_suspicious' => true]);
     }
 
     public function test_logs_reason_for_suspicious_activity() {
@@ -33,6 +33,6 @@ class BruteForceMiddlewareTest extends TestCase {
         for ($i = 0; $i < 2; $i++) {
             $this->post('/test-brute');
         }
-        $this->assertDatabaseHas('ip_logs', ['reason' => 'Too many attempts in 10 minutes']);
+        $this->assertDatabaseHas('defender_ip_logs', ['reason' => 'Too many attempts in 10 minutes']);
     }
 }

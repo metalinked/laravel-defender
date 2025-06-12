@@ -22,16 +22,16 @@ class AdvancedDetectionMiddlewareTest extends TestCase {
 
     public function test_marks_log_as_suspicious_for_bad_user_agent() {
         $this->post('/test-advanced', [], ['User-Agent' => 'sqlmap']);
-        $this->assertDatabaseHas('ip_logs', ['is_suspicious' => true]);
+        $this->assertDatabaseHas('defender_ip_logs', ['is_suspicious' => true]);
     }
 
     public function test_marks_log_as_suspicious_for_suspicious_route() {
         $this->post('/admin/login');
-        $this->assertDatabaseHas('ip_logs', ['is_suspicious' => true]);
+        $this->assertDatabaseHas('defender_ip_logs', ['is_suspicious' => true]);
     }
 
     public function test_marks_log_as_suspicious_for_common_username() {
         $this->post('/test-advanced', ['username' => 'admin']);
-        $this->assertDatabaseHas('ip_logs', ['is_suspicious' => true]);
+        $this->assertDatabaseHas('defender_ip_logs', ['is_suspicious' => true]);
     }
 }
