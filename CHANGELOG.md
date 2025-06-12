@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.9.3](https://github.com/metalinked/laravel-defender/compare/v1.9.2...v1.9.3) (2025-06-12)
+
+
+### Bug Fixes
+
+* **migration:** rename migration file to create_defender_ip_logs_table.php for correct publishing ([e444f23](https://github.com/metalinked/laravel-defender/commit/e444f239369cafd8de5a213bf430fe458aff5338))
+
 ## [1.9.2](https://github.com/metalinked/laravel-defender/compare/v1.9.1...v1.9.2) (2025-06-11)
 
 
