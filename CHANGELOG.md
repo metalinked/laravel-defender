@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.11.0](https://github.com/metalinked/laravel-defender/compare/v1.10.0...v1.11.0) (2025-06-12)
+
+
+### Features
+
+* update documentation and configuration for centralized alert system ([755beec](https://github.com/metalinked/laravel-defender/commit/755beeccd18edf58eed75766465f47500fd1cfb3))
+
 ## [1.10.0](https://github.com/metalinked/laravel-defender/compare/v1.9.3...v1.10.0) (2025-06-12)
 
 
