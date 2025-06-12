@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.10.0](https://github.com/metalinked/laravel-defender/compare/v1.9.3...v1.10.0) (2025-06-12)
+
+
+### Features
+
+* **ip-logs:** add user_agent, referer, country_code and headers_hash fields to logs ([03c9087](https://github.com/metalinked/laravel-defender/commit/03c9087bac74129d26683c0f81af9faba86ca9b0))
+
 ## [1.9.3](https://github.com/metalinked/laravel-defender/compare/v1.9.2...v1.9.3) (2025-06-12)
 
 
