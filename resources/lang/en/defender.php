@@ -53,6 +53,10 @@ return [
     'audit_cookies_http_only_tip' => '➜ Set SESSION_HTTP_ONLY=true in your .env.',
     'audit_laravel_version' => 'ℹ️  Laravel version: :version',
 
+    // Database alert messages
+    'db_logging_disabled' => 'Database logging is disabled in config/defender.php.',
+    'logs_table_missing' => 'Defender IP logs table does not exist.',
+
     // Export command
     'export_logs_csv' => 'Exported :count logs to :output (CSV)',
     'export_logs_json' => 'Exported :count logs to :output (JSON)',

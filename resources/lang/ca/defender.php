@@ -53,6 +53,10 @@ return [
     'audit_cookies_http_only_tip' => '➜ Estableix SESSION_HTTP_ONLY=true al teu .env.',
     'audit_laravel_version' => 'ℹ️  Versió de Laravel: :version',
 
+    // Database alert messages
+    'db_logging_disabled' => 'El registre a la base de dades està desactivat a config/defender.php.',
+    'logs_table_missing' => 'La taula de registres d\'IP de Defender no existeix.',
+
     // Export command
     'export_logs_csv' => 'S\'han exportat :count registres a :output (CSV)',
     'export_logs_json' => 'S\'han exportat :count registres a :output (JSON)',

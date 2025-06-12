@@ -37,6 +37,10 @@ After installation, publish the config file:
 php artisan vendor:publish --tag=defender-config
 ```
 
+> **Note:**  
+> The database channel is optional and disabled by default.  
+> Only publish and run the migration if you want to enable database logging (see the Alert System section below).
+
 **Publish the migration file:**
 
 ```bash
@@ -68,7 +72,6 @@ Add the following to your `bootstrap/app.php` inside the `withMiddleware` callba
 
 ```php
 ->withMiddleware(function (Middleware $middleware) {
-    $middleware->append(\Metalinked\LaravelDefender\Http\Middleware\IpLoggerMiddleware::class);
     $middleware->append(\Metalinked\LaravelDefender\Http\Middleware\AdvancedDetectionMiddleware::class);
     $middleware->append(\Metalinked\LaravelDefender\Http\Middleware\BruteForceMiddleware::class);
     $middleware->append(\Metalinked\LaravelDefender\Http\Middleware\CountryAccessMiddleware::class);
@@ -82,7 +85,6 @@ Add the following to the `$middleware` array in your `app/Http/Kernel.php`:
 ```php
 protected $middleware = [
     // ...existing Laravel middleware...
-    \Metalinked\LaravelDefender\Http\Middleware\IpLoggerMiddleware::class,
     \Metalinked\LaravelDefender\Http\Middleware\AdvancedDetectionMiddleware::class,
     \Metalinked\LaravelDefender\Http\Middleware\BruteForceMiddleware::class,
     \Metalinked\LaravelDefender\Http\Middleware\CountryAccessMiddleware::class,
@@ -178,8 +180,11 @@ Laravel Defender supports local real-time alerts via multiple channels.
 
 - `log` (Laravel log)
 - `mail` (send to a configured email)
+- `database` (save to the database)
 - `slack` (send to a Slack webhook)
 - `webhook` (send to any external URL)
+
+> Only the `log` channel is enabled by default.  
 
 ### How to configure
 
@@ -190,6 +195,7 @@ In your `config/defender.php`:
     'channels' => [
         'log',      // Always enabled by default
         // 'mail',   // Enable to receive email alerts
+        // 'database', // Enabled to save to the database
         // 'slack',  // Enable to receive Slack alerts
         // 'webhook' // Enable to receive alerts via webhook
     ],
@@ -205,13 +211,20 @@ In your `config/defender.php`:
 ],
 ```
 
-#### To receive email alerts
+---
 
-Add this to your `.env` file:
+## Environment Variables
 
-```
-DEFENDER_ALERT_MAIL_TO=your@email.com
-```
+You can configure Laravel Defender using the following `.env` variables:
+
+| Variable                    | Description                                      | Example                        |
+|-----------------------------|--------------------------------------------------|--------------------------------|
+| ABUSEIPDB_API_KEY           | AbuseIPDB API key for IP reputation checks       | `ABUSEIPDB_API_KEY=your_api_key` |
+| DEFENDER_ALERT_MAIL_TO      | Email address to receive alert notifications     | `DEFENDER_ALERT_MAIL_TO=admin@example.com` |
+| DEFENDER_SLACK_WEBHOOK      | Slack webhook URL for alert notifications        | `DEFENDER_SLACK_WEBHOOK=https://hooks.slack.com/services/XXX/YYY/ZZZ` |
+| DEFENDER_ALERT_WEBHOOK      | External webhook URL for alert notifications     | `DEFENDER_ALERT_WEBHOOK=https://yourdomain.com/defender-webhook` |
+
+> All variables are optional and only required if you enable the corresponding alert channel or feature in `config/defender.php`.
 
 ---
 
@@ -219,6 +232,9 @@ DEFENDER_ALERT_MAIL_TO=your@email.com
 
 Laravel Defender provides an Artisan command to review access logs and suspicious activity directly from the console.  
 This approach is secure and convenient, as it does not expose sensitive data via the web and works even if your app does not have a backoffice.
+
+> **Note:**  
+> Viewing and exporting logs is only available if the `database` channel is enabled and the migration has been run.
 
 ### Usage
 
@@ -331,7 +347,6 @@ If you discover a security vulnerability, please report it via email to [securit
 - [x] Local notifications (log, mail, Slack, webhook)
 - [x] Security audit module (env, debug, CORS, etc.)
 - [x] Advanced risk pattern detection (user-agent, route, login, country/IP)
-- [ ] Privacy-friendly client fingerprinting (IP, UA, headers, timezone, etc.)
 - [x] Export logs to CSV/JSON
 
 ### SaaS Integration (Freemium/Premium) — _via separate connector package_
