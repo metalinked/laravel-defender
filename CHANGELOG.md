@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.13.0](https://github.com/metalinked/laravel-defender/compare/v1.12.1...v1.13.0) (2025-06-13)
+
+
+### Features
+
+* **commands:** add prune-logs Artisan command for cleaning old logs ([467e9ea](https://github.com/metalinked/laravel-defender/commit/467e9ea156696af31873e1de821f73cd9788da51))
+
 ## [1.12.1](https://github.com/metalinked/laravel-defender/compare/v1.12.0...v1.12.1) (2025-06-13)
 
 
