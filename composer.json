@@ -1,6 +1,6 @@
 {
     "name": "metalinked/laravel-defender",
-    "description": "A modular security package for Laravel that provides IP logging, brute-force protection, honeypot fields, country blocking, advanced detection, and flexible alerting via database, log, mail, Slack, or webhook.",
+    "description": "Modular Laravel security: IP logging & alert manager, honeypot spam protection, log/mail/Slack/webhook alerts, security audit, advanced risk detection, export/prune logs, console viewer."
     "keywords": [
         "security",
         "middleware",
