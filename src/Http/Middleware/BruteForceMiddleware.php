@@ -22,7 +22,11 @@ class BruteForceMiddleware {
             AlertManager::send(
                 __('defender::defender.alert_subject'),
                 __('defender::defender.alert_too_many_attempts'),
-                ['ip' => $ip, 'route' => $request->path()]
+                [
+                    'ip' => $ip,
+                    'route' => $request->path(),
+                    'is_suspicious' => true,
+                ]
             );
             return response(
                 __('defender::defender.alert_too_many_attempts'),

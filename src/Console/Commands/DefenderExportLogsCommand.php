@@ -2,6 +2,7 @@
 
 namespace Metalinked\LaravelDefender\Console\Commands;
 
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Console\Command;
 use Metalinked\LaravelDefender\Models\IpLog;
 use Illuminate\Support\Facades\File;
@@ -18,6 +19,16 @@ class DefenderExportLogsCommand extends Command {
     protected $description = 'Export Defender IP logs to CSV or JSON';
 
     public function handle() {
+        $table = (new \Metalinked\LaravelDefender\Models\IpLog)->getTable();
+        if (!config('defender.ip_logging.enabled', true)) {
+            $this->warn(__('defender::defender.db_logging_disabled'));
+            return;
+        }
+        if (!Schema::hasTable($table)) {
+            $this->warn(__('defender::defender.logs_table_missing'));
+            return;
+        }
+        
         $query = IpLog::query();
 
         if ($ip = $this->option('ip')) {
