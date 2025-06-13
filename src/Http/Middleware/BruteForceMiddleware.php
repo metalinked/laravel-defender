@@ -26,6 +26,7 @@ class BruteForceMiddleware {
                     'ip' => $ip,
                     'route' => $request->path(),
                     'is_suspicious' => true,
+                    'request' => $request,
                 ]
             );
             return response(
