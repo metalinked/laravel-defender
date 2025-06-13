@@ -38,8 +38,9 @@ php artisan vendor:publish --tag=defender-config
 ```
 
 > **Note:**  
-> The database channel is optional and disabled by default.  
-> Only publish and run the migration if you want to enable database logging (see the Alert System section below).
+> The `database` channel is optional, but enabled by default in the alert system.  
+> Only publish and run the migration if you want to keep database logging enabled (see the `alerts.channels` option in `config/defender.php`).  
+> If you disable the `database` channel, you do not need to publish or run the migration, and no logs will be stored in the database.
 
 **Publish the migration file:**
 
@@ -59,6 +60,7 @@ php artisan migrate
 
 To ensure Defender can detect and block a wide range of suspicious and malicious access attempts—including requests to non-existent routes (such as `/wp-admin`, `/phpmyadmin`, `/xmlrpc.php`), brute force attacks, access from non-allowed countries, and risky login patterns, you should register all Defender middlewares as global middlewares:
 
+- **IpLoggerMiddleware**: logs all requests if the `ip_logging.log_all` option is enabled in the configuration.
 - **AdvancedDetectionMiddleware**: detects suspicious user-agents, common attack routes, and login attempts with common usernames.
 - **BruteForceMiddleware**: detects and blocks brute force attempts from the same IP.
 - **CountryAccessMiddleware**: allows or denies access based on country or IP whitelist/denylist.
@@ -178,12 +180,13 @@ Laravel Defender supports local real-time alerts via multiple channels.
 ### Supported channels
 
 - `log` (Laravel log)
+- `database` (save to the database)
 - `mail` (send to a configured email)
 - `database` (save to the database)
 - `slack` (send to a Slack webhook)
 - `webhook` (send to any external URL)
 
-> Only the `log` channel is enabled by default.  
+> Only the `log` and `database` channels are enabled by default.  
 
 ### How to configure
 
@@ -193,6 +196,7 @@ In your `config/defender.php`:
 'alerts' => [
     'channels' => [
         'log',      // Always enabled by default
+        'database', // Enabled to save to the database
         // 'mail',   // Enable to receive email alerts
         // 'database', // Enabled to save to the database
         // 'slack',  // Enable to receive Slack alerts
@@ -218,12 +222,35 @@ You can configure Laravel Defender using the following `.env` variables:
 
 | Variable                    | Description                                      | Example                        |
 |-----------------------------|--------------------------------------------------|--------------------------------|
-| ABUSEIPDB_API_KEY           | AbuseIPDB API key for IP reputation checks       | `ABUSEIPDB_API_KEY=your_api_key` |
 | DEFENDER_ALERT_MAIL_TO      | Email address to receive alert notifications     | `DEFENDER_ALERT_MAIL_TO=admin@example.com` |
 | DEFENDER_SLACK_WEBHOOK      | Slack webhook URL for alert notifications        | `DEFENDER_SLACK_WEBHOOK=https://hooks.slack.com/services/XXX/YYY/ZZZ` |
 | DEFENDER_ALERT_WEBHOOK      | External webhook URL for alert notifications     | `DEFENDER_ALERT_WEBHOOK=https://yourdomain.com/defender-webhook` |
 
 > All variables are optional and only required if you enable the corresponding alert channel or feature in `config/defender.php`.
+
+---
+
+## 📝 IP Logging & Brute Force Protection
+
+You can control global request logging and brute force protection in your `config/defender.php`:
+
+```php
+'ip_logging' => [
+    'log_all' => false, // WARNING: If true, logs ALL requests (not just suspicious ones).
+                        // Only recommended for testing or temporary auditing.
+                        // Not suitable for production environments!
+],
+
+'brute_force' => [
+    'max_attempts' => 5,
+    'decay_minutes' => 10,
+],
+```
+
+- `ip_logging.log_all`: If set to `true`, logs every request (not just suspicious ones).  
+  **Warning:** Only enable this for testing or temporary audits. Not recommended for production!
+- `brute_force.max_attempts`: Number of allowed attempts before blocking an IP.
+- `brute_force.decay_minutes`: Time window for counting attempts.
 
 ---
 
@@ -351,6 +378,7 @@ If you discover a security vulnerability, please report it via email to [securit
 ### SaaS Integration (Freemium/Premium) — _via separate connector package_
 - [ ] Basic SaaS API connection (token-based)
 - [ ] Centralized SaaS dashboard (1 project free)
+- [ ] Privacy-friendly client fingerprinting (IP, UA, headers, timezone, etc.)
 - [ ] Token management and activation flow
 
 ### Premium Features (SaaS only)

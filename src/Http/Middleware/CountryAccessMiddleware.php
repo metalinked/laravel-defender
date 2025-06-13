@@ -26,7 +26,11 @@ class CountryAccessMiddleware {
             AlertManager::send(
                 __('defender::defender.alert_subject'),
                 __('defender::defender.alert_non_allowed_country', ['country' => $countryCode]),
-                ['ip' => $ip, 'route' => $request->path()]
+                [
+                    'ip' => $ip,
+                    'route' => $request->path(),
+                    'is_suspicious' => true,
+                ]
             );
             return response(
                 __('defender::defender.alert_non_allowed_country', ['country' => $countryCode]),
@@ -38,7 +42,11 @@ class CountryAccessMiddleware {
             AlertManager::send(
                 __('defender::defender.alert_subject'),
                 __('defender::defender.alert_denied_country', ['country' => $countryCode]),
-                ['ip' => $ip, 'route' => $request->path()]
+                [
+                    'ip' => $ip,
+                    'route' => $request->path(),
+                    'is_suspicious' => true,
+                ]
             );
             return response(
                 __('defender::defender.alert_denied_country', ['country' => $countryCode]),

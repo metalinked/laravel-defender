@@ -2,6 +2,7 @@
 
 namespace Metalinked\LaravelDefender\Console\Commands;
 
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Console\Command;
 use Metalinked\LaravelDefender\Models\IpLog;
 use Illuminate\Support\Facades\File;
@@ -23,7 +24,7 @@ class DefenderExportLogsCommand extends Command {
             $this->warn(__('defender::defender.db_logging_disabled'));
             return;
         }
-        if (!\Schema::hasTable($table)) {
+        if (!Schema::hasTable($table)) {
             $this->warn(__('defender::defender.logs_table_missing'));
             return;
         }

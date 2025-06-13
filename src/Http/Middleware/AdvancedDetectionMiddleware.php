@@ -53,7 +53,11 @@ class AdvancedDetectionMiddleware {
             AlertManager::send(
                 __('defender::defender.alert_subject'),
                 $reason ?? __('defender::defender.access_blocked'),
-                ['ip' => $ip, 'route' => $request->path()]
+                [
+                    'ip' => $ip,
+                    'route' => $request->path(),
+                    'is_suspicious' => true,
+                ]
             );
             return response($reason ?? __('defender::defender.access_blocked'), 429);
         }

@@ -45,7 +45,7 @@ class AlertManager {
                     'route' => $request->path(),
                     'method' => $request->method(),
                     'user_id' => auth()->check() ? auth()->id() : null,
-                    'is_suspicious' => true,
+                    'is_suspicious' => $context['is_suspicious'] ?? true,
                     'reason' => $context['reason'] ?? 'alert',
                     'user_agent' => $request->userAgent(),
                     'referer' => $request->headers->get('referer'),
