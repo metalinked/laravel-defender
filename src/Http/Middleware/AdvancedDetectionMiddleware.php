@@ -58,6 +58,7 @@ class AdvancedDetectionMiddleware {
                     'route' => $request->path(),
                     'is_suspicious' => true,
                     'request' => $request,
+                    'reason' => $reason ?? __('defender::defender.access_blocked'),
                 ]
             );
             return response($reason ?? __('defender::defender.access_blocked'), 429);

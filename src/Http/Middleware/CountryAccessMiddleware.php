@@ -31,6 +31,7 @@ class CountryAccessMiddleware {
                     'route' => $request->path(),
                     'is_suspicious' => true,
                     'request' => $request,
+                    'reason' => __('defender::defender.alert_non_allowed_country', ['country' => $countryCode]),
                 ]
             );
             return response(
@@ -48,6 +49,7 @@ class CountryAccessMiddleware {
                     'route' => $request->path(),
                     'is_suspicious' => true,
                     'request' => $request,
+                    'reason' => __('defender::defender.alert_denied_country', ['country' => $countryCode]),
                 ]
             );
             return response(

@@ -27,6 +27,7 @@ class BruteForceMiddleware {
                     'route' => $request->path(),
                     'is_suspicious' => true,
                     'request' => $request,
+                    'reason' => __('defender::defender.alert_too_many_attempts'),
                 ]
             );
             return response(
