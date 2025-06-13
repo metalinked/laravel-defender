@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.12.1](https://github.com/metalinked/laravel-defender/compare/v1.12.0...v1.12.1) (2025-06-13)
+
+
+### Bug Fixes
+
+* **middleware:** ensure all suspicious access logs are saved to database ([5ccfc51](https://github.com/metalinked/laravel-defender/commit/5ccfc51d830105c9aa14631eb91a9433881a6685))
+
 ## [1.12.0](https://github.com/metalinked/laravel-defender/compare/v1.11.0...v1.12.0) (2025-06-13)
 
 
