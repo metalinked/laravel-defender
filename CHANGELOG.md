@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.13.1](https://github.com/metalinked/laravel-defender/compare/v1.13.0...v1.13.1) (2025-06-13)
+
+
+### Bug Fixes
+
+* **middleware:** always save specific reason for alerts in database ([067b26f](https://github.com/metalinked/laravel-defender/commit/067b26fa5bf2916d64a715a7b8a76ebbd4fffb4d))
+
 ## [1.13.0](https://github.com/metalinked/laravel-defender/compare/v1.12.1...v1.13.0) (2025-06-13)
 
 
