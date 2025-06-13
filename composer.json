@@ -1,6 +1,6 @@
 {
     "name": "metalinked/laravel-defender",
-    "description": "Modular Laravel security: IP logging & alert manager, honeypot spam protection, log/mail/Slack/webhook alerts, security audit, advanced risk detection, export/prune logs, console viewer."
+    "description": "Modular Laravel security: IP logging & alert manager, honeypot spam protection, log/mail/Slack/webhook alerts, security audit, advanced risk detection, export/prune logs, console viewer.",
     "keywords": [
         "security",
         "middleware",
