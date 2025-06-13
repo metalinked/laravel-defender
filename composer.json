@@ -1,6 +1,19 @@
 {
     "name": "metalinked/laravel-defender",
-    "description": "Modular security package for Laravel",
+    "description": "A modular security package for Laravel that provides IP logging, brute-force protection, honeypot fields, country blocking, advanced detection, and flexible alerting via database, log, mail, Slack, or webhook.",
+    "keywords": [
+        "security",
+        "middleware",
+        "alerts",
+        "laravel",
+        "honeypot",
+        "geoip",
+        "brute-force",
+        "defender",
+        "login-protection",
+        "ip-logging",
+        "country-blocking"
+    ],
     "license": "MIT",
     "type": "library",
     "require": {
