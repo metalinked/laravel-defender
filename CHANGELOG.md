@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.13.2](https://github.com/metalinked/laravel-defender/compare/v1.13.1...v1.13.2) (2025-06-13)
+
+
+### Miscellaneous Chores
+
+* **composer:** update keywords and improve package ([2aa067f](https://github.com/metalinked/laravel-defender/commit/2aa067f60499efc901e7daa56381cbf38897622b))
+
 ## [1.13.1](https://github.com/metalinked/laravel-defender/compare/v1.13.0...v1.13.1) (2025-06-13)
 
 
