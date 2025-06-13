@@ -5,57 +5,56 @@ namespace Metalinked\LaravelDefender;
 use Illuminate\Support\ServiceProvider;
 
 class DefenderServiceProvider extends ServiceProvider {
+    /**
+     * Bootstrap any package services.
+     */
     public function boot() {
-        // Publish the configuration file
+        // 1. Publish configuration, views, and migrations
         $this->publishes([
             __DIR__.'/../config/defender.php' => config_path('defender.php'),
         ], 'defender-config');
-
-        // Manually register the middleware in case the user wants to add it to specific routes
-        $this->app['router']->aliasMiddleware('defender.honeypot', \Metalinked\LaravelDefender\Http\Middleware\HoneypotMiddleware::class);
-
-        // Register global middleware for honeypot protection if configured
-        if (config('defender.honeypot.auto_protect_forms') && config('defender.honeypot.enabled')) {
-            $this->app['router']->pushMiddlewareToGroup('web', \Metalinked\LaravelDefender\Http\Middleware\HoneypotAutoMiddleware::class);
-        }
-
-        // Register the Blade directive for the honeypot component
-        \Illuminate\Support\Facades\Blade::directive('defenderHoneypot', function () {
-            return "<?php echo view('defender::components.honeypot')->render(); ?>";
-        });
-
-        // Load views from the package
-        $this->loadViewsFrom(__DIR__.'/../resources/views', 'defender');
-        
-        // Load translations from the package
-        $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'defender');
 
         $this->publishes([
             __DIR__.'/../resources/views/components/honeypot.blade.php' => resource_path('views/vendor/defender/components/honeypot.blade.php'),
         ], 'defender-views');
 
-        // Register the IP logging middleware alias so it can be used in route definitions.
-        // This allows users to apply IP logging to specific routes or groups.
-        $this->app['router']->aliasMiddleware(
-            'defender.iplogger',
-            \Metalinked\LaravelDefender\Http\Middleware\IpLoggerMiddleware::class
-        );
-
         $this->publishes([
             __DIR__.'/../database/migrations/2025_06_01_000001_create_defender_ip_logs_table.php' => database_path('migrations/2025_06_01_000001_create_defender_ip_logs_table.php'),
         ], 'defender-migrations');
+
+        // 2. Load views and translations
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'defender');
+        $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'defender');
+
+        // 3. Register Blade directives
+        \Illuminate\Support\Facades\Blade::directive('defenderHoneypot', function () {
+            return "<?php echo view('defender::components.honeypot')->render(); ?>";
+        });
+
+        // 4. Register middlewares
+        $this->app['router']->aliasMiddleware('defender.honeypot', \Metalinked\LaravelDefender\Http\Middleware\HoneypotMiddleware::class);
+        $this->app['router']->aliasMiddleware('defender.iplogger', \Metalinked\LaravelDefender\Http\Middleware\IpLoggerMiddleware::class);
+
+        // 5. Register global honeypot middleware if enabled in config
+        if (config('defender.honeypot.auto_protect_forms') && config('defender.honeypot.enabled')) {
+            $this->app['router']->pushMiddlewareToGroup('web', \Metalinked\LaravelDefender\Http\Middleware\HoneypotAutoMiddleware::class);
+        }
     }
 
+    /**
+     * Register any application services.
+     */
     public function register() {
+        // Merge package configuration
         $this->mergeConfigFrom(__DIR__.'/../config/defender.php', 'defender');
 
-        $this->mergeConfigFrom(__DIR__.'/../config/defender.php', 'defender');
-
+        // Register Artisan commands if running in console
         if ($this->app->runningInConsole()) {
             $this->commands([
                 \Metalinked\LaravelDefender\Console\Commands\ShowIpLogs::class,
                 \Metalinked\LaravelDefender\Console\Commands\DefenderAuditCommand::class,
                 \Metalinked\LaravelDefender\Console\Commands\DefenderExportLogsCommand::class,
+                \Metalinked\LaravelDefender\Console\Commands\PruneLogsCommand::class,
             ]);
         }
     }

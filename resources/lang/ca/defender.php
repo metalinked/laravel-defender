@@ -61,6 +61,12 @@ return [
     'export_logs_csv' => 'S\'han exportat :count registres a :output (CSV)',
     'export_logs_json' => 'S\'han exportat :count registres a :output (JSON)',
 
+    // Prune command
+    'prune_deleted' => 'S\'han eliminat :count registres de Defender de més de :days dies de la base de dades.',
+    'prune_none' => 'No s\'han trobat registres de Defender de més de :days dies a la base de dades.',
+    'prune_table_missing' => 'La taula de registres de Defender (:table) no existeix.',
+    'prune_laravel_deleted' => 'S\'han eliminat :count arxius de registre de Laravel de més de :days dies.',
+
     // Security tip (README, optional for UI)
     'tip_avoid_common_usernames' => 'Evita utilitzar noms d\'usuari comuns com admin, administrator, root, test o user per als comptes de la teva aplicació. Aquests són freqüentment objectiu d\'atacs i són marcats com a sospitosos per Laravel Defender.',
 ];

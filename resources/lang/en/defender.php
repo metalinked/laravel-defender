@@ -61,6 +61,12 @@ return [
     'export_logs_csv' => 'Exported :count logs to :output (CSV)',
     'export_logs_json' => 'Exported :count logs to :output (JSON)',
 
+    // Prune command
+    'prune_deleted' => 'Deleted :count Defender logs older than :days days from database.',
+    'prune_none' => 'No Defender logs older than :days days found in database.',
+    'prune_table_missing' => 'Defender log table (:table) does not exist.',
+    'prune_laravel_deleted' => 'Deleted :count Laravel log files older than :days days.',
+
     // Security tip (README, optional for UI)
     'tip_avoid_common_usernames' => 'Avoid using common usernames like admin, administrator, root, test, or user for your application accounts. These are frequently targeted by attackers and are flagged as suspicious by Laravel Defender.',
 ];

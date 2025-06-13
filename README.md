@@ -257,6 +257,11 @@ You can control global request logging and brute force protection in your `confi
 ## 📊 Viewing and Exporting IP Logs and Alerts
 
 Laravel Defender provides an Artisan command to review access logs and suspicious activity directly from the console.  
+
+> **Important:**  
+> Only logs stored in the database (with the `database` alert channel enabled and migration run) can be viewed or exported using these commands.  
+> Logs written to the Laravel log file (`storage/logs/laravel.log`) are not accessible via Defender commands.
+
 This approach is secure and convenient, as it does not expose sensitive data via the web and works even if your app does not have a backoffice.
 
 > **Note:**  
@@ -304,6 +309,26 @@ Export logs for a specific IP and date range:
 ```sh
 php artisan defender:export-logs --ip=1.2.3.4 --from=2024-06-01 --to=2024-06-09 --format=csv --output=logs.csv
 ```
+
+---
+
+## 🧹 Pruning Old Logs
+
+You can easily clean up old logs from the database (and optionally from Laravel log files) using the built-in Artisan command:
+
+Delete Defender logs older than 90 days from the database:
+```sh
+php artisan defender:prune-logs --days=90
+```
+
+Delete Defender logs older than 30 days and also remove old Laravel log files:
+```sh
+php artisan defender:prune-logs --days=30 --laravel
+```
+
+> **Note:**  
+> Only logs stored in the database can be listed and exported with Defender commands.  
+> Logs written to the Laravel log file (`storage/logs/laravel.log`) are not accessible via Defender commands and must be managed manually or with the `--laravel` prune option.
 
 ---
 
