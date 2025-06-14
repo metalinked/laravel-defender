@@ -1,9 +1,5 @@
 # TODOs & Ideas – Laravel Defender
 
-> **Note:**  
-> All SaaS-related tasks refer to a future connector package.  
-> This package is OSS-only and does not include SaaS code.
-
 ## MVP (Freemium, Offline)
 - [x] Implement mail/Slack/webhook alert methods
 - [x] Security audit module (env, debug, CORS, etc.)
@@ -15,26 +11,8 @@
 - [x] Advanced risk pattern detection (user-agent, route, login, country/IP)
 - [ ] Improve country detection and add support for more geolocation services
 
-## SaaS Integration (Freemium/Premium)
-- [ ] Implement SaaS connection logic (API endpoint, token)
-- [ ] Add remote log/alert sync
-- [ ] Add SaaS onboarding and registration flow
-- [ ] Centralized SaaS dashboard (1 project free)
-- [ ] Token management and activation flow
-- [ ] Enforce project limits and feature access based on SaaS plan (free/premium)
-- [ ] Allow users to generate and manage tokens from the SaaS dashboard
-- [ ] Privacy-friendly client fingerprinting (IP, UA, headers, timezone, etc.)
-
-## Premium Features (SaaS only)
-- [ ] Advanced attack signatures (JSON-based rule engine, regex matching)
-- [ ] AI-powered risk scoring for suspicious requests
-- [ ] Integration with external IP reputation services (AbuseIPDB, Project Honeypot, etc.)
-- [ ] API endpoints for enterprise clients (event/alert consumption)
-- [ ] Multi-project management
-- [ ] Security audit module with PDF reports (correlate logs with public CVEs)
-
 ## General Ideas & Improvements
-- [ ] Add more suspicious pattern detections (e.g. path traversal, fuzzing)
+- [x] Add more suspicious pattern detections (e.g. path traversal, fuzzing)
 - [ ] Integrate with more IP reputation services
 - [x] Add multi-language support
 - [ ] Add support for automatic scheduled log pruning (configurable retention period via Laravel scheduler)

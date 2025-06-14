@@ -7,8 +7,7 @@ Easily integrate Defender into your Laravel projects to enhance your application
 > ℹ️ Actively maintained. Feedback and contributions are welcome.
 
 > **Note:**  
-> This package is 100% open source and does not connect to any external service by default.  
-> In the future, an optional SaaS connector will be available as a separate package to unlock advanced features.
+> This package is 100% open source and does not connect to any external service by default.
 
 ---
 
@@ -18,10 +17,9 @@ Easily integrate Defender into your Laravel projects to enhance your application
 - 👁️ Request logging and alert system for suspicious activity  
 - 📝 View logs and alerts via Artisan command
 - ⚙️ Customizable rules and middleware  
-- 🚨 **Advanced risk pattern detection** (user-agents, routes, login attempts, country/IP restrictions)
+- 🚨 **Advanced risk pattern detection** (user-agents, routes, login attempts, country/IP restrictions, path traversal, fuzzing)
 - 🔔 Local real-time alerts (log, mail, Slack, webhook)
 - 🔍 Security audit command for common Laravel misconfigurations
-- 🎛️ Optional Laravel Nova/Telescope integration (planned)
 
 ---
 
@@ -141,6 +139,7 @@ Laravel Defender can detect and alert on suspicious patterns beyond just IPs.
 - **Login attempts with common usernames:** `admin`, `root`, `test`, etc.
 - **Access from blocked or non-allowed countries:** (with free IP geolocation)
 - **Brute force attempts:** Too many requests from the same IP in a short period
+- **Path traversal and fuzzing patterns:** Attempts to exploit with `../`, encoded traversal, or common fuzzing payloads/tools (e.g. sqlmap, acunetix, etc.)
 
 ### How to configure
 
@@ -182,7 +181,6 @@ Laravel Defender supports local real-time alerts via multiple channels.
 - `log` (Laravel log)
 - `database` (save to the database)
 - `mail` (send to a configured email)
-- `database` (save to the database)
 - `slack` (send to a Slack webhook)
 - `webhook` (send to any external URL)
 
@@ -198,7 +196,6 @@ In your `config/defender.php`:
         'log',      // Always enabled by default
         'database', // Enabled to save to the database
         // 'mail',   // Enable to receive email alerts
-        // 'database', // Enabled to save to the database
         // 'slack',  // Enable to receive Slack alerts
         // 'webhook' // Enable to receive alerts via webhook
     ],
@@ -381,42 +378,6 @@ If you discover a security vulnerability, please report it via email to [securit
 
 - **Freemium (offline):**  
   All users can use the basic security features locally, without connecting to any external service. No registration required. Privacy-friendly and self-hosted.
-
-- **Freemium (SaaS-connected):** *(Planned)*  
-  Users will optionally be able to register on the SaaS platform to monitor and manage up to 1 Laravel project for free, with centralized logs and a basic dashboard.
-
-- **Premium (SaaS-connected):** *(Planned)*  
-  Paid plans will unlock premium features (AI risk scoring, advanced signatures, multi-project management, etc.) and/or allow monitoring more Laravel projects from the SaaS dashboard. Each project will be linked to a unique token generated in the SaaS panel.
-
----
-
-## 📍 Roadmap
-
-### MVP (Freemium, Offline)
-- [x] IP logging & alert manager
-- [x] Honeypot spam protection
-- [x] Local notifications (log, mail, Slack, webhook)
-- [x] Security audit module (env, debug, CORS, etc.)
-- [x] Advanced risk pattern detection (user-agent, route, login, country/IP)
-- [x] Export logs to CSV/JSON
-
-### SaaS Integration (Freemium/Premium) — _via separate connector package_
-- [ ] Basic SaaS API connection (token-based)
-- [ ] Centralized SaaS dashboard (1 project free)
-- [ ] Privacy-friendly client fingerprinting (IP, UA, headers, timezone, etc.)
-- [ ] Token management and activation flow
-
-### Premium Features (SaaS only)
-- [ ] Advanced attack signatures (JSON-based rule engine, regex matching)
-- [ ] AI-powered risk scoring for suspicious requests
-- [ ] Integration with external IP reputation services (AbuseIPDB, Project Honeypot, etc.)
-- [ ] API endpoints for enterprise clients (event/alert consumption)
-- [ ] Multi-project management
-- [ ] Security audit module with PDF reports (correlate logs with public CVEs)
-
----
-
-**This roadmap is inspired by expert security feedback and aims to make Laravel Defender a truly advanced, modern, and extensible security solution for Laravel and beyond.**
 
 ---
 
