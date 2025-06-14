@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.14.0](https://github.com/metalinked/laravel-defender/compare/v1.13.2...v1.14.0) (2025-06-14)
+
+
+### Features
+
+* **detection:** add path traversal and fuzzing pattern detection to AdvancedDetectionMiddleware ([484cc4d](https://github.com/metalinked/laravel-defender/commit/484cc4d41638138454bb766303825b9815450ee4))
+
 ## [1.13.2](https://github.com/metalinked/laravel-defender/compare/v1.13.1...v1.13.2) (2025-06-13)
 
 
