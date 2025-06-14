@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.15.0](https://github.com/metalinked/laravel-defender/compare/v1.14.0...v1.15.0) (2025-06-14)
+
+
+### Features
+
+* **stats:** add defender:stats Artisan command and improve documentation ([e395499](https://github.com/metalinked/laravel-defender/commit/e39549910158584f10dff11cdd04aded168271e1))
+
 ## [1.14.0](https://github.com/metalinked/laravel-defender/compare/v1.13.2...v1.14.0) (2025-06-14)
 
 
