@@ -14,6 +14,7 @@ return [
     'alert_too_many_attempts' => 'Massa intents d\'inici de sessió',
     'alert_non_allowed_country' => 'Accés des d\'un país no permès: :country',
     'alert_denied_country' => 'Accés des d\'un país denegat: :country',
+    'alert_suspicious_pattern' => 'S\'ha detectat un patró sospitós: ":pattern" a la sol·licitud',
 
     // Log viewer command
     'logs_header' => 'Registres d\'IP de Defender',

@@ -40,7 +40,7 @@ class AdvancedDetectionMiddleware {
         foreach ($this->suspiciousPatterns as $pattern) {
             if (stripos($flattenedInputs, $pattern) !== false) {
                 $isSuspicious = true;
-                $reason = "Suspicious pattern detected: '{$pattern}' in request";
+                $reason = __('defender::defender.alert_suspicious_pattern', ['pattern' => $pattern]);
                 break;
             }
         }

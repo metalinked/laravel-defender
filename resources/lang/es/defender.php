@@ -14,6 +14,7 @@ return [
     'alert_too_many_attempts' => 'Demasiados intentos de inicio de sesión',
     'alert_non_allowed_country' => 'Acceso desde país no permitido: :country',
     'alert_denied_country' => 'Acceso desde país denegado: :country',
+    'alert_suspicious_pattern' => 'Patrón sospechoso detectado: ":pattern" en la solicitud',
 
     // Log viewer command
     'logs_header' => 'Registros de IP de Defender',

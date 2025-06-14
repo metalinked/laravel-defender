@@ -14,6 +14,7 @@ return [
     'alert_too_many_attempts' => 'Too many login attempts',
     'alert_non_allowed_country' => 'Access from non-allowed country: :country',
     'alert_denied_country' => 'Access from denied country: :country',
+    'alert_suspicious_pattern' => 'Suspicious pattern detected: ":pattern" in request',
 
     // Log viewer command
     'logs_header' => 'Defender IP Logs',
