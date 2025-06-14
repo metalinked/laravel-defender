@@ -68,6 +68,16 @@ return [
     'prune_table_missing' => 'Defender log table (:table) does not exist.',
     'prune_laravel_deleted' => 'Deleted :count Laravel log files older than :days days.',
 
+    // Stats command    
+    'stats_title' => '📊 Defender Stats',
+    'stats_separator' => '-----------------------------',
+    'stats_total_logs' => 'Total logs: :count',
+    'stats_unique_ips' => 'Unique IPs: :count',
+    'stats_suspicious' => 'Suspicious accesses: :count',
+    'stats_top_ips' => 'Top 5 IPs:',
+    'stats_top_countries' => 'Top 5 Countries:',
+    'stats_top_routes' => 'Top 5 Routes:',
+
     // Security tip (README, optional for UI)
     'tip_avoid_common_usernames' => 'Avoid using common usernames like admin, administrator, root, test, or user for your application accounts. These are frequently targeted by attackers and are flagged as suspicious by Laravel Defender.',
 ];

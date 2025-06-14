@@ -51,10 +51,11 @@ class DefenderServiceProvider extends ServiceProvider {
         // Register Artisan commands if running in console
         if ($this->app->runningInConsole()) {
             $this->commands([
-                \Metalinked\LaravelDefender\Console\Commands\ShowIpLogs::class,
+                \Metalinked\LaravelDefender\Console\Commands\ShowIpLogsCommand::class,
                 \Metalinked\LaravelDefender\Console\Commands\DefenderAuditCommand::class,
                 \Metalinked\LaravelDefender\Console\Commands\DefenderExportLogsCommand::class,
                 \Metalinked\LaravelDefender\Console\Commands\PruneLogsCommand::class,
+                \Metalinked\LaravelDefender\Console\Commands\StatsCommand::class,
             ]);
         }
     }

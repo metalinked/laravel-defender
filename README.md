@@ -327,6 +327,30 @@ php artisan defender:prune-logs --days=30 --laravel
 > Only logs stored in the database can be listed and exported with Defender commands.  
 > Logs written to the Laravel log file (`storage/logs/laravel.log`) are not accessible via Defender commands and must be managed manually or with the `--laravel` prune option.
 
+### Scheduled log pruning
+
+To automatically prune old Defender logs on a schedule, add the following to your scheduler file:
+
+For Laravel 11 and newer (`bootstrap/routes/console.php`):
+
+```php
+use Illuminate\Support\Facades\Schedule;
+
+Schedule::command('defender:prune-logs --days=90')->daily();
+```
+
+For Laravel 10 and earlier (`app/Console/Kernel.php`):
+
+```php
+protected function schedule(Schedule $schedule)
+{
+    $schedule->command('defender:prune-logs --days=90')->daily();
+}
+```
+
+This will delete Defender logs older than 90 days every day.  
+You can adjust the frequency and retention period as needed.
+
 ---
 
 ## 🔒 Security Audit
@@ -376,7 +400,7 @@ If you discover a security vulnerability, please report it via email to [securit
 
 ## Usage Model
 
-- **Freemium (offline):**  
+- **Free & Open Source (offline):**  
   All users can use the basic security features locally, without connecting to any external service. No registration required. Privacy-friendly and self-hosted.
 
 ---
@@ -396,3 +420,5 @@ MIT © [Metalinked](https://metalinked.net)
 ## 📢 Stay in touch
 
 If you're interested in using this tool or contributing, feel free to open an issue or start a discussion.
+
+💬 [Questions, suggestions or feedback? Join the Discussions!](https://github.com/metalinked/laravel-defender/discussions)

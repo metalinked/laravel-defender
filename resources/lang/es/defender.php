@@ -68,6 +68,16 @@ return [
     'prune_table_missing' => 'La tabla de registros de Defender (:table) no existe.',
     'prune_laravel_deleted' => 'Eliminados :count archivos de registro de Laravel con más de :days días.',
 
+    // Stats command    
+    'stats_title' => '📊 Estadísticas de Defender',
+    'stats_separator' => '-----------------------------',
+    'stats_total_logs' => 'Total de registros: :count',
+    'stats_unique_ips' => 'IPs únicas: :count',
+    'stats_suspicious' => 'Accesos sospechosos: :count',
+    'stats_top_ips' => 'Top 5 IPs:',
+    'stats_top_countries' => 'Top 5 países:',
+    'stats_top_routes' => 'Top 5 rutas:',
+
     // Security tip (README, optional for UI)
     'tip_avoid_common_usernames' => 'Evita usar nombres de usuario comunes como admin, administrator, root, test o user para las cuentas de tu aplicación. Estos son frecuentemente atacados y son marcados como sospechosos por Laravel Defender.',
 ];

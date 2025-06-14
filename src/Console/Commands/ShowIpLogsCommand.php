@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Console\Command;
 use Metalinked\LaravelDefender\Models\IpLog;
 
-class ShowIpLogs extends Command {
+class ShowIpLogsCommand extends Command {
     protected $signature = 'defender:ip-logs {--suspicious : Only show suspicious logs} {--ip= : Filter by IP} {--limit=50 : Number of logs to show}';
     protected $description = 'Show recent IP logs and alerts from Laravel Defender';
 
