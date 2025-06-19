@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.15.1](https://github.com/metalinked/laravel-defender/compare/v1.15.0...v1.15.1) (2025-06-19)
+
+
+### Miscellaneous Chores
+
+* **audit:** add APP_KEY security check to DefenderAuditCommand ([6f389a7](https://github.com/metalinked/laravel-defender/commit/6f389a71cb4f9d6aec5be6d4ed98347f1b1c995d))
+
 ## [1.15.0](https://github.com/metalinked/laravel-defender/compare/v1.14.0...v1.15.0) (2025-06-14)
 
 
