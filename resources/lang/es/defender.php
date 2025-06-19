@@ -53,6 +53,9 @@ return [
     'audit_cookies_http_only_missing' => '⚠️  ¡Las cookies de sesión no son solo HTTP!',
     'audit_cookies_http_only_tip' => '➜ Establece SESSION_HTTP_ONLY=true en tu .env.',
     'audit_laravel_version' => 'ℹ️  Versión de Laravel: :version',
+    'audit_app_key_insecure' => '⚠️  ¡APP_KEY está ausente, es demasiado corta o no es segura!',
+    'audit_app_key_tip' => 'ℹ️  Establece un APP_KEY seguro y aleatorio en tu archivo .env (usa `php artisan key:generate`).',
+    'audit_app_key_secure' => '✔️  APP_KEY está configurado y parece seguro.',
 
     // Database alert messages
     'db_logging_disabled' => 'El registro en base de datos está deshabilitado en config/defender.php.',

@@ -52,7 +52,10 @@ return [
     'audit_cookies_http_only' => '✔️  Session cookies are HTTP only.',
     'audit_cookies_http_only_missing' => '⚠️  Session cookies are not HTTP only!',
     'audit_cookies_http_only_tip' => '➜ Set SESSION_HTTP_ONLY=true in your .env.',
-    'audit_laravel_version' => 'ℹ️  Laravel version: :version',
+    'audit_laravel_version' => 'ℹ️  Laravel version: :version','audit_cors_permissive' => 'CORS configuration is too permissive (wildcards detected).',
+    'audit_app_key_insecure' => '⚠️  APP_KEY is missing, too short, or insecure!',
+    'audit_app_key_tip' => 'ℹ️  Set a secure, random APP_KEY in your .env file (use `php artisan key:generate`).',
+    'audit_app_key_secure' => '✔️  APP_KEY is set and looks secure.',
 
     // Database alert messages
     'db_logging_disabled' => 'Database logging is disabled in config/defender.php.',

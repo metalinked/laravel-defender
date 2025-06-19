@@ -52,7 +52,10 @@ return [
     'audit_cookies_http_only' => '✔️  Les galetes de sessió són només HTTP.',
     'audit_cookies_http_only_missing' => '⚠️  Les galetes de sessió no són només HTTP!',
     'audit_cookies_http_only_tip' => '➜ Estableix SESSION_HTTP_ONLY=true al teu .env.',
-    'audit_laravel_version' => 'ℹ️  Versió de Laravel: :version',
+    'audit_laravel_version' => 'ℹ️  Versió de Laravel: :version','audit_cors_permissive' => 'CORS configuration is too permissive (wildcards detected).',
+    'audit_app_key_insecure' => '⚠️  APP_KEY falta, és massa curt o insegur!',
+    'audit_app_key_tip' => 'ℹ️  Estableix un APP_KEY segur i aleatori al teu arxiu .env (utilitza `php artisan key:generate`).',
+    'audit_app_key_secure' => '✔️  APP_KEY està establert i sembla segur.',
 
     // Database alert messages
     'db_logging_disabled' => 'El registre a la base de dades està desactivat a config/defender.php.',

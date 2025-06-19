@@ -28,6 +28,9 @@ class DefenderAuditCommand extends Command {
         // 5. Vulnerable versions
         $this->checkLaravelVersion();
 
+        // 6. Insecure APP_KEY
+        $this->checkAppKey();
+
         $this->info(__('defender::defender.audit_complete'));
     }
 
@@ -93,5 +96,15 @@ class DefenderAuditCommand extends Command {
 
         // TODO: add a check for known vulnerabilities
         // (but this would require querying an external API or maintaining a list)
+    }
+
+    protected function checkAppKey() {
+        $appKey = config('app.key');
+        if (!$appKey || strlen($appKey) < 32 || $appKey === 'SomeRandomString') {
+            $this->error(__('defender::defender.audit_app_key_insecure'));
+            $this->line('    ' . __('defender::defender.audit_app_key_tip'));
+        } else {
+            $this->info(__('defender::defender.audit_app_key_secure'));
+        }
     }
 }
