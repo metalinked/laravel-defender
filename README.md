@@ -168,7 +168,10 @@ In your `config/defender.php`:
 **Note:**  
 - You can set `mode` to `'allow'` (only allow listed countries) or `'deny'` (block listed countries).
 - IPs in `whitelist_ips` are always allowed, regardless of country or mode.
-- Country detection uses [ip-api.com](https://ip-api.com/) (free tier, no registration required).
+- Country detection supports multiple providers:
+  - [ip-api.com](https://ip-api.com/) (free tier, no registration required, default)
+  - [ipinfo.io](https://ipinfo.io/) (requires API token for production use)
+  - [ipgeolocation.io](https://ipgeolocation.io/) (requires API key)
 
 ---
 
@@ -219,6 +222,9 @@ You can configure Laravel Defender using the following `.env` variables:
 
 | Variable                    | Description                                      | Example                        |
 |-----------------------------|--------------------------------------------------|--------------------------------|
+| DEFENDER_GEO_PROVIDER       | Geolocation provider (ip-api, ipinfo, ipgeolocation) | `DEFENDER_GEO_PROVIDER=ipinfo` |
+| IPINFO_TOKEN                | API token for ipinfo.io geolocation service      | `IPINFO_TOKEN=abcd1234`        |
+| IPGEOLOCATION_KEY           | API key for ipgeolocation.io service             | `IPGEOLOCATION_KEY=abcd1234`   |
 | DEFENDER_ALERT_MAIL_TO      | Email address to receive alert notifications     | `DEFENDER_ALERT_MAIL_TO=admin@example.com` |
 | DEFENDER_SLACK_WEBHOOK      | Slack webhook URL for alert notifications        | `DEFENDER_SLACK_WEBHOOK=https://hooks.slack.com/services/XXX/YYY/ZZZ` |
 | DEFENDER_ALERT_WEBHOOK      | External webhook URL for alert notifications     | `DEFENDER_ALERT_WEBHOOK=https://yourdomain.com/defender-webhook` |
