@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.16.0](https://github.com/metalinked/laravel-defender/compare/v1.15.1...v1.16.0) (2025-08-04)
+
+
+### Features
+
+* **geo:** add multi-provider IP geolocation with caching ([7db18b6](https://github.com/metalinked/laravel-defender/commit/7db18b6e9a5043a496d6df7becdf5f96b8cbfbf4))
+
 ## [1.15.1](https://github.com/metalinked/laravel-defender/compare/v1.15.0...v1.15.1) (2025-06-19)
 
 
