@@ -148,6 +148,10 @@ In your `config/defender.php`:
 ```php
 'advanced_detection' => [
     'enabled' => true,
+    'geo_provider' => 'ip-api', // 'ip-api', 'ipinfo', 'ipgeolocation'
+    'geo_cache_minutes' => 10, // Cache country codes for 10 minutes
+    'ipinfo_token' => env('IPINFO_TOKEN'), // API token for ipinfo.io
+    'ipgeolocation_key' => env('IPGEOLOCATION_KEY'), // API key for ipgeolocation.io
     'suspicious_user_agents' => [
         'curl', 'python', 'sqlmap', 'nmap', 'nikto', 'fuzzer', 'scanner'
     ],
