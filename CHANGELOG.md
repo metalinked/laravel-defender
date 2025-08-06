@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.16.1](https://github.com/metalinked/laravel-defender/compare/v1.16.0...v1.16.1) (2025-08-06)
+
+
+### Bug Fixes
+
+* **docs:** add status badges to README header ([d8d90ed](https://github.com/metalinked/laravel-defender/commit/d8d90ed3bd9269a0d1696530b419cdd3c43000e9))
+
 ## [1.16.0](https://github.com/metalinked/laravel-defender/compare/v1.15.1...v1.16.0) (2025-08-04)
 
 
