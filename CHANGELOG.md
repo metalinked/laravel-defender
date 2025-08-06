@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.16.2](https://github.com/metalinked/laravel-defender/compare/v1.16.1...v1.16.2) (2025-08-06)
+
+
+### Bug Fixes
+
+* **docs:** remove tests badge from README header ([957ca9f](https://github.com/metalinked/laravel-defender/commit/957ca9f50e93709d313fdea6a9fd0f087511d86e))
+
 ## [1.16.1](https://github.com/metalinked/laravel-defender/compare/v1.16.0...v1.16.1) (2025-08-06)
 
 
