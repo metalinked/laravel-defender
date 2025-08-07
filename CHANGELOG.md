@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.17.1](https://github.com/metalinked/laravel-defender/compare/v1.17.0...v1.17.1) (2025-08-07)
+
+
+### Bug Fixes
+
+* improve PHPUnit version management for different Laravel versions ([b2c2c87](https://github.com/metalinked/laravel-defender/commit/b2c2c87ca6e9e7487678c6e7e33d2aa11cd50c47))
+
 ## [1.17.0](https://github.com/metalinked/laravel-defender/compare/v1.16.2...v1.17.0) (2025-08-07)
 
 
