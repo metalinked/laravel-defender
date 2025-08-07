@@ -2,11 +2,11 @@
 
 namespace Metalinked\LaravelDefender\Console\Commands;
 
-use Illuminate\Support\Facades\Schema;
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
-use Carbon\Carbon;
+use Illuminate\Support\Facades\Schema;
 
 class PruneLogsCommand extends Command
 {

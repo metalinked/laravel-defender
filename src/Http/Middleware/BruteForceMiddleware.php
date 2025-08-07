@@ -2,14 +2,16 @@
 
 namespace Metalinked\LaravelDefender\Http\Middleware;
 
+use Carbon\Carbon;
 use Closure;
 use Illuminate\Http\Request;
 use Metalinked\LaravelDefender\Models\IpLog;
-use Carbon\Carbon;
 use Metalinked\LaravelDefender\Services\AlertManager;
 
-class BruteForceMiddleware {
-    public function handle(Request $request, Closure $next) {
+class BruteForceMiddleware
+{
+    public function handle(Request $request, Closure $next)
+    {
         $ip = $request->ip();
         $maxAttempts = config('defender.brute_force.max_attempts', 5);
         $decayMinutes = config('defender.brute_force.decay_minutes', 10);
@@ -30,6 +32,7 @@ class BruteForceMiddleware {
                     'reason' => __('defender::defender.alert_too_many_attempts'),
                 ]
             );
+
             return response(
                 __('defender::defender.alert_too_many_attempts'),
                 429

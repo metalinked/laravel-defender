@@ -3,7 +3,11 @@
 /.idea
 /.vscode
 .phpunit.result.cache
+.phpunit.cache
 .DS_Store
 Thumbs.db
 composer.lock
 *.log
+/coverage
+/build
+.php-cs-fixer.cache

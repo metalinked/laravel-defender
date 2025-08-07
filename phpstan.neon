@@ -1,0 +1,25 @@
+parameters:
+    level: 5
+    paths:
+        - src
+        - tests
+    excludePaths:
+        - tests/TestCase.php
+    reportUnmatchedIgnoredErrors: false
+    ignoreErrors:
+        - '#Call to an undefined static method.*#'
+        - '#Cannot call method.*on mixed#'
+        - '#Method.*should return.*but returns mixed#'
+        - '#Access to an undefined property.*#'
+        - '#Unable to resolve the template type.*#'
+        - '#Method.*has parameter.*with no type specified#'
+        - '#Call to an undefined method.*Builder.*::forRole\(\)#'
+        - '#Call to an undefined method.*Builder.*::forCategory\(\)#'
+        - '#Unreachable statement - code above always terminates#'
+        - '#Call to an undefined method Illuminate\\Contracts\\Auth\\Factory::(check|id)\(\)#'
+        -
+            identifier: missingType.iterableValue
+        -
+            identifier: missingType.generics
+    bootstrapFiles:
+        - vendor/autoload.php

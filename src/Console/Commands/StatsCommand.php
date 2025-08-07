@@ -3,22 +3,26 @@
 namespace Metalinked\LaravelDefender\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Metalinked\LaravelDefender\Models\IpLog;
-use Illuminate\Support\Facades\DB;
 
-class StatsCommand extends Command {
+class StatsCommand extends Command
+{
     protected $signature = 'defender:stats';
     protected $description = 'Show statistics about Defender IP logs and suspicious activity';
 
-    public function handle() {
+    public function handle()
+    {
         $table = (new IpLog)->getTable();
-        if (!config('defender.ip_logging.enabled', true)) {
+        if (! config('defender.ip_logging.enabled', true)) {
             $this->warn(__('defender::defender.db_logging_disabled'));
+
             return;
         }
-        if (!Schema::hasTable($table)) {
+        if (! Schema::hasTable($table)) {
             $this->warn(__('defender::defender.logs_table_missing'));
+
             return;
         }
 
@@ -55,19 +59,19 @@ class StatsCommand extends Command {
         $this->info(__('defender::defender.stats_top_ips'));
         $this->table(
             [__('defender::defender.stats_ip'), __('defender::defender.stats_attempts')],
-            $topIps->map(fn($r) => [$r->ip, $r->total])->toArray()
+            $topIps->map(fn ($r) => [$r->ip, $r->total])->toArray()
         );
 
         $this->info(__('defender::defender.stats_top_countries'));
         $this->table(
             [__('defender::defender.stats_country'), __('defender::defender.stats_attempts')],
-            $topCountries->map(fn($r) => [$r->country_code, $r->total])->toArray()
+            $topCountries->map(fn ($r) => [$r->country_code, $r->total])->toArray()
         );
 
         $this->info(__('defender::defender.stats_top_routes'));
         $this->table(
             [__('defender::defender.stats_route'), __('defender::defender.stats_attempts')],
-            $topRoutes->map(fn($r) => [$r->route, $r->total])->toArray()
+            $topRoutes->map(fn ($r) => [$r->route, $r->total])->toArray()
         );
     }
 }

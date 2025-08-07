@@ -2,12 +2,13 @@
 
 namespace Metalinked\LaravelDefender\Console\Commands;
 
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Console\Command;
-use Metalinked\LaravelDefender\Models\IpLog;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Schema;
+use Metalinked\LaravelDefender\Models\IpLog;
 
-class DefenderExportLogsCommand extends Command {
+class DefenderExportLogsCommand extends Command
+{
     protected $signature = 'defender:export-logs
         {--ip= : Filter by IP}
         {--from= : Start date (Y-m-d)}
@@ -18,14 +19,17 @@ class DefenderExportLogsCommand extends Command {
 
     protected $description = 'Export Defender IP logs to CSV or JSON';
 
-    public function handle() {
+    public function handle()
+    {
         $table = (new \Metalinked\LaravelDefender\Models\IpLog)->getTable();
-        if (!config('defender.ip_logging.enabled', true)) {
+        if (! config('defender.ip_logging.enabled', true)) {
             $this->warn(__('defender::defender.db_logging_disabled'));
+
             return;
         }
-        if (!Schema::hasTable($table)) {
+        if (! Schema::hasTable($table)) {
             $this->warn(__('defender::defender.logs_table_missing'));
+
             return;
         }
         
@@ -66,20 +70,24 @@ class DefenderExportLogsCommand extends Command {
         }
     }
 
-    protected function toCsv($logs) {
-        if ($logs->isEmpty()) return '';
+    protected function toCsv($logs)
+    {
+        if ($logs->isEmpty()) {
+            return '';
+        }
         $headers = array_keys($logs->first()->toArray());
         $rows = [$headers];
         foreach ($logs as $log) {
-            $rows[] = array_map(function($h) use ($log) {
+            $rows[] = array_map(function ($h) use ($log) {
                 return $log[$h];
             }, $headers);
         }
         // Convert to CSV string
         $csv = '';
         foreach ($rows as $row) {
-            $csv .= '"' . implode('","', array_map(fn($v) => str_replace('"', '""', $v), $row)) . '"' . "\n";
+            $csv .= '"' . implode('","', array_map(fn ($v) => str_replace('"', '""', $v), $row)) . '"' . "\n";
         }
+
         return $csv;
     }
 }

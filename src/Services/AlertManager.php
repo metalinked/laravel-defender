@@ -5,10 +5,11 @@ namespace Metalinked\LaravelDefender\Services;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Schema;
-use Metalinked\LaravelDefender\Models\IpLog;
 use Metalinked\LaravelDefender\Detection\GeoService;
+use Metalinked\LaravelDefender\Models\IpLog;
 
-class AlertManager {
+class AlertManager
+{
     /**
      * Send a security alert.
      *
@@ -17,8 +18,8 @@ class AlertManager {
      * @param array $context
      * @return void
      */
-    public static function send(string $subject, string $message, array $context = []) {
-        
+    public static function send(string $subject, string $message, array $context = [])
+    {
         $channels = config('defender.alerts.channels', []);
 
         // Log channel
@@ -61,7 +62,7 @@ class AlertManager {
             if ($slackUrl) {
                 try {
                     \Illuminate\Support\Facades\Http::post($slackUrl, [
-                        'text' => "[Defender] $subject\n$message"
+                        'text' => "[Defender] $subject\n$message",
                     ]);
                 } catch (\Exception $e) {
                     Log::error('Defender Slack alert failed: ' . $e->getMessage());

@@ -4,11 +4,13 @@ namespace Metalinked\LaravelDefender;
 
 use Illuminate\Support\ServiceProvider;
 
-class DefenderServiceProvider extends ServiceProvider {
+class DefenderServiceProvider extends ServiceProvider
+{
     /**
      * Bootstrap any package services.
      */
-    public function boot() {
+    public function boot()
+    {
         // 1. Publish configuration, views, and migrations
         $this->publishes([
             __DIR__.'/../config/defender.php' => config_path('defender.php'),
@@ -34,6 +36,10 @@ class DefenderServiceProvider extends ServiceProvider {
         // 4. Register middlewares
         $this->app['router']->aliasMiddleware('defender.honeypot', \Metalinked\LaravelDefender\Http\Middleware\HoneypotMiddleware::class);
         $this->app['router']->aliasMiddleware('defender.iplogger', \Metalinked\LaravelDefender\Http\Middleware\IpLoggerMiddleware::class);
+        $this->app['router']->aliasMiddleware('ip.logger', \Metalinked\LaravelDefender\Http\Middleware\IpLoggerMiddleware::class);
+        $this->app['router']->aliasMiddleware('advanced.detection', \Metalinked\LaravelDefender\Http\Middleware\AdvancedDetectionMiddleware::class);
+        $this->app['router']->aliasMiddleware('brute.force', \Metalinked\LaravelDefender\Http\Middleware\BruteForceMiddleware::class);
+        $this->app['router']->aliasMiddleware('country.access', \Metalinked\LaravelDefender\Http\Middleware\CountryAccessMiddleware::class);
 
         // 5. Register global honeypot middleware if enabled in config
         if (config('defender.honeypot.auto_protect_forms') && config('defender.honeypot.enabled')) {
@@ -44,7 +50,8 @@ class DefenderServiceProvider extends ServiceProvider {
     /**
      * Register any application services.
      */
-    public function register() {
+    public function register()
+    {
         // Merge package configuration
         $this->mergeConfigFrom(__DIR__.'/../config/defender.php', 'defender');
 

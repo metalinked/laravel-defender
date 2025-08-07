@@ -2,22 +2,26 @@
 
 namespace Metalinked\LaravelDefender\Console\Commands;
 
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Schema;
 use Metalinked\LaravelDefender\Models\IpLog;
 
-class ShowIpLogsCommand extends Command {
+class ShowIpLogsCommand extends Command
+{
     protected $signature = 'defender:ip-logs {--suspicious : Only show suspicious logs} {--ip= : Filter by IP} {--limit=50 : Number of logs to show}';
     protected $description = 'Show recent IP logs and alerts from Laravel Defender';
 
-    public function handle() {
+    public function handle()
+    {
         $table = (new \Metalinked\LaravelDefender\Models\IpLog)->getTable();
-        if (!config('defender.ip_logging.enabled', true)) {
+        if (! config('defender.ip_logging.enabled', true)) {
             $this->warn(__('defender::defender.db_logging_disabled'));
+
             return;
         }
-        if (!Schema::hasTable($table)) {
+        if (! Schema::hasTable($table)) {
             $this->warn(__('defender::defender.logs_table_missing'));
+
             return;
         }
         
@@ -32,11 +36,12 @@ class ShowIpLogsCommand extends Command {
 
         $logs = $query->limit((int)$this->option('limit'))->get([
             'created_at', 'ip', 'route', 'method', 'user_id', 'is_suspicious', 'reason',
-            'user_agent', 'referer', 'country_code', 'headers_hash'
+            'user_agent', 'referer', 'country_code', 'headers_hash',
         ]);
 
         if ($logs->isEmpty()) {
             $this->info(__('defender::defender.logs_no_results'));
+
             return;
         }
 
@@ -50,7 +55,7 @@ class ShowIpLogsCommand extends Command {
                 __('defender::defender.logs_user', [], 'en') ?? 'User',
                 __('defender::defender.logs_suspicious', [], 'en') ?? 'Suspicious',
                 __('defender::defender.logs_reason', [], 'en') ?? 'Reason',
-                'User-Agent', 'Referer', 'Country', 'Headers Hash'
+                'User-Agent', 'Referer', 'Country', 'Headers Hash',
             ],
             $logs->map(function ($log) {
                 return [

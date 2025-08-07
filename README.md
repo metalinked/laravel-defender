@@ -1,5 +1,7 @@
 # Laravel Defender
 
+[![Tests](https://img.shields.io/github/actions/workflow/status/metalinked/laravel-defender/tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/metalinked/laravel-defender/actions/workflows/tests.yml)
+[![PHPStan](https://img.shields.io/github/actions/workflow/status/metalinked/laravel-defender/phpstan.yml?branch=main&label=phpstan&style=flat-square)](https://github.com/metalinked/laravel-defender/actions/workflows/phpstan.yml)
 [![GitHub Release](https://img.shields.io/github/v/release/metalinked/laravel-defender?style=flat-square)](https://github.com/metalinked/laravel-defender/releases)
 [![Latest Stable Version](https://img.shields.io/packagist/v/metalinked/laravel-defender?style=flat-square)](https://packagist.org/packages/metalinked/laravel-defender)
 [![Total Downloads](https://img.shields.io/packagist/dt/metalinked/laravel-defender?style=flat-square)](https://packagist.org/packages/metalinked/laravel-defender)

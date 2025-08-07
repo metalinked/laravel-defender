@@ -4,8 +4,8 @@ namespace Metalinked\LaravelDefender\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class IpLog extends Model {
-
+class IpLog extends Model
+{
     protected $table = 'defender_ip_logs';
     
     protected $fillable = [

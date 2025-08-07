@@ -2,15 +2,15 @@
 namespace Metalinked\LaravelDefender\Console\Commands;
 
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
 
-class DefenderAuditCommand extends Command {
+class DefenderAuditCommand extends Command
+{
     protected $signature = 'defender:audit';
     protected $description = 'Run a local security audit of your Laravel project';
 
-    public function handle() {
+    public function handle()
+    {
         $this->info(__('defender::defender.audit_running'));
 
         // 1. Exposed .env
@@ -34,14 +34,16 @@ class DefenderAuditCommand extends Command {
         $this->info(__('defender::defender.audit_complete'));
     }
 
-    protected function checkEnvExposed() {
+    protected function checkEnvExposed()
+    {
         $url = config('app.url') ?? 'http://localhost';
         $envUrl = rtrim($url, '/') . '/.env';
         $response = null;
 
         try {
             $response = Http::timeout(3)->get($envUrl);
-        } catch (\Exception $e) {}
+        } catch (\Exception $e) {
+        }
 
         if ($response && $response->ok() && str_contains($response->body(), 'APP_KEY=')) {
             $this->error(__('defender::defender.audit_env_exposed', ['url' => $envUrl]));
@@ -51,7 +53,8 @@ class DefenderAuditCommand extends Command {
         }
     }
 
-    protected function checkAppDebug() {
+    protected function checkAppDebug()
+    {
         if (config('app.debug')) {
             $this->error(__('defender::defender.audit_debug_enabled'));
             $this->line('    ' . __('defender::defender.audit_debug_tip'));
@@ -60,7 +63,8 @@ class DefenderAuditCommand extends Command {
         }
     }
 
-    protected function checkCors() {
+    protected function checkCors()
+    {
         $cors = config('cors.allowed_origins') ?? [];
         if (in_array('*', $cors)) {
             $this->error(__('defender::defender.audit_cors_permissive'));
@@ -70,18 +74,19 @@ class DefenderAuditCommand extends Command {
         }
     }
 
-    protected function checkCookies() {
+    protected function checkCookies()
+    {
         $secure = config('session.secure');
         $httpOnly = config('session.http_only', true);
 
-        if (!$secure) {
+        if (! $secure) {
             $this->error(__('defender::defender.audit_cookies_insecure'));
             $this->line('    ' . __('defender::defender.audit_cookies_secure_tip'));
         } else {
             $this->info(__('defender::defender.audit_cookies_secure'));
         }
 
-        if (!$httpOnly) {
+        if (! $httpOnly) {
             $this->error(__('defender::defender.audit_cookies_http_only_missing'));
             $this->line('    ' . __('defender::defender.audit_cookies_http_only_tip'));
         } else {
@@ -89,7 +94,8 @@ class DefenderAuditCommand extends Command {
         }
     }
 
-    protected function checkLaravelVersion() {
+    protected function checkLaravelVersion()
+    {
         $laravel = app();
         $version = $laravel::VERSION;
         $this->info(__('defender::defender.audit_laravel_version', ['version' => $version]));
@@ -98,9 +104,10 @@ class DefenderAuditCommand extends Command {
         // (but this would require querying an external API or maintaining a list)
     }
 
-    protected function checkAppKey() {
+    protected function checkAppKey()
+    {
         $appKey = config('app.key');
-        if (!$appKey || strlen($appKey) < 32 || $appKey === 'SomeRandomString') {
+        if (! $appKey || strlen($appKey) < 32 || $appKey === 'SomeRandomString') {
             $this->error(__('defender::defender.audit_app_key_insecure'));
             $this->line('    ' . __('defender::defender.audit_app_key_tip'));
         } else {

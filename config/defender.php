@@ -29,13 +29,13 @@ return [
         'ipinfo_token' => env('IPINFO_TOKEN'), // API token for ipinfo.io
         'ipgeolocation_key' => env('IPGEOLOCATION_KEY'), // API key for ipgeolocation.io
         'suspicious_user_agents' => [
-            'curl', 'python', 'sqlmap', 'nmap', 'nikto', 'fuzzer', 'scanner', 'masscan', 'libwww-perl', 'wget', 'httpclient'
+            'curl', 'python', 'sqlmap', 'nmap', 'nikto', 'fuzzer', 'scanner', 'masscan', 'libwww-perl', 'wget', 'httpclient',
         ],
         'suspicious_routes' => [
-            '/wp-admin', '/wp-login', '/phpmyadmin', '/admin.php', '/xmlrpc.php'
+            '/wp-admin', '/wp-login', '/phpmyadmin', '/admin.php', '/xmlrpc.php',
         ],
         'common_usernames' => [
-            'admin', 'administrator', 'root', 'test', 'user'
+            'admin', 'administrator', 'root', 'test', 'user',
         ],
         'country_access' => [
             'mode' => 'allow', // 'allow' (only allow these countries) or 'deny' (block these countries)
