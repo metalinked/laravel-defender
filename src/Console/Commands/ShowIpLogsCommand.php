@@ -6,13 +6,11 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Schema;
 use Metalinked\LaravelDefender\Models\IpLog;
 
-class ShowIpLogsCommand extends Command
-{
+class ShowIpLogsCommand extends Command {
     protected $signature = 'defender:ip-logs {--suspicious : Only show suspicious logs} {--ip= : Filter by IP} {--limit=50 : Number of logs to show}';
     protected $description = 'Show recent IP logs and alerts from Laravel Defender';
 
-    public function handle()
-    {
+    public function handle() {
         $table = (new \Metalinked\LaravelDefender\Models\IpLog)->getTable();
         if (! config('defender.ip_logging.enabled', true)) {
             $this->warn(__('defender::defender.db_logging_disabled'));

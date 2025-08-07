@@ -6,8 +6,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
-class GeoService
-{
+class GeoService {
     /**
      * Get country code from IP address using the configured geolocation provider.
      *
@@ -15,8 +14,7 @@ class GeoService
      * @param string|null $provider Optional provider override (ip-api, ipinfo, ipgeolocation)
      * @return string|null Country code or null if not available
      */
-    public static function getCountryCode(string $ip, ?string $provider = null): ?string
-    {
+    public static function getCountryCode(string $ip, ?string $provider = null): ?string {
         // Use default provider from config if not specified
         $provider ??= config('defender.advanced_detection.geo_provider', 'ip-api');
         
@@ -52,8 +50,7 @@ class GeoService
     /**
      * Get country code using ip-api.com (free tier)
      */
-    protected static function getCountryCodeFromIpApi(string $ip): ?string
-    {
+    protected static function getCountryCodeFromIpApi(string $ip): ?string {
         try {
             $geo = Http::timeout(3)->get("http://ip-api.com/json/{$ip}?fields=countryCode")->json();
 
@@ -68,8 +65,7 @@ class GeoService
     /**
      * Get country code using ipinfo.io (requires API key for production use)
      */
-    protected static function getCountryCodeFromIpInfo(string $ip): ?string
-    {
+    protected static function getCountryCodeFromIpInfo(string $ip): ?string {
         $token = config('defender.advanced_detection.ipinfo_token');
         
         try {
@@ -89,8 +85,7 @@ class GeoService
     /**
      * Get country code using ipgeolocation.io (requires API key)
      */
-    protected static function getCountryCodeFromIpGeolocation(string $ip): ?string
-    {
+    protected static function getCountryCodeFromIpGeolocation(string $ip): ?string {
         $apiKey = config('defender.advanced_detection.ipgeolocation_key');
         
         if (! $apiKey) {
@@ -113,8 +108,7 @@ class GeoService
      * Try all available providers in sequence until a valid country code is found
      * Useful as a fallback mechanism
      */
-    public static function getCountryCodeWithFallback(string $ip): ?string
-    {
+    public static function getCountryCodeWithFallback(string $ip): ?string {
         // Try all providers in sequence
         foreach (['ip-api', 'ipinfo', 'ipgeolocation'] as $provider) {
             $countryCode = self::getCountryCode($ip, $provider);

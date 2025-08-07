@@ -6,10 +6,8 @@ use Closure;
 use Illuminate\Http\Request;
 use Metalinked\LaravelDefender\Services\AlertManager;
 
-class IpLoggerMiddleware
-{
-    public function handle(Request $request, Closure $next)
-    {
+class IpLoggerMiddleware {
+    public function handle(Request $request, Closure $next) {
         if (config('defender.ip_logging.log_all', false)) {
             AlertManager::send(
                 'Access logged',

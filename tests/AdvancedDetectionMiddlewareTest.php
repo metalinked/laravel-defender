@@ -6,19 +6,16 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Route;
 use Orchestra\Testbench\TestCase;
 
-class AdvancedDetectionMiddlewareTest extends TestCase
-{
+class AdvancedDetectionMiddlewareTest extends TestCase {
     use RefreshDatabase;
 
-    protected function getPackageProviders($app)
-    {
+    protected function getPackageProviders($app) {
         return [
             \Metalinked\LaravelDefender\DefenderServiceProvider::class,
         ];
     }
 
-    protected function getEnvironmentSetUp($app)
-    {
+    protected function getEnvironmentSetUp($app) {
         $app['config']->set('database.default', 'testing');
         $app['config']->set('defender.advanced_detection.enabled', true);
         $app['config']->set('defender.advanced_detection.suspicious_user_agents', ['sqlmap', 'curl', 'python']);
@@ -27,8 +24,7 @@ class AdvancedDetectionMiddlewareTest extends TestCase
         $app['config']->set('defender.alerts.channels', ['database']);
     }
 
-    protected function setUp(): void
-    {
+    protected function setUp(): void {
         parent::setUp();
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
         $this->artisan('migrate', ['--database' => 'testing'])->run();
@@ -51,21 +47,18 @@ class AdvancedDetectionMiddlewareTest extends TestCase
         })->where('path', '.*');
     }
 
-    public function test_marks_log_as_suspicious_for_bad_user_agent()
-    {
+    public function test_marks_log_as_suspicious_for_bad_user_agent() {
         $this->post('/test-advanced', [], ['User-Agent' => 'sqlmap']);
         $this->assertDatabaseHas('defender_ip_logs', ['is_suspicious' => true]);
     }
 
-    public function test_marks_log_as_suspicious_for_suspicious_route()
-    {
+    public function test_marks_log_as_suspicious_for_suspicious_route() {
         $response = $this->post('/admin/login');
         $this->assertEquals(429, $response->getStatusCode()); // Should return 429 (blocked)
         $this->assertDatabaseHas('defender_ip_logs', ['is_suspicious' => true]);
     }
 
-    public function test_marks_log_as_suspicious_for_common_username()
-    {
+    public function test_marks_log_as_suspicious_for_common_username() {
         $this->post('/login', ['username' => 'admin']);
         $this->assertDatabaseHas('defender_ip_logs', ['is_suspicious' => true]);
     }

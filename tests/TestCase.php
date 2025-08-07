@@ -6,12 +6,10 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Metalinked\LaravelDefender\DefenderServiceProvider;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 
-abstract class TestCase extends BaseTestCase
-{
+abstract class TestCase extends BaseTestCase {
     use RefreshDatabase;
 
-    protected function setUp(): void
-    {
+    protected function setUp(): void {
         parent::setUp();
 
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
@@ -20,15 +18,13 @@ abstract class TestCase extends BaseTestCase
         $this->artisan('migrate')->run();
     }
 
-    protected function getPackageProviders($app): array
-    {
+    protected function getPackageProviders($app): array {
         return [
             DefenderServiceProvider::class,
         ];
     }
 
-    protected function defineEnvironment($app): void
-    {
+    protected function defineEnvironment($app): void {
         $app['config']->set('database.default', 'testbench');
         $app['config']->set('database.connections.testbench', [
             'driver' => 'sqlite',

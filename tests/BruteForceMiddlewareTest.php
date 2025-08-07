@@ -6,27 +6,23 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Route;
 use Orchestra\Testbench\TestCase;
 
-class BruteForceMiddlewareTest extends TestCase
-{
+class BruteForceMiddlewareTest extends TestCase {
     use RefreshDatabase;
 
-    protected function getPackageProviders($app)
-    {
+    protected function getPackageProviders($app) {
         return [
             \Metalinked\LaravelDefender\DefenderServiceProvider::class,
         ];
     }
 
-    protected function getEnvironmentSetUp($app)
-    {
+    protected function getEnvironmentSetUp($app) {
         $app['config']->set('database.default', 'testing');
         $app['config']->set('defender.brute_force.max_attempts', 2);
         $app['config']->set('defender.brute_force.decay_minutes', 10);
         $app['config']->set('defender.alerts.channels', ['database']);
     }
 
-    protected function setUp(): void
-    {
+    protected function setUp(): void {
         parent::setUp();
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
         $this->artisan('migrate', ['--database' => 'testing'])->run();
@@ -36,8 +32,7 @@ class BruteForceMiddlewareTest extends TestCase
         });
     }
 
-    public function test_marks_ip_as_suspicious_after_multiple_attempts()
-    {
+    public function test_marks_ip_as_suspicious_after_multiple_attempts() {
         // Create some existing logs manually to simulate previous attempts
         \Metalinked\LaravelDefender\Models\IpLog::create([
             'ip' => '127.0.0.1',
@@ -59,8 +54,7 @@ class BruteForceMiddlewareTest extends TestCase
         $this->assertDatabaseHas('defender_ip_logs', ['is_suspicious' => true]);
     }
 
-    public function test_logs_reason_for_suspicious_activity()
-    {
+    public function test_logs_reason_for_suspicious_activity() {
         // Create existing logs
         \Metalinked\LaravelDefender\Models\IpLog::create([
             'ip' => '127.0.0.1',

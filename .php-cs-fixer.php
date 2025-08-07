@@ -12,7 +12,8 @@ $config = new PhpCsFixer\Config();
 return $config
     ->setRiskyAllowed(true)
     ->setRules([
-        '@PSR2' => true,
+        '@PSR12' => false, // Disable PSR12 to override braces
+        '@PSR2' => false,  // Disable PSR2 to override braces
         '@PHP81Migration' => true,
         'array_syntax' => ['syntax' => 'short'],
         'ordered_imports' => ['sort_algorithm' => 'alpha'],
@@ -37,12 +38,13 @@ return $config
             'keep_multiple_spaces_after_comma' => true,
         ],
         'single_trait_insert_per_statement' => true,
-        // Override brace placement to keep opening braces on same line
-        'braces' => [
-            'allow_single_line_closure' => true,
-            'position_after_anonymous_constructs' => 'same',
-            'position_after_control_structures' => 'same',
-            'position_after_functions_and_oop_constructs' => 'same',
+        // Force same-line braces
+        'braces_position' => [
+            'functions_opening_brace' => 'same_line',
+            'classes_opening_brace' => 'same_line',
+            'anonymous_classes_opening_brace' => 'same_line',
+            'control_structures_opening_brace' => 'same_line',
+            'anonymous_functions_opening_brace' => 'same_line',
         ],
     ])
     ->setFinder($finder);

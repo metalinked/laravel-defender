@@ -7,16 +7,13 @@ use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Route;
 use Metalinked\LaravelDefender\Http\Middleware\HoneypotMiddleware;
 
-class HoneypotMiddlewareTest extends TestCase
-{
-    protected function setUp(): void
-    {
+class HoneypotMiddlewareTest extends TestCase {
+    protected function setUp(): void {
         parent::setUp();
         config(['app.key' => 'base64:'.base64_encode(random_bytes(32))]);
     }
 
-    public function test_blocks_request_with_filled_honeypot_field()
-    {
+    public function test_blocks_request_with_filled_honeypot_field() {
         $middleware = new HoneypotMiddleware();
 
         // Create request with filled honeypot field (bot)
@@ -31,8 +28,7 @@ class HoneypotMiddlewareTest extends TestCase
         $middleware->handle($request, fn () => null);
     }
 
-    public function test_blocks_request_submitted_too_quickly()
-    {
+    public function test_blocks_request_submitted_too_quickly() {
         // Define route with middleware to make a real HTTP request
         Route::post('/test', function () {
             return 'ok';

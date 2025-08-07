@@ -4,10 +4,8 @@ namespace Metalinked\LaravelDefender\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 
-class HoneypotMiddleware
-{
-    public function handle(Request $request, Closure $next)
-    {
+class HoneypotMiddleware {
+    public function handle(Request $request, Closure $next) {
         $prefix = config('defender.honeypot.field_prefix', 'my_full_name_');
         $honeypotField = collect($request->all())
             ->filter(fn ($value, $key) => str_starts_with($key, $prefix))

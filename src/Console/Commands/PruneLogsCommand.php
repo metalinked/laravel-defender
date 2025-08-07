@@ -8,16 +8,14 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Schema;
 
-class PruneLogsCommand extends Command
-{
+class PruneLogsCommand extends Command {
     protected $signature = 'defender:prune-logs 
                             {--days=90 : Delete logs older than this number of days}
                             {--laravel : Also prune Laravel log files}';
 
     protected $description = 'Prune old Defender logs from the database and optionally Laravel log files';
 
-    public function handle()
-    {
+    public function handle() {
         $days = (int) $this->option('days');
         $cutoff = Carbon::now()->subDays($days);
 

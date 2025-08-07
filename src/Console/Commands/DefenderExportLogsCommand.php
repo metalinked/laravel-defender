@@ -7,8 +7,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Schema;
 use Metalinked\LaravelDefender\Models\IpLog;
 
-class DefenderExportLogsCommand extends Command
-{
+class DefenderExportLogsCommand extends Command {
     protected $signature = 'defender:export-logs
         {--ip= : Filter by IP}
         {--from= : Start date (Y-m-d)}
@@ -19,8 +18,7 @@ class DefenderExportLogsCommand extends Command
 
     protected $description = 'Export Defender IP logs to CSV or JSON';
 
-    public function handle()
-    {
+    public function handle() {
         $table = (new \Metalinked\LaravelDefender\Models\IpLog)->getTable();
         if (! config('defender.ip_logging.enabled', true)) {
             $this->warn(__('defender::defender.db_logging_disabled'));
@@ -70,8 +68,7 @@ class DefenderExportLogsCommand extends Command
         }
     }
 
-    protected function toCsv($logs)
-    {
+    protected function toCsv($logs) {
         if ($logs->isEmpty()) {
             return '';
         }

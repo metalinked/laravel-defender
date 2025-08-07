@@ -6,8 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Metalinked\LaravelDefender\Services\AlertManager;
 
-class AdvancedDetectionMiddleware
-{
+class AdvancedDetectionMiddleware {
     /**
      * Suspicious patterns for path traversal and fuzzing detection.
      */
@@ -24,8 +23,7 @@ class AdvancedDetectionMiddleware
         'root:x:0:0:', '<!--', 'onerror=', 'onload=', 'alert(', 'document.cookie', 'window.location', 'base64,', 'eval(', 'system(', 'cmd=', 'shell', 'passwd', 'shadow', 'proc/self/environ',
     ];
 
-    public function handle(Request $request, Closure $next)
-    {
+    public function handle(Request $request, Closure $next) {
         $advConfig = config('defender.advanced_detection', []);
         $ip = $request->ip();
         $isSuspicious = false;

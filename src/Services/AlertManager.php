@@ -8,8 +8,7 @@ use Illuminate\Support\Facades\Schema;
 use Metalinked\LaravelDefender\Detection\GeoService;
 use Metalinked\LaravelDefender\Models\IpLog;
 
-class AlertManager
-{
+class AlertManager {
     /**
      * Send a security alert.
      *
@@ -18,8 +17,7 @@ class AlertManager
      * @param array $context
      * @return void
      */
-    public static function send(string $subject, string $message, array $context = [])
-    {
+    public static function send(string $subject, string $message, array $context = []) {
         $channels = config('defender.alerts.channels', []);
 
         // Log channel

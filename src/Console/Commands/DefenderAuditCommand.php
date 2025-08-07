@@ -4,13 +4,11 @@ namespace Metalinked\LaravelDefender\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
 
-class DefenderAuditCommand extends Command
-{
+class DefenderAuditCommand extends Command {
     protected $signature = 'defender:audit';
     protected $description = 'Run a local security audit of your Laravel project';
 
-    public function handle()
-    {
+    public function handle() {
         $this->info(__('defender::defender.audit_running'));
 
         // 1. Exposed .env
@@ -34,8 +32,7 @@ class DefenderAuditCommand extends Command
         $this->info(__('defender::defender.audit_complete'));
     }
 
-    protected function checkEnvExposed()
-    {
+    protected function checkEnvExposed() {
         $url = config('app.url') ?? 'http://localhost';
         $envUrl = rtrim($url, '/') . '/.env';
         $response = null;
@@ -53,8 +50,7 @@ class DefenderAuditCommand extends Command
         }
     }
 
-    protected function checkAppDebug()
-    {
+    protected function checkAppDebug() {
         if (config('app.debug')) {
             $this->error(__('defender::defender.audit_debug_enabled'));
             $this->line('    ' . __('defender::defender.audit_debug_tip'));
@@ -63,8 +59,7 @@ class DefenderAuditCommand extends Command
         }
     }
 
-    protected function checkCors()
-    {
+    protected function checkCors() {
         $cors = config('cors.allowed_origins') ?? [];
         if (in_array('*', $cors)) {
             $this->error(__('defender::defender.audit_cors_permissive'));
@@ -74,8 +69,7 @@ class DefenderAuditCommand extends Command
         }
     }
 
-    protected function checkCookies()
-    {
+    protected function checkCookies() {
         $secure = config('session.secure');
         $httpOnly = config('session.http_only', true);
 
@@ -94,8 +88,7 @@ class DefenderAuditCommand extends Command
         }
     }
 
-    protected function checkLaravelVersion()
-    {
+    protected function checkLaravelVersion() {
         $laravel = app();
         $version = $laravel::VERSION;
         $this->info(__('defender::defender.audit_laravel_version', ['version' => $version]));
@@ -104,8 +97,7 @@ class DefenderAuditCommand extends Command
         // (but this would require querying an external API or maintaining a list)
     }
 
-    protected function checkAppKey()
-    {
+    protected function checkAppKey() {
         $appKey = config('app.key');
         if (! $appKey || strlen($appKey) < 32 || $appKey === 'SomeRandomString') {
             $this->error(__('defender::defender.audit_app_key_insecure'));
