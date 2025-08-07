@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Route;
 use Metalinked\LaravelDefender\Http\Middleware\HoneypotMiddleware;
-use Metalinked\LaravelDefender\Tests\TestCase;
 
 class HoneypotMiddlewareTest extends TestCase
 {
