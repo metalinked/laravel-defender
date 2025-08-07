@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.17.0](https://github.com/metalinked/laravel-defender/compare/v1.16.2...v1.17.0) (2025-08-07)
+
+
+### Features
+
+* **ci:** add professional CI/CD pipeline with GitHub Actions ([1f9d033](https://github.com/metalinked/laravel-defender/commit/1f9d033f9e0a2c45afafa1201cfa7cabbecca7c5))
+
+
+### Bug Fixes
+
+* resolve PHPUnit version conflicts and PHP compatibility issues ([11eda28](https://github.com/metalinked/laravel-defender/commit/11eda28144f261cf2bc9441184a265978745afd6))
+
 ## [1.16.2](https://github.com/metalinked/laravel-defender/compare/v1.16.1...v1.16.2) (2025-08-06)
 
 
