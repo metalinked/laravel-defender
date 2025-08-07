@@ -411,7 +411,7 @@ Or if using Pest:
 
 ## 🛡️ Security
 
-If you discover a security vulnerability, please report it via email to [security@metalinked.net](mailto:security@metalinked.net). All reports will be handled responsibly and in confidence.
+If you discover a security vulnerability, please report it via email to [security@metalinked.net](mailto:info@metalinked.net). All reports will be handled responsibly and in confidence.
 
 ---
 
