@@ -1,36 +1,16 @@
 <?php
 
-namespace Metalinked\LaravelDefender\Tests\Unit;
+namespace Metalinked\LaravelDefender\Tests;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Route;
 use Metalinked\LaravelDefender\Models\IpLog;
-use Orchestra\Testbench\TestCase;
+use Metalinked\LaravelDefender\Tests\TestCase;
 
 class IpLoggerMiddlewareTest extends TestCase
 {
-    use RefreshDatabase;
-
-    protected function getPackageProviders($app)
-    {
-        return [
-            \Metalinked\LaravelDefender\DefenderServiceProvider::class,
-        ];
-    }
-
-    protected function getEnvironmentSetUp($app)
-    {
-        $app['config']->set('database.default', 'testing');
-        $app['config']->set('defender.ip_logging.enabled', true);
-        $app['config']->set('defender.ip_logging.log_all', true);
-        $app['config']->set('defender.alerts.channels', ['database']);
-    }
-
     protected function setUp(): void
     {
         parent::setUp();
-        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
-        $this->artisan('migrate', ['--database' => 'testing'])->run();
 
         Route::middleware('ip.logger')->post('/test-ip', function () {
             return response('OK');
