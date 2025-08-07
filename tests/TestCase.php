@@ -15,6 +15,9 @@ abstract class TestCase extends BaseTestCase
         parent::setUp();
 
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
+        
+        // Ensure migrations are run
+        $this->artisan('migrate')->run();
     }
 
     protected function getPackageProviders($app): array
