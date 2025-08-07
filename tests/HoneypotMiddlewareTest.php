@@ -14,8 +14,6 @@ class HoneypotMiddlewareTest extends TestCase
     {
         parent::setUp();
         config(['app.key' => 'base64:'.base64_encode(random_bytes(32))]);
-        config(['defender.honeypot.field_prefix' => 'my_full_name_']);
-        config(['defender.honeypot.minimum_time' => 2]);
     }
 
     public function test_blocks_request_with_filled_honeypot_field()
