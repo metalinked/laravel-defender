@@ -4,7 +4,6 @@ namespace Metalinked\LaravelDefender\Tests;
 
 use Illuminate\Support\Facades\Route;
 use Metalinked\LaravelDefender\Models\IpLog;
-use Metalinked\LaravelDefender\Tests\TestCase;
 
 class IpLoggerMiddlewareTest extends TestCase
 {
