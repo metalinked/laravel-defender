@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.17.2](https://github.com/metalinked/laravel-defender/compare/v1.17.1...v1.17.2) (2025-08-07)
+
+
+### Bug Fixes
+
+* ensure database migrations run in CI environment ([8e204f0](https://github.com/metalinked/laravel-defender/commit/8e204f035d85772a95dc0d9c860eac1101da939a))
+* remove unsupported --verbose flag from PHPUnit 10 ([5939b3d](https://github.com/metalinked/laravel-defender/commit/5939b3de7b34f2d5f90e3c8058986685b6e87724))
+
 ## [1.17.1](https://github.com/metalinked/laravel-defender/compare/v1.17.0...v1.17.1) (2025-08-07)
 
 
