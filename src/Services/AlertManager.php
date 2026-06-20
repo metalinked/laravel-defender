@@ -6,37 +6,26 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Schema;
 use Metalinked\LaravelDefender\Detection\GeoService;
+use Metalinked\LaravelDefender\Events\SuspiciousRequestDetected;
 use Metalinked\LaravelDefender\Models\IpLog;
 
 class AlertManager {
-    /**
-     * Send a security alert.
-     *
-     * @param string $subject
-     * @param string $message
-     * @param array $context
-     * @return void
-     */
-    public static function send(string $subject, string $message, array $context = []) {
+    public static function send(string $subject, string $message, array $context = []): void {
         $channels = config('defender.alerts.channels', []);
 
-        // Log channel
         if (in_array('log', $channels)) {
             Log::warning("[Defender] $subject: $message", $context);
         }
 
-        // Mail channel
         $to = config('defender.alerts.mail.to');
         if (in_array('mail', $channels) && $to) {
             Mail::raw($message, function ($mail) use ($to, $subject) {
-                $mail->to($to)
-                     ->subject($subject);
+                $mail->to($to)->subject($subject);
             });
         }
 
-        // Database channel
         if (in_array('database', $channels) && isset($context['request'])) {
-            $table = (new \Metalinked\LaravelDefender\Models\IpLog)->getTable();
+            $table = (new IpLog)->getTable();
             if (Schema::hasTable($table)) {
                 $request = $context['request'];
                 IpLog::create([
@@ -54,7 +43,6 @@ class AlertManager {
             }
         }
 
-        // Slack channel
         if (in_array('slack', $channels)) {
             $slackUrl = config('defender.alerts.slack.webhook_url');
             if ($slackUrl) {
@@ -68,7 +56,6 @@ class AlertManager {
             }
         }
 
-        // Webhook channel
         if (in_array('webhook', $channels)) {
             $webhookUrl = config('defender.alerts.webhook.url');
             if ($webhookUrl) {
@@ -84,6 +71,12 @@ class AlertManager {
             }
         }
 
-        // Here we could add more channels (Telegram, etc.) in the future
+        if (($context['is_suspicious'] ?? false) && isset($context['request'])) {
+            event(new SuspiciousRequestDetected(
+                $context['request'],
+                $context['request']->ip(),
+                $context['reason'] ?? $message,
+            ));
+        }
     }
 }

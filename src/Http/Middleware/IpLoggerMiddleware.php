@@ -4,20 +4,17 @@ namespace Metalinked\LaravelDefender\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Metalinked\LaravelDefender\Services\AlertManager;
+use Illuminate\Support\Facades\Log;
 
 class IpLoggerMiddleware {
     public function handle(Request $request, Closure $next) {
         if (config('defender.ip_logging.log_all', false)) {
-            AlertManager::send(
-                'Access logged',
-                'Access to route: ' . $request->path(),
-                [
-                    'request' => $request,
-                    'reason' => null,
-                    'is_suspicious' => false,
-                ]
-            );
+            Log::info('[Defender] Request logged', [
+                'ip' => $request->ip(),
+                'method' => $request->method(),
+                'route' => $request->path(),
+                'user_agent' => $request->userAgent(),
+            ]);
         }
 
         return $next($request);

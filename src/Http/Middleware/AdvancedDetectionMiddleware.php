@@ -4,12 +4,10 @@ namespace Metalinked\LaravelDefender\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Metalinked\LaravelDefender\Events\IpBlocked;
 use Metalinked\LaravelDefender\Services\AlertManager;
 
 class AdvancedDetectionMiddleware {
-    /**
-     * Suspicious patterns for path traversal and fuzzing detection.
-     */
     protected array $suspiciousPatterns = [
         // Path traversal (classic and encoded)
         '../', '..\\', '../../', '..%2f', '..%5c', '%2e%2e%2f', '%2e%2e\\', '%252e%252e%252f', '%c0%ae%c0%ae%c0%af',
@@ -41,7 +39,6 @@ class AdvancedDetectionMiddleware {
             if (stripos($flattenedInputs, $pattern) !== false) {
                 $isSuspicious = true;
                 $reason = __('defender::defender.alert_suspicious_pattern', ['pattern' => $pattern]);
-
                 break;
             }
         }
@@ -53,7 +50,6 @@ class AdvancedDetectionMiddleware {
                 if (str_contains($userAgent, $pattern)) {
                     $isSuspicious = true;
                     $reason = __('defender::defender.alert_suspicious_user_agent', ['user_agent' => $userAgent]);
-
                     break;
                 }
             }
@@ -66,7 +62,6 @@ class AdvancedDetectionMiddleware {
                 if (str_starts_with($path, $route)) {
                     $isSuspicious = true;
                     $reason = __('defender::defender.alert_suspicious_route', ['route' => $path]);
-
                     break;
                 }
             }
@@ -83,21 +78,24 @@ class AdvancedDetectionMiddleware {
             $reason = __('defender::defender.alert_common_username', ['username' => $request->input('username')]);
         }
 
-        // If suspicious, block the request and alert
         if ($isSuspicious) {
+            $reason ??= __('defender::defender.access_blocked');
+
             AlertManager::send(
                 __('defender::defender.alert_subject'),
-                $reason ?? __('defender::defender.access_blocked'),
+                $reason,
                 [
                     'ip' => $ip,
                     'route' => $request->path(),
                     'is_suspicious' => true,
                     'request' => $request,
-                    'reason' => $reason ?? __('defender::defender.access_blocked'),
+                    'reason' => $reason,
                 ]
             );
 
-            return response($reason ?? __('defender::defender.access_blocked'), 429);
+            event(new IpBlocked($ip, $reason, $request));
+
+            return response($reason, 429);
         }
 
         return $next($request);

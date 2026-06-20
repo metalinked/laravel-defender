@@ -5,6 +5,7 @@ namespace Metalinked\LaravelDefender\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Metalinked\LaravelDefender\Detection\GeoService;
+use Metalinked\LaravelDefender\Events\IpBlocked;
 use Metalinked\LaravelDefender\Services\AlertManager;
 
 class CountryAccessMiddleware {
@@ -17,47 +18,48 @@ class CountryAccessMiddleware {
         $mode = $config['mode'] ?? 'allow';
         $whitelistIps = $config['whitelist_ips'] ?? [];
 
-        // Skip check for whitelisted IPs or if country code is not available
         if (in_array($ip, $whitelistIps) || ! $countryCode) {
             return $next($request);
         }
 
         if ($mode === 'allow' && ! in_array($countryCode, $allowedCountries)) {
+            $reason = __('defender::defender.alert_non_allowed_country', ['country' => $countryCode]);
+
             AlertManager::send(
                 __('defender::defender.alert_subject'),
-                __('defender::defender.alert_non_allowed_country', ['country' => $countryCode]),
+                $reason,
                 [
                     'ip' => $ip,
                     'route' => $request->path(),
                     'is_suspicious' => true,
                     'request' => $request,
-                    'reason' => __('defender::defender.alert_non_allowed_country', ['country' => $countryCode]),
+                    'reason' => $reason,
                 ]
             );
 
-            return response(
-                __('defender::defender.alert_non_allowed_country', ['country' => $countryCode]),
-                429
-            );
+            event(new IpBlocked($ip, $reason, $request));
+
+            return response($reason, 429);
         }
 
         if ($mode === 'deny' && in_array($countryCode, $allowedCountries)) {
+            $reason = __('defender::defender.alert_denied_country', ['country' => $countryCode]);
+
             AlertManager::send(
                 __('defender::defender.alert_subject'),
-                __('defender::defender.alert_denied_country', ['country' => $countryCode]),
+                $reason,
                 [
                     'ip' => $ip,
                     'route' => $request->path(),
                     'is_suspicious' => true,
                     'request' => $request,
-                    'reason' => __('defender::defender.alert_denied_country', ['country' => $countryCode]),
+                    'reason' => $reason,
                 ]
             );
 
-            return response(
-                __('defender::defender.alert_denied_country', ['country' => $countryCode]),
-                429
-            );
+            event(new IpBlocked($ip, $reason, $request));
+
+            return response($reason, 429);
         }
 
         return $next($request);
