@@ -35,9 +35,12 @@ jobs:
           echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
       - name: Install dependencies
+        env:
+          COMPOSER_NO_AUDIT: 1
         run: |
-          composer require "laravel/framework:${{ matrix.laravel-version }}" --no-interaction --no-update --no-audit
-          composer update --prefer-dist --no-interaction --no-audit
+          composer config --global policy.advisories.block false
+          composer require "laravel/framework:${{ matrix.laravel-version }}" --no-interaction --no-update
+          composer update --prefer-dist --no-interaction
 
       - name: List Installed Dependencies
         run: composer show -D
