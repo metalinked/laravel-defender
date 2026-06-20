@@ -1,4 +1,4 @@
-﻿{
+{
     "name": "metalinked/laravel-defender",
     "description": "Modular Laravel security package: brute force protection, dynamic IP blocklist, auto-block, country access control, honeypot, events, Pulse card, multi-channel alerts, and security audit.",
     "keywords": [
