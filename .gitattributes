@@ -1,0 +1,8 @@
+# Files excluded from Composer dist packages
+CLAUDE.md export-ignore
+TODO.md export-ignore
+.github/ export-ignore
+tests/ export-ignore
+phpunit.xml export-ignore
+phpstan.neon export-ignore
+.php-cs-fixer.php export-ignore

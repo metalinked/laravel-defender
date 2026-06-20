@@ -29,6 +29,12 @@ class AdvancedDetectionMiddlewareTest extends TestCase {
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
         $this->artisan('migrate', ['--database' => 'testing'])->run();
 
+        // Prevent real HTTP calls to geolocation APIs during tests
+        \Illuminate\Support\Facades\Http::fake([
+            'http://ip-api.com/*' => \Illuminate\Support\Facades\Http::response(['countryCode' => 'ES'], 200),
+            'https://ipinfo.io/*' => \Illuminate\Support\Facades\Http::response(['country' => 'ES'], 200),
+        ]);
+
         Route::middleware('advanced.detection')->post('/test-advanced', function () {
             return response('OK');
         });
