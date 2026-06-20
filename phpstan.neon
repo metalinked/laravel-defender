@@ -5,6 +5,8 @@ parameters:
         - tests
     excludePaths:
         - tests/TestCase.php
+        # Pulse card extends an optional dependency (laravel/pulse) not installed in CI
+        - src/Pulse/DefenderPulseCard.php
     reportUnmatchedIgnoredErrors: false
     ignoreErrors:
         - '#Call to an undefined static method.*#'
@@ -21,8 +23,7 @@ parameters:
             identifier: missingType.iterableValue
         -
             identifier: missingType.generics
-        # Optional dependencies (laravel/pulse, livewire/livewire) may not be installed
-        - '#extends unknown class Laravel\\Pulse\\Livewire\\Card#'
+        # Optional dependency (livewire/livewire) may not be installed
         - '#Attribute class Livewire\\Attributes\\Lazy does not exist#'
         # PHPStan without Larastan cannot infer Eloquent query builder return types
         - '#Method Metalinked\\LaravelDefender\\Services\\BlocklistService::all\(\) should return#'
