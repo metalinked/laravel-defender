@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.18.0](https://github.com/metalinked/laravel-defender/compare/v1.17.2...v1.18.0) (2026-06-20)
+
+
+### Features
+
+* major security overhaul — blocklist, auto-block, events, Pulse card, Laravel 12 ([ddf4ad2](https://github.com/metalinked/laravel-defender/commit/ddf4ad206325b806644af566c77a2f7ea4f357d5))
+
+
+### Bug Fixes
+
+* **ci:** disable Composer security advisory blocking for test matrix ([302342f](https://github.com/metalinked/laravel-defender/commit/302342fa56c24c4100bae65ec614e8ca4eed041e))
+* **ci:** drop Laravel 10 (EOL), add Laravel 12 to test matrix, skip audit ([c4fba90](https://github.com/metalinked/laravel-defender/commit/c4fba90ce295da1f3f7a1da3ddb49f322f775917))
+* **phpstan:** exclude DefenderPulseCard from analysis instead of ignoreErrors ([b827719](https://github.com/metalinked/laravel-defender/commit/b8277191f0196b9f82678878a9374ea25ca5772f))
+* **phpstan:** suppress false positives for optional deps and Eloquent return types ([96e83c8](https://github.com/metalinked/laravel-defender/commit/96e83c8f98fae9a30b798719c77551a0f2373182))
+* remove UTF-8 BOM from composer.json and README, update release-please action ([b6ebebb](https://github.com/metalinked/laravel-defender/commit/b6ebebb548395b4e4534f29367a0b3ac509d4804))
+
 ## [1.17.2](https://github.com/metalinked/laravel-defender/compare/v1.17.1...v1.17.2) (2025-08-07)
 
 
