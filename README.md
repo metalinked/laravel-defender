@@ -1,4 +1,4 @@
-﻿# Laravel Defender
+# Laravel Defender
 
 [![Tests](https://img.shields.io/github/actions/workflow/status/metalinked/laravel-defender/tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/metalinked/laravel-defender/actions/workflows/tests.yml)
 [![PHPStan](https://img.shields.io/github/actions/workflow/status/metalinked/laravel-defender/phpstan.yml?branch=main&label=phpstan&style=flat-square)](https://github.com/metalinked/laravel-defender/actions/workflows/phpstan.yml)
