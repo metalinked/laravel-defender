@@ -14,7 +14,6 @@ A modular security package for Laravel with brute force protection, dynamic IP b
 
 | Laravel | PHP   |
 |---------|-------|
-| 10.x    | ^8.1  |
 | 11.x    | ^8.2  |
 | 12.x    | ^8.2  |
 
