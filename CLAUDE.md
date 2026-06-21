@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-**Laravel Defender** is a Composer package (not a full Laravel app) that provides modular security middleware for Laravel 10/11 applications. Namespace: `Metalinked\LaravelDefender`. The entry point is `DefenderServiceProvider`, which auto-discovers via the `extra.laravel` key in `composer.json`.
+**Laravel Defender** is a Composer package (not a full Laravel app) that provides modular security middleware for Laravel 11/12/13 applications. Namespace: `Metalinked\LaravelDefender`. The entry point is `DefenderServiceProvider`, which auto-discovers via the `extra.laravel` key in `composer.json`.
 
 ## Commands
 
