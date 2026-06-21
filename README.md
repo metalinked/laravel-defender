@@ -6,7 +6,7 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/metalinked/laravel-defender?style=flat-square)](https://packagist.org/packages/metalinked/laravel-defender)
 [![License](https://img.shields.io/packagist/l/metalinked/laravel-defender?style=flat-square)](https://github.com/metalinked/laravel-defender/blob/main/LICENSE.md)
 
-A modular security package for Laravel with brute force protection, dynamic IP blocklisting, country access control, honeypot spam protection, real-time alerts, and a Laravel Pulse dashboard card — all configurable and privacy-friendly.
+A modular security package for Laravel with advanced threat detection, brute force protection, dynamic IP blocklisting with auto-block, country access control, honeypot spam protection, multi-channel alerts, and a Laravel Pulse dashboard card. Fully configurable and privacy-friendly.
 
 ---
 
@@ -16,6 +16,7 @@ A modular security package for Laravel with brute force protection, dynamic IP b
 |---------|-------|
 | 11.x    | ^8.2  |
 | 12.x    | ^8.2  |
+| 13.x    | ^8.2  |
 
 ---
 
@@ -23,16 +24,16 @@ A modular security package for Laravel with brute force protection, dynamic IP b
 
 - 🛡️ **Honeypot spam protection** for forms
 - 👁️ **Request logging** and alert system for suspicious activity
-- 🚨 **Advanced risk detection** — malicious user-agents, common attack routes, login attempts with common usernames, path traversal, and fuzzing patterns
-- 🔒 **Brute force protection** — blocks IPs after too many suspicious requests
-- 🌍 **Country access control** — allow or deny by country code, with IP whitelist bypass
-- 🚫 **Dynamic IP blocklist** — block/unblock IPs at runtime via Artisan; no config changes needed
-- 🤖 **Auto-block** — automatically block IPs that trigger repeated events within a configurable time window
-- 🎯 **Laravel Events** — `SuspiciousRequestDetected` and `IpBlocked` for full extensibility
-- 🔔 **Multi-channel alerts** — log, database, mail, Slack, webhook
-- 📊 **Laravel Pulse card** — real-time security dashboard (optional, requires `laravel/pulse`)
-- 🔍 **Security audit command** — detects common Laravel misconfigurations and missing security headers
-- 📝 **Artisan commands** — view, export, and prune logs directly from the console
+- 🚨 **Advanced risk detection**: malicious user-agents, common attack routes, login attempts with common usernames, path traversal, and fuzzing patterns
+- 🔒 **Brute force protection**: blocks IPs after too many suspicious requests
+- 🌍 **Country access control**: allow or deny by country code, with IP whitelist bypass
+- 🚫 **Dynamic IP blocklist**: block/unblock IPs at runtime via Artisan, no config changes needed
+- 🤖 **Auto-block**: automatically block IPs that trigger repeated events within a configurable time window
+- 🎯 **Laravel Events**: `SuspiciousRequestDetected` and `IpBlocked` for full extensibility
+- 🔔 **Multi-channel alerts**: log, database, mail, Slack, webhook
+- 📊 **Laravel Pulse card**: real-time security dashboard (optional, requires `laravel/pulse`)
+- 🔍 **Security audit command**: detects common Laravel misconfigurations and missing security headers
+- 📝 **Artisan commands**: view, export, and prune logs directly from the console
 
 ---
 
@@ -58,8 +59,8 @@ php artisan migrate
 ```
 
 This creates two tables:
-- `defender_ip_logs` — stores access logs and security alerts
-- `defender_blocked_ips` — stores dynamically blocked IPs
+- `defender_ip_logs`: stores access logs and security alerts
+- `defender_blocked_ips`: stores dynamically blocked IPs
 
 > The `database` alert channel and the IP blocklist both require the migrations to be run. If you only use `log`-based alerts and no blocklist, you can skip the migrations.
 
@@ -67,9 +68,9 @@ This creates two tables:
 
 ## Global Protection (Recommended)
 
-Register Defender's middlewares globally to protect all requests — including those to non-existent routes like `/wp-admin`, `/phpmyadmin`, and `/xmlrpc.php`.
+Register Defender's middlewares globally to protect all requests, including those to non-existent routes like `/wp-admin`, `/phpmyadmin`, and `/xmlrpc.php`.
 
-**Laravel 11 and 12** (`bootstrap/app.php`):
+In `bootstrap/app.php`:
 
 ```php
 ->withMiddleware(function (Middleware $middleware) {
@@ -78,18 +79,6 @@ Register Defender's middlewares globally to protect all requests — including t
     $middleware->append(\Metalinked\LaravelDefender\Http\Middleware\BruteForceMiddleware::class);
     $middleware->append(\Metalinked\LaravelDefender\Http\Middleware\CountryAccessMiddleware::class);
 })
-```
-
-**Laravel 10** (`app/Http/Kernel.php`):
-
-```php
-protected $middleware = [
-    // ...
-    \Metalinked\LaravelDefender\Http\Middleware\BlockedIpMiddleware::class,
-    \Metalinked\LaravelDefender\Http\Middleware\AdvancedDetectionMiddleware::class,
-    \Metalinked\LaravelDefender\Http\Middleware\BruteForceMiddleware::class,
-    \Metalinked\LaravelDefender\Http\Middleware\CountryAccessMiddleware::class,
-];
 ```
 
 | Middleware | Description |
@@ -140,9 +129,9 @@ All options are in `config/defender.php` after publishing.
 ```
 
 **Geo providers:**
-- [ip-api.com](https://ip-api.com/) — free tier, no registration required (default)
-- [ipinfo.io](https://ipinfo.io/) — requires `IPINFO_TOKEN`
-- [ipgeolocation.io](https://ipgeolocation.io/) — requires `IPGEOLOCATION_KEY`
+- [ip-api.com](https://ip-api.com/): free tier, no registration required (default)
+- [ipinfo.io](https://ipinfo.io/): requires `IPINFO_TOKEN`
+- [ipgeolocation.io](https://ipgeolocation.io/): requires `IPGEOLOCATION_KEY`
 
 ### Dynamic IP Blocklist & Auto-block
 
@@ -204,7 +193,7 @@ Blocked IPs are stored in `defender_blocked_ips` and cached (default 5 minutes p
 
 ## Auto-block
 
-Defender can automatically block IPs that trigger repeated `IpBlocked` events within a time window — useful for catching persistent attackers without manual intervention.
+Defender can automatically block IPs that trigger repeated `IpBlocked` events within a time window, useful for catching persistent attackers without manual intervention.
 
 Enable it in `config/defender.php`:
 
@@ -242,7 +231,7 @@ Event::listen(IpBlocked::class, function ($event) {
 });
 ```
 
-Use these events to integrate with your own notification system, SIEM, audit trail, or any custom logic — without modifying the package.
+Use these events to integrate with your own notification system, SIEM, audit trail, or any custom logic, without modifying the package.
 
 ---
 
@@ -341,18 +330,10 @@ php artisan defender:prune-logs --days=90            # Delete logs older than 90
 php artisan defender:prune-logs --days=30 --laravel  # Also remove old Laravel log files
 ```
 
-**Scheduled pruning** — add to your scheduler:
-
-For Laravel 11+ (`bootstrap/routes/console.php`):
+**Scheduled pruning**: add to `bootstrap/routes/console.php`:
 
 ```php
 Schedule::command('defender:prune-logs --days=90')->daily();
-```
-
-For Laravel 10 (`app/Console/Kernel.php`):
-
-```php
-$schedule->command('defender:prune-logs --days=90')->daily();
 ```
 
 ---
