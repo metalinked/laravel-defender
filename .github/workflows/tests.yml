@@ -15,6 +15,9 @@ jobs:
       matrix:
         php-version: ['8.2', '8.3']
         laravel-version: ['11.*', '12.*', '13.*']
+        exclude:
+          - php-version: '8.2'
+            laravel-version: '13.*'
 
     name: P${{ matrix.php-version }} - L${{ matrix.laravel-version }}
 
