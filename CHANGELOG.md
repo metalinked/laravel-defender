@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.19.0](https://github.com/metalinked/laravel-defender/compare/v1.18.0...v1.19.0) (2026-06-21)
+
+
+### Features
+
+* add Laravel 13 support, drop Laravel 10, require PHP ^8.2 ([7f8d284](https://github.com/metalinked/laravel-defender/commit/7f8d2844ba569d38fc6b596a1d63adc98ec4e73b))
+
+
+### Bug Fixes
+
+* **ci:** exclude PHP 8.2 + Laravel 13 combination (L13 requires ^8.3) ([cf2a028](https://github.com/metalinked/laravel-defender/commit/cf2a02878703d79bdb495869e34d413cc0bc0dfe))
+
 ## [1.18.0](https://github.com/metalinked/laravel-defender/compare/v1.17.2...v1.18.0) (2026-06-20)
 
 
