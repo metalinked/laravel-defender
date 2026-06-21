@@ -16,7 +16,7 @@ A modular security package for Laravel with advanced threat detection, brute for
 |---------|-------|
 | 11.x    | ^8.2  |
 | 12.x    | ^8.2  |
-| 13.x    | ^8.2  |
+| 13.x    | ^8.3  |
 
 ---
 
