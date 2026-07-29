@@ -9,5 +9,6 @@ class SuspiciousRequestDetected {
         public readonly Request $request,
         public readonly string $ip,
         public readonly string $reason,
-    ) {}
+    ) {
+    }
 }

@@ -39,6 +39,7 @@ class AdvancedDetectionMiddleware {
             if (stripos($flattenedInputs, $pattern) !== false) {
                 $isSuspicious = true;
                 $reason = __('defender::defender.alert_suspicious_pattern', ['pattern' => $pattern]);
+
                 break;
             }
         }
@@ -50,6 +51,7 @@ class AdvancedDetectionMiddleware {
                 if (str_contains($userAgent, $pattern)) {
                     $isSuspicious = true;
                     $reason = __('defender::defender.alert_suspicious_user_agent', ['user_agent' => $userAgent]);
+
                     break;
                 }
             }
@@ -62,6 +64,7 @@ class AdvancedDetectionMiddleware {
                 if (str_starts_with($path, $route)) {
                     $isSuspicious = true;
                     $reason = __('defender::defender.alert_suspicious_route', ['route' => $path]);
+
                     break;
                 }
             }
