@@ -9,5 +9,6 @@ class IpBlocked {
         public readonly string $ip,
         public readonly string $reason,
         public readonly Request $request,
-    ) {}
+    ) {
+    }
 }

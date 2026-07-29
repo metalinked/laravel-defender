@@ -94,9 +94,9 @@ class DefenderAuditCommand extends Command {
             $response = Http::timeout(3)->get($url);
 
             $recommended = [
-                'X-Frame-Options'        => 'audit_headers_x_frame_options_tip',
+                'X-Frame-Options' => 'audit_headers_x_frame_options_tip',
                 'X-Content-Type-Options' => 'audit_headers_x_content_type_tip',
-                'Referrer-Policy'        => 'audit_headers_referrer_policy_tip',
+                'Referrer-Policy' => 'audit_headers_referrer_policy_tip',
                 'Strict-Transport-Security' => 'audit_headers_hsts_tip',
             ];
 

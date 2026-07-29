@@ -18,6 +18,7 @@ class BlockIpCommand extends Command {
 
         if (! filter_var($ip, FILTER_VALIDATE_IP)) {
             $this->error(__('defender::defender.block_ip_invalid', ['ip' => $ip]));
+
             return;
         }
 

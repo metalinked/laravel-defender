@@ -15,6 +15,7 @@ class BlockListCommand extends Command {
 
         if ($blocked->isEmpty()) {
             $this->info(__('defender::defender.block_list_empty'));
+
             return;
         }
 
