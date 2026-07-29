@@ -1,5 +1,4 @@
 # Files excluded from Composer dist packages
-CLAUDE.md export-ignore
 TODO.md export-ignore
 .github/ export-ignore
 tests/ export-ignore

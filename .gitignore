@@ -11,3 +11,4 @@ composer.lock
 /coverage
 /build
 .php-cs-fixer.cache
+CLAUDE.md
