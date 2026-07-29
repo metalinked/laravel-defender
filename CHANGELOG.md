@@ -5,28 +5,28 @@
 
 ### Features
 
-* add Laravel 13 support, drop Laravel 10, require PHP ^8.2 ([7f8d284](https://github.com/metalinked/laravel-defender/commit/7f8d2844ba569d38fc6b596a1d63adc98ec4e73b))
+* add Laravel 13 support, drop Laravel 10, require PHP ^8.2 ([746c20b](https://github.com/metalinked/laravel-defender/commit/746c20bd0af3cd5f4ff2b1e603a6282e27cacf10))
 
 
 ### Bug Fixes
 
-* **ci:** exclude PHP 8.2 + Laravel 13 combination (L13 requires ^8.3) ([cf2a028](https://github.com/metalinked/laravel-defender/commit/cf2a02878703d79bdb495869e34d413cc0bc0dfe))
+* **ci:** exclude PHP 8.2 + Laravel 13 combination (L13 requires ^8.3) ([125ce9c](https://github.com/metalinked/laravel-defender/commit/125ce9ccf8c561738860a10a7674307788e6691e))
 
 ## [1.18.0](https://github.com/metalinked/laravel-defender/compare/v1.17.2...v1.18.0) (2026-06-20)
 
 
 ### Features
 
-* major security overhaul — blocklist, auto-block, events, Pulse card, Laravel 12 ([ddf4ad2](https://github.com/metalinked/laravel-defender/commit/ddf4ad206325b806644af566c77a2f7ea4f357d5))
+* major security overhaul — blocklist, auto-block, events, Pulse card, Laravel 12 ([3effc74](https://github.com/metalinked/laravel-defender/commit/3effc74abe8ecb61c5847307d67fd08844bdd6d1))
 
 
 ### Bug Fixes
 
-* **ci:** disable Composer security advisory blocking for test matrix ([302342f](https://github.com/metalinked/laravel-defender/commit/302342fa56c24c4100bae65ec614e8ca4eed041e))
-* **ci:** drop Laravel 10 (EOL), add Laravel 12 to test matrix, skip audit ([c4fba90](https://github.com/metalinked/laravel-defender/commit/c4fba90ce295da1f3f7a1da3ddb49f322f775917))
-* **phpstan:** exclude DefenderPulseCard from analysis instead of ignoreErrors ([b827719](https://github.com/metalinked/laravel-defender/commit/b8277191f0196b9f82678878a9374ea25ca5772f))
-* **phpstan:** suppress false positives for optional deps and Eloquent return types ([96e83c8](https://github.com/metalinked/laravel-defender/commit/96e83c8f98fae9a30b798719c77551a0f2373182))
-* remove UTF-8 BOM from composer.json and README, update release-please action ([b6ebebb](https://github.com/metalinked/laravel-defender/commit/b6ebebb548395b4e4534f29367a0b3ac509d4804))
+* **ci:** disable Composer security advisory blocking for test matrix ([15ee7ee](https://github.com/metalinked/laravel-defender/commit/15ee7ee8bb606e072295fcf4629513b65bdd80c1))
+* **ci:** drop Laravel 10 (EOL), add Laravel 12 to test matrix, skip audit ([4742d30](https://github.com/metalinked/laravel-defender/commit/4742d309258ef71a4c81c958991f99b8302acfe2))
+* **phpstan:** exclude DefenderPulseCard from analysis instead of ignoreErrors ([94f9983](https://github.com/metalinked/laravel-defender/commit/94f9983b9efbb76ee6ef1899a8357f4cdcae06b2))
+* **phpstan:** suppress false positives for optional deps and Eloquent return types ([a787f28](https://github.com/metalinked/laravel-defender/commit/a787f28d1b7fea3cbaa267903a6065a7f14fb72c))
+* remove UTF-8 BOM from composer.json and README, update release-please action ([d811284](https://github.com/metalinked/laravel-defender/commit/d8112846305b4c9ac71b82ad30cf302d93855f41))
 
 ## [1.17.2](https://github.com/metalinked/laravel-defender/compare/v1.17.1...v1.17.2) (2025-08-07)
 
