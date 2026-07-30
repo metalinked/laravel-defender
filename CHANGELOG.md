@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.19.1](https://github.com/metalinked/laravel-defender/compare/v1.19.0...v1.19.1) (2026-07-30)
+
+
+### Miscellaneous Chores
+
+* remove release-please, switch to manual versioning ([c486b24](https://github.com/metalinked/laravel-defender/commit/c486b24cc73dd1404d6d35784805c8dfcd5283fe))
+* fix code styling across console commands, events and middleware ([31ce8e0](https://github.com/metalinked/laravel-defender/commit/31ce8e0e14e12027dbfa9ae3b1798a3759da0194))
+* stop tracking CLAUDE.md in the public repo ([ed4f544](https://github.com/metalinked/laravel-defender/commit/ed4f5443823d3ea82b9e336a95bd2c5194ee4bf6))
+
 ## [1.19.0](https://github.com/metalinked/laravel-defender/compare/v1.18.0...v1.19.0) (2026-06-21)
 
 
