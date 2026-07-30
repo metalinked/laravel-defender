@@ -46,13 +46,13 @@ class ShowIpLogsCommand extends Command {
         $this->info(__('defender::defender.logs_header'));
         $this->table(
             [
-                __('defender::defender.logs_date', [], 'en') ?? 'Date',
-                __('defender::defender.logs_ip', [], 'en') ?? 'IP',
-                __('defender::defender.logs_route', [], 'en') ?? 'Route',
-                __('defender::defender.logs_method', [], 'en') ?? 'Method',
-                __('defender::defender.logs_user', [], 'en') ?? 'User',
-                __('defender::defender.logs_suspicious', [], 'en') ?? 'Suspicious',
-                __('defender::defender.logs_reason', [], 'en') ?? 'Reason',
+                __('defender::defender.logs_date', [], 'en'),
+                __('defender::defender.logs_ip', [], 'en'),
+                __('defender::defender.logs_route', [], 'en'),
+                __('defender::defender.logs_method', [], 'en'),
+                __('defender::defender.logs_user', [], 'en'),
+                __('defender::defender.logs_suspicious', [], 'en'),
+                __('defender::defender.logs_reason', [], 'en'),
                 'User-Agent', 'Referer', 'Country', 'Headers Hash',
             ],
             $logs->map(function ($log) {
