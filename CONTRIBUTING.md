@@ -32,9 +32,8 @@ Thank you for your interest in contributing! This project follows best practices
 
 ## Commits & Versioning
 
-- Use clear, English commit messages.
-- Release-please manages versions automatically based on commit messages (`feat:`, `fix:`, etc.).
-- Versions before 1.0.0 will be `0.x.y` (e.g., `0.1.0`).
+- Use clear, English commit messages, ideally following Conventional Commits (`feat:`, `fix:`, `chore:`, etc.) — the changelog is written by hand in that style.
+- Versioning, git tags and `CHANGELOG.md` entries are maintained manually (no release-please). Version bumps follow semver: `fix`/`chore` → patch, `feat` → minor, breaking changes (e.g. public config/API changes) → major.
 
 ## Security
 
