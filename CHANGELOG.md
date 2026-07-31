@@ -1,5 +1,30 @@
 # Changelog
 
+## [2.0.0](https://github.com/metalinked/laravel-defender/compare/v1.19.1...v2.0.0) (2026-07-31)
+
+
+### ⚠ BREAKING CHANGES
+
+* `config/defender.php` restructured — `geo_provider`, `geo_cache_minutes`, `ipinfo_token`, `ipgeolocation_key` and `country_access` moved out of `advanced_detection` into top-level `geo` and `country_access` sections ([c3f9047](https://github.com/metalinked/laravel-defender/commit/c3f9047893abc7a7f84e4fb4098bd6d5440bc8b9))
+* Middleware aliases unified under a `defender.` prefix: `advanced.detection` → `defender.advanced_detection`, `brute.force` → `defender.brute_force`, `country.access` → `defender.country_access`. The redundant `ip.logger` alias was removed — use `defender.iplogger` ([c3f9047](https://github.com/metalinked/laravel-defender/commit/c3f9047893abc7a7f84e4fb4098bd6d5440bc8b9))
+
+
+### Features
+
+* add IP reputation scoring via AbuseIPDB, enriching alerts with a confidence score and optionally auto-blocking IPs above a configurable threshold ([c3f9047](https://github.com/metalinked/laravel-defender/commit/c3f9047893abc7a7f84e4fb4098bd6d5440bc8b9))
+
+
+### Bug Fixes
+
+* `advanced_detection.enabled` is now honored — the middleware previously ran regardless of this setting ([c3f9047](https://github.com/metalinked/laravel-defender/commit/c3f9047893abc7a7f84e4fb4098bd6d5440bc8b9))
+
+
+### Miscellaneous Chores
+
+* improve Packagist listing: description, keywords, homepage and support links ([a96242d](https://github.com/metalinked/laravel-defender/commit/a96242d7f10b8ffddece78fde8ce75ed8cc81f75))
+* remove unused translation keys (`alert_suspicious_ip`, `ok`, `tip_avoid_common_usernames`) ([c3f9047](https://github.com/metalinked/laravel-defender/commit/c3f9047893abc7a7f84e4fb4098bd6d5440bc8b9))
+* refresh TODO.md and CONTRIBUTING.md to reflect the manual release process and completed items ([8e84bb3](https://github.com/metalinked/laravel-defender/commit/8e84bb300d0ad8868206ca5b447ecce6bc29c092))
+
 ## [1.19.1](https://github.com/metalinked/laravel-defender/compare/v1.19.0...v1.19.1) (2026-07-30)
 
 
