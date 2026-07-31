@@ -10,7 +10,7 @@ use Metalinked\LaravelDefender\Services\AlertManager;
 
 class CountryAccessMiddleware {
     public function handle(Request $request, Closure $next) {
-        $config = config('defender.advanced_detection.country_access', []);
+        $config = config('defender.country_access', []);
         $ip = $request->ip();
         $countryCode = GeoService::getCountryCode($ip);
 

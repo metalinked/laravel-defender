@@ -35,20 +35,20 @@ class AdvancedDetectionMiddlewareTest extends TestCase {
             'https://ipinfo.io/*' => \Illuminate\Support\Facades\Http::response(['country' => 'ES'], 200),
         ]);
 
-        Route::middleware('advanced.detection')->post('/test-advanced', function () {
+        Route::middleware('defender.advanced_detection')->post('/test-advanced', function () {
             return response('OK');
         });
 
-        Route::middleware('advanced.detection')->post('/login', function () {
+        Route::middleware('defender.advanced_detection')->post('/login', function () {
             return response('OK');
         });
 
         // Add routes for suspicious paths
-        Route::middleware('advanced.detection')->any('/admin/{path?}', function () {
+        Route::middleware('defender.advanced_detection')->any('/admin/{path?}', function () {
             return response('OK');
         })->where('path', '.*');
 
-        Route::middleware('advanced.detection')->any('/wp-admin/{path?}', function () {
+        Route::middleware('defender.advanced_detection')->any('/wp-admin/{path?}', function () {
             return response('OK');
         })->where('path', '.*');
     }
@@ -67,5 +67,14 @@ class AdvancedDetectionMiddlewareTest extends TestCase {
     public function test_marks_log_as_suspicious_for_common_username() {
         $this->post('/login', ['username' => 'admin']);
         $this->assertDatabaseHas('defender_ip_logs', ['is_suspicious' => true]);
+    }
+
+    public function test_does_nothing_when_disabled() {
+        config(['defender.advanced_detection.enabled' => false]);
+
+        $response = $this->post('/test-advanced', [], ['User-Agent' => 'sqlmap']);
+
+        $response->assertStatus(200);
+        $this->assertDatabaseMissing('defender_ip_logs', ['is_suspicious' => true]);
     }
 }

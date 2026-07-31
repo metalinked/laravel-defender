@@ -16,16 +16,16 @@ class GeoService {
      */
     public static function getCountryCode(string $ip, ?string $provider = null): ?string {
         // Use default provider from config if not specified
-        $provider ??= config('defender.advanced_detection.geo_provider', 'ip-api');
-        
+        $provider ??= config('defender.geo.provider', 'ip-api');
+
         // Normalize provider name
         $provider = strtolower($provider);
-        
+
         // Cache key for storing country code
         $cacheKey = "defender_geo_{$ip}";
-        
+
         // Check cache first (10 min cache by default)
-        $cacheTtl = config('defender.advanced_detection.geo_cache_minutes', 10);
+        $cacheTtl = config('defender.geo.cache_minutes', 10);
         if (Cache::has($cacheKey)) {
             return Cache::get($cacheKey);
         }
@@ -66,7 +66,7 @@ class GeoService {
      * Get country code using ipinfo.io (requires API key for production use)
      */
     protected static function getCountryCodeFromIpInfo(string $ip): ?string {
-        $token = config('defender.advanced_detection.ipinfo_token');
+        $token = config('defender.geo.ipinfo_token');
         
         try {
             $url = "https://ipinfo.io/{$ip}/json";
@@ -86,7 +86,7 @@ class GeoService {
      * Get country code using ipgeolocation.io (requires API key)
      */
     protected static function getCountryCodeFromIpGeolocation(string $ip): ?string {
-        $apiKey = config('defender.advanced_detection.ipgeolocation_key');
+        $apiKey = config('defender.geo.ipgeolocation_key');
         
         if (! $apiKey) {
             return null;

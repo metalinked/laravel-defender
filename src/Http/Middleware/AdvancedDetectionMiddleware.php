@@ -23,6 +23,11 @@ class AdvancedDetectionMiddleware {
 
     public function handle(Request $request, Closure $next) {
         $advConfig = config('defender.advanced_detection', []);
+
+        if (! ($advConfig['enabled'] ?? true)) {
+            return $next($request);
+        }
+
         $ip = $request->ip();
         $isSuspicious = false;
         $reason = null;

@@ -33,7 +33,7 @@ class BruteForceMiddlewareTest extends TestCase {
             'http://ip-api.com/*' => \Illuminate\Support\Facades\Http::response(['countryCode' => 'ES'], 200),
         ]);
 
-        Route::middleware(['ip.logger', 'brute.force'])->post('/test-brute', function () {
+        Route::middleware(['defender.iplogger', 'defender.brute_force'])->post('/test-brute', function () {
             return response('OK');
         });
     }

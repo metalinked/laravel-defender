@@ -26,10 +26,6 @@ return [
 
     'advanced_detection' => [
         'enabled' => true,
-        'geo_provider' => env('DEFENDER_GEO_PROVIDER', 'ip-api'), // 'ip-api', 'ipinfo', 'ipgeolocation'
-        'geo_cache_minutes' => 10,
-        'ipinfo_token' => env('IPINFO_TOKEN'),
-        'ipgeolocation_key' => env('IPGEOLOCATION_KEY'),
         'suspicious_user_agents' => [
             'curl', 'python', 'sqlmap', 'nmap', 'nikto', 'fuzzer', 'scanner', 'masscan', 'libwww-perl', 'wget', 'httpclient',
         ],
@@ -39,11 +35,33 @@ return [
         'common_usernames' => [
             'admin', 'administrator', 'root', 'test', 'user',
         ],
-        'country_access' => [
-            'mode' => 'allow', // 'allow' (only allow these countries) or 'deny' (block these countries)
-            'countries' => ['ES'],
-            'whitelist_ips' => [], // Always allowed regardless of country or mode
-        ],
+    ],
+
+    // Geolocation provider, used by country_access below and to enrich IP logs.
+    'geo' => [
+        'provider' => env('DEFENDER_GEO_PROVIDER', 'ip-api'), // 'ip-api', 'ipinfo', 'ipgeolocation'
+        'cache_minutes' => 10,
+        'ipinfo_token' => env('IPINFO_TOKEN'),
+        'ipgeolocation_key' => env('IPGEOLOCATION_KEY'),
+    ],
+
+    'country_access' => [
+        'mode' => 'allow', // 'allow' (only allow these countries) or 'deny' (block these countries)
+        'countries' => ['ES'],
+        'whitelist_ips' => [], // Always allowed regardless of country or mode
+    ],
+
+    // IP reputation lookups via AbuseIPDB. Only queried for requests already
+    // flagged suspicious by another middleware (brute force, advanced detection,
+    // country access), so it doesn't burn API quota on legitimate traffic.
+    'reputation' => [
+        'enabled' => false,
+        'provider' => 'abuseipdb',
+        'api_key' => env('DEFENDER_ABUSEIPDB_KEY'),
+        'cache_minutes' => 60,
+        'threshold' => 75, // AbuseIPDB confidence score (0-100) at/above which an IP is considered malicious
+        'auto_block' => false, // if true, automatically add the IP to the dynamic blocklist when the threshold is reached
+        'auto_block_hours' => null, // null = permanent
     ],
 
     // Blocklist: IPs blocked dynamically via defender:block-ip command.

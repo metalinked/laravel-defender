@@ -6,12 +6,22 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Schema;
 use Metalinked\LaravelDefender\Detection\GeoService;
+use Metalinked\LaravelDefender\Detection\ReputationService;
 use Metalinked\LaravelDefender\Events\SuspiciousRequestDetected;
 use Metalinked\LaravelDefender\Models\IpLog;
 
 class AlertManager {
     public static function send(string $subject, string $message, array $context = []): void {
         $channels = config('defender.alerts.channels', []);
+
+        $reputationScore = null;
+        if (($context['is_suspicious'] ?? false) && isset($context['request'])) {
+            $reputationScore = ReputationService::getScore($context['request']->ip());
+
+            if ($reputationScore !== null) {
+                $context['reputation_score'] = $reputationScore;
+            }
+        }
 
         if (in_array('log', $channels)) {
             Log::warning("[Defender] $subject: $message", $context);
@@ -39,6 +49,7 @@ class AlertManager {
                     'referer' => $request->headers->get('referer'),
                     'country_code' => GeoService::getCountryCode($request->ip()),
                     'headers_hash' => hash('sha256', json_encode($request->headers->all())),
+                    'reputation_score' => $reputationScore,
                 ]);
             }
         }
@@ -68,6 +79,25 @@ class AlertManager {
                 } catch (\Exception $e) {
                     Log::error('Defender webhook alert failed: ' . $e->getMessage());
                 }
+            }
+        }
+
+        if (
+            $reputationScore !== null &&
+            $reputationScore >= (int) config('defender.reputation.threshold', 75) &&
+            config('defender.reputation.auto_block', false)
+        ) {
+            $ip = $context['request']->ip();
+
+            if (! BlocklistService::isBlocked($ip)) {
+                $hours = config('defender.reputation.auto_block_hours');
+                $until = $hours ? now()->addHours((int) $hours) : null;
+
+                BlocklistService::block(
+                    $ip,
+                    __('defender::defender.reputation_block_reason', ['score' => $reputationScore]),
+                    $until
+                );
             }
         }
 

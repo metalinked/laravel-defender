@@ -18,6 +18,7 @@ class DefenderServiceProvider extends ServiceProvider {
         $this->publishes([
             __DIR__.'/../database/migrations/2025_06_01_000001_create_defender_ip_logs_table.php' => database_path('migrations/2025_06_01_000001_create_defender_ip_logs_table.php'),
             __DIR__.'/../database/migrations/2025_06_01_000002_create_defender_blocked_ips_table.php' => database_path('migrations/2025_06_01_000002_create_defender_blocked_ips_table.php'),
+            __DIR__.'/../database/migrations/2026_07_31_000001_add_reputation_score_to_defender_ip_logs_table.php' => database_path('migrations/2026_07_31_000001_add_reputation_score_to_defender_ip_logs_table.php'),
         ], 'defender-migrations');
 
         // 2. Load views and translations
@@ -32,10 +33,9 @@ class DefenderServiceProvider extends ServiceProvider {
         // 4. Register route middleware aliases
         $this->app['router']->aliasMiddleware('defender.honeypot', \Metalinked\LaravelDefender\Http\Middleware\HoneypotMiddleware::class);
         $this->app['router']->aliasMiddleware('defender.iplogger', \Metalinked\LaravelDefender\Http\Middleware\IpLoggerMiddleware::class);
-        $this->app['router']->aliasMiddleware('ip.logger', \Metalinked\LaravelDefender\Http\Middleware\IpLoggerMiddleware::class);
-        $this->app['router']->aliasMiddleware('advanced.detection', \Metalinked\LaravelDefender\Http\Middleware\AdvancedDetectionMiddleware::class);
-        $this->app['router']->aliasMiddleware('brute.force', \Metalinked\LaravelDefender\Http\Middleware\BruteForceMiddleware::class);
-        $this->app['router']->aliasMiddleware('country.access', \Metalinked\LaravelDefender\Http\Middleware\CountryAccessMiddleware::class);
+        $this->app['router']->aliasMiddleware('defender.advanced_detection', \Metalinked\LaravelDefender\Http\Middleware\AdvancedDetectionMiddleware::class);
+        $this->app['router']->aliasMiddleware('defender.brute_force', \Metalinked\LaravelDefender\Http\Middleware\BruteForceMiddleware::class);
+        $this->app['router']->aliasMiddleware('defender.country_access', \Metalinked\LaravelDefender\Http\Middleware\CountryAccessMiddleware::class);
         $this->app['router']->aliasMiddleware('defender.blocked', \Metalinked\LaravelDefender\Http\Middleware\BlockedIpMiddleware::class);
 
         // 5. Auto honeypot protection for web group (if enabled)

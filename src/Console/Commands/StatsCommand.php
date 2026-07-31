@@ -47,6 +47,13 @@ class StatsCommand extends Command {
             ->limit(5)
             ->get();
 
+        $topReputation = IpLog::select('ip', DB::raw('max(reputation_score) as score'))
+            ->whereNotNull('reputation_score')
+            ->groupBy('ip')
+            ->orderByDesc('score')
+            ->limit(5)
+            ->get();
+
         $this->info(__('defender::defender.stats_title'));
         $this->line(__('defender::defender.stats_separator'));
         $this->line(__('defender::defender.stats_total_logs', ['count' => $total]));
@@ -71,5 +78,13 @@ class StatsCommand extends Command {
             [__('defender::defender.stats_route'), __('defender::defender.stats_attempts')],
             $topRoutes->map(fn ($r) => [$r->route, $r->total])->toArray()
         );
+
+        if ($topReputation->isNotEmpty()) {
+            $this->info(__('defender::defender.stats_top_reputation'));
+            $this->table(
+                [__('defender::defender.stats_ip'), __('defender::defender.stats_score')],
+                $topReputation->map(fn ($r) => [$r->ip, $r->score])->toArray()
+            );
+        }
     }
 }

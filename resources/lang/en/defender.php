@@ -3,11 +3,9 @@
 return [
     // General
     'access_blocked' => 'Access blocked due to suspicious activity.',
-    'ok' => 'OK',
 
     // Alerts
     'alert_subject' => '[Defender] Security Alert',
-    'alert_suspicious_ip' => 'Suspicious IP detected',
     'alert_suspicious_user_agent' => 'Suspicious user-agent: :user_agent',
     'alert_suspicious_route' => 'Suspicious route accessed: :route',
     'alert_common_username' => 'Login attempt with common username: :username',
@@ -46,6 +44,8 @@ return [
     'stats_top_ips' => 'Top 5 IPs:',
     'stats_top_countries' => 'Top 5 Countries:',
     'stats_top_routes' => 'Top 5 Routes:',
+    'stats_top_reputation' => 'Top 5 IPs by Reputation Score:',
+    'stats_score' => 'Score',
 
     // Honeypot messages
     'honeypot_bot_detected' => 'Bot detected',
@@ -55,6 +55,7 @@ return [
 
     // Blocklist commands
     'auto_block_reason' => 'Automatically blocked after :count detected threats',
+    'reputation_block_reason' => 'Automatically blocked due to bad IP reputation (AbuseIPDB score: :score)',
     'block_ip_invalid' => 'Invalid IP address: :ip',
     'block_ip_permanent' => 'IP :ip has been permanently blocked.',
     'block_ip_until' => 'IP :ip has been blocked until :until.',
@@ -115,6 +116,4 @@ return [
     'prune_table_missing' => 'Defender log table (:table) does not exist.',
     'prune_laravel_deleted' => 'Deleted :count Laravel log files older than :days days.',
 
-    // Security tip
-    'tip_avoid_common_usernames' => 'Avoid using common usernames like admin, administrator, root, test, or user.',
 ];

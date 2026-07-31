@@ -13,7 +13,7 @@ class CountryAccessMiddlewareTest extends TestCase {
         // Flush GeoService cache so each test starts fresh
         Cache::flush();
 
-        Route::middleware('country.access')->post('/test-country', function () {
+        Route::middleware('defender.country_access')->post('/test-country', function () {
             return response('OK');
         });
     }
@@ -26,9 +26,9 @@ class CountryAccessMiddlewareTest extends TestCase {
 
     public function test_blocks_ip_from_non_allowed_country(): void {
         config([
-            'defender.advanced_detection.country_access.mode' => 'allow',
-            'defender.advanced_detection.country_access.countries' => ['ES'],
-            'defender.advanced_detection.country_access.whitelist_ips' => [],
+            'defender.country_access.mode' => 'allow',
+            'defender.country_access.countries' => ['ES'],
+            'defender.country_access.whitelist_ips' => [],
         ]);
 
         $this->fakeGeoResponse('DE');
@@ -41,9 +41,9 @@ class CountryAccessMiddlewareTest extends TestCase {
 
     public function test_allows_ip_from_allowed_country(): void {
         config([
-            'defender.advanced_detection.country_access.mode' => 'allow',
-            'defender.advanced_detection.country_access.countries' => ['ES'],
-            'defender.advanced_detection.country_access.whitelist_ips' => [],
+            'defender.country_access.mode' => 'allow',
+            'defender.country_access.countries' => ['ES'],
+            'defender.country_access.whitelist_ips' => [],
         ]);
 
         $this->fakeGeoResponse('ES');
@@ -55,9 +55,9 @@ class CountryAccessMiddlewareTest extends TestCase {
 
     public function test_deny_mode_blocks_listed_country(): void {
         config([
-            'defender.advanced_detection.country_access.mode' => 'deny',
-            'defender.advanced_detection.country_access.countries' => ['RU'],
-            'defender.advanced_detection.country_access.whitelist_ips' => [],
+            'defender.country_access.mode' => 'deny',
+            'defender.country_access.countries' => ['RU'],
+            'defender.country_access.whitelist_ips' => [],
         ]);
 
         $this->fakeGeoResponse('RU');
@@ -69,9 +69,9 @@ class CountryAccessMiddlewareTest extends TestCase {
 
     public function test_deny_mode_allows_non_listed_country(): void {
         config([
-            'defender.advanced_detection.country_access.mode' => 'deny',
-            'defender.advanced_detection.country_access.countries' => ['RU'],
-            'defender.advanced_detection.country_access.whitelist_ips' => [],
+            'defender.country_access.mode' => 'deny',
+            'defender.country_access.countries' => ['RU'],
+            'defender.country_access.whitelist_ips' => [],
         ]);
 
         $this->fakeGeoResponse('ES');
@@ -83,9 +83,9 @@ class CountryAccessMiddlewareTest extends TestCase {
 
     public function test_whitelisted_ip_bypasses_country_check(): void {
         config([
-            'defender.advanced_detection.country_access.mode' => 'allow',
-            'defender.advanced_detection.country_access.countries' => ['ES'],
-            'defender.advanced_detection.country_access.whitelist_ips' => ['127.0.0.1'],
+            'defender.country_access.mode' => 'allow',
+            'defender.country_access.countries' => ['ES'],
+            'defender.country_access.whitelist_ips' => ['127.0.0.1'],
         ]);
 
         // No Http::fake needed — whitelist check runs before GeoService is called
@@ -96,9 +96,9 @@ class CountryAccessMiddlewareTest extends TestCase {
 
     public function test_passes_when_geo_service_unavailable(): void {
         config([
-            'defender.advanced_detection.country_access.mode' => 'allow',
-            'defender.advanced_detection.country_access.countries' => ['ES'],
-            'defender.advanced_detection.country_access.whitelist_ips' => [],
+            'defender.country_access.mode' => 'allow',
+            'defender.country_access.countries' => ['ES'],
+            'defender.country_access.whitelist_ips' => [],
         ]);
 
         // Simulate GeoService returning null (API down / connection error)
@@ -114,9 +114,9 @@ class CountryAccessMiddlewareTest extends TestCase {
 
     public function test_blocked_country_fires_ip_blocked_event(): void {
         config([
-            'defender.advanced_detection.country_access.mode' => 'allow',
-            'defender.advanced_detection.country_access.countries' => ['ES'],
-            'defender.advanced_detection.country_access.whitelist_ips' => [],
+            'defender.country_access.mode' => 'allow',
+            'defender.country_access.countries' => ['ES'],
+            'defender.country_access.whitelist_ips' => [],
         ]);
 
         \Illuminate\Support\Facades\Event::fake([

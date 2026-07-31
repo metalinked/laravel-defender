@@ -10,7 +10,7 @@ class IpLoggerMiddlewareTest extends TestCase {
     protected function setUp(): void {
         parent::setUp();
 
-        Route::middleware('ip.logger')->post('/test-ip', function () {
+        Route::middleware('defender.iplogger')->post('/test-ip', function () {
             return response('OK');
         });
     }

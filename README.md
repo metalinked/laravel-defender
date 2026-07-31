@@ -88,6 +88,10 @@ In `bootstrap/app.php`:
 | `BruteForceMiddleware` | Blocks IPs after too many suspicious requests in the configured window. |
 | `CountryAccessMiddleware` | Allows or denies access based on country code. |
 
+You can also register these by their route middleware alias instead of the FQCN: `defender.blocked`, `defender.honeypot`, `defender.iplogger`, `defender.advanced_detection`, `defender.brute_force`, `defender.country_access`.
+
+> **Upgrading from < 2.0:** middleware aliases are now consistently prefixed with `defender.`. `advanced.detection` → `defender.advanced_detection`, `brute.force` → `defender.brute_force`, `country.access` → `defender.country_access`. The redundant `ip.logger` alias was removed — use `defender.iplogger`.
+
 ---
 
 ## Configuration
@@ -108,23 +112,27 @@ All options are in `config/defender.php` after publishing.
 ],
 ```
 
-### Advanced Detection & Country Access
+### Advanced Detection, Geolocation & Country Access
 
 ```php
 'advanced_detection' => [
     'enabled'                => true,
-    'geo_provider'           => 'ip-api',       // 'ip-api', 'ipinfo', 'ipgeolocation'
-    'geo_cache_minutes'      => 10,
-    'ipinfo_token'           => env('IPINFO_TOKEN'),
-    'ipgeolocation_key'      => env('IPGEOLOCATION_KEY'),
     'suspicious_user_agents' => ['curl', 'python', 'sqlmap', 'nmap', 'nikto', 'fuzzer', 'scanner'],
     'suspicious_routes'      => ['/wp-admin', '/wp-login', '/phpmyadmin', '/admin.php', '/xmlrpc.php'],
     'common_usernames'       => ['admin', 'administrator', 'root', 'test', 'user'],
-    'country_access' => [
-        'mode'          => 'allow',       // 'allow' = only listed countries; 'deny' = block listed countries
-        'countries'     => ['ES'],
-        'whitelist_ips' => ['1.2.3.4'],  // Always allowed, regardless of country
-    ],
+],
+
+'geo' => [
+    'provider'             => 'ip-api',       // 'ip-api', 'ipinfo', 'ipgeolocation'
+    'cache_minutes'        => 10,
+    'ipinfo_token'         => env('IPINFO_TOKEN'),
+    'ipgeolocation_key'    => env('IPGEOLOCATION_KEY'),
+],
+
+'country_access' => [
+    'mode'          => 'allow',       // 'allow' = only listed countries; 'deny' = block listed countries
+    'countries'     => ['ES'],
+    'whitelist_ips' => ['1.2.3.4'],  // Always allowed, regardless of country
 ],
 ```
 
@@ -132,6 +140,26 @@ All options are in `config/defender.php` after publishing.
 - [ip-api.com](https://ip-api.com/): free tier, no registration required (default)
 - [ipinfo.io](https://ipinfo.io/): requires `IPINFO_TOKEN`
 - [ipgeolocation.io](https://ipgeolocation.io/): requires `IPGEOLOCATION_KEY`
+
+> **Upgrading from < 2.0:** `geo_provider`, `geo_cache_minutes`, `ipinfo_token`, `ipgeolocation_key`, and `country_access` used to live under `advanced_detection`. They are now top-level `geo` and `country_access` keys — republish the config (`php artisan vendor:publish --tag=defender-config --force`) or update your published copy by hand.
+
+### IP Reputation (AbuseIPDB)
+
+Enrich detected threats with an [AbuseIPDB](https://www.abuseipdb.com/) confidence score, and optionally auto-block IPs with a bad reputation. To conserve free-tier API quota, the lookup only runs for requests **already flagged suspicious** by another middleware (brute force, advanced detection, country access) — never on every request.
+
+```php
+'reputation' => [
+    'enabled'           => true,
+    'provider'          => 'abuseipdb',
+    'api_key'           => env('DEFENDER_ABUSEIPDB_KEY'),
+    'cache_minutes'     => 60,   // cache a given IP's score to avoid repeat lookups
+    'threshold'         => 75,   // AbuseIPDB confidence score (0-100) to treat an IP as malicious
+    'auto_block'        => false, // set true to auto-add matching IPs to the dynamic blocklist
+    'auto_block_hours'  => null,  // null = permanent
+],
+```
+
+Get a free API key at [abuseipdb.com](https://www.abuseipdb.com/) (1,000 checks/day on the free tier). The score is stored on `defender_ip_logs.reputation_score` for every enriched alert, and surfaced in `defender:ip-logs` / `defender:stats`.
 
 ### Dynamic IP Blocklist & Auto-block
 

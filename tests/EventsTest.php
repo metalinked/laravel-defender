@@ -11,7 +11,7 @@ class EventsTest extends TestCase {
     protected function setUp(): void {
         parent::setUp();
 
-        Route::middleware('advanced.detection')->post('/test-events', function () {
+        Route::middleware('defender.advanced_detection')->post('/test-events', function () {
             return response('OK');
         });
     }

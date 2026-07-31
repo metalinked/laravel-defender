@@ -3,11 +3,9 @@
 return [
     // General
     'access_blocked' => 'Accés bloquejat per activitat sospitosa.',
-    'ok' => 'D\'acord',
 
     // Alerts
     'alert_subject' => '[Defender] Alerta de Seguretat',
-    'alert_suspicious_ip' => 'IP sospitosa detectada',
     'alert_suspicious_user_agent' => 'Agent d\'usuari sospitós: :user_agent',
     'alert_suspicious_route' => 'Ruta sospitosa accedida: :route',
     'alert_common_username' => 'Intent d\'inici de sessió amb nom d\'usuari comú: :username',
@@ -46,6 +44,8 @@ return [
     'stats_top_ips' => 'Top 5 IPs:',
     'stats_top_countries' => 'Top 5 països:',
     'stats_top_routes' => 'Top 5 rutes:',
+    'stats_top_reputation' => 'Top 5 IPs per puntuació de reputació:',
+    'stats_score' => 'Puntuació',
 
     // Honeypot messages
     'honeypot_bot_detected' => 'Bot detectat',
@@ -55,6 +55,7 @@ return [
 
     // Blocklist commands
     'auto_block_reason' => 'Bloquejat automàticament després de :count amenaces detectades',
+    'reputation_block_reason' => 'Bloquejada automàticament per mala reputació d\'IP (puntuació AbuseIPDB: :score)',
     'block_ip_invalid' => 'Adreça IP invàlida: :ip',
     'block_ip_permanent' => 'La IP :ip ha estat bloquejada permanentment.',
     'block_ip_until' => 'La IP :ip ha estat bloquejada fins :until.',
@@ -114,7 +115,4 @@ return [
     'prune_none' => 'No s\'han trobat registres de Defender de més de :days dies a la base de dades.',
     'prune_table_missing' => 'La taula de registres de Defender (:table) no existeix.',
     'prune_laravel_deleted' => 'S\'han eliminat :count arxius de registre de Laravel de més de :days dies.',
-
-    // Security tip
-    'tip_avoid_common_usernames' => 'Evita utilitzar noms d\'usuari comuns com admin, administrator, root, test o user.',
 ];

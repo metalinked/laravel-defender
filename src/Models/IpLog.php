@@ -18,5 +18,6 @@ class IpLog extends Model {
         'headers_hash',
         'is_suspicious',
         'reason',
+        'reputation_score',
     ];
 }
