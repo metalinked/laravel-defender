@@ -1,6 +1,6 @@
 {
     "name": "metalinked/laravel-defender",
-    "description": "Modular Laravel security package: brute force protection, dynamic IP blocklist, auto-block, country access control, honeypot, events, Pulse card, multi-channel alerts, and security audit.",
+    "description": "Drop-in security middleware for Laravel: brute force & bot protection, AbuseIPDB reputation blocking, dynamic IP blocklist with auto-block, country access control, honeypot spam protection, real-time multi-channel alerts, a Laravel Pulse dashboard card, and a security audit command.",
     "keywords": [
         "security",
         "middleware",
@@ -12,10 +12,19 @@
         "defender",
         "login-protection",
         "ip-logging",
-        "country-blocking"
+        "ip-reputation",
+        "abuseipdb",
+        "country-blocking",
+        "firewall",
+        "bot-protection"
     ],
     "license": "MIT",
     "type": "library",
+    "homepage": "https://github.com/metalinked/laravel-defender",
+    "support": {
+        "issues": "https://github.com/metalinked/laravel-defender/issues",
+        "source": "https://github.com/metalinked/laravel-defender"
+    },
     "require": {
         "php": "^8.2",
         "illuminate/support": "^11.0|^12.0|^13.0",
