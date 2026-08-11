@@ -191,6 +191,7 @@ Get a free API key at [abuseipdb.com](https://www.abuseipdb.com/) (1,000 checks/
 | `DEFENDER_GEO_PROVIDER` | Geo provider: `ip-api`, `ipinfo`, or `ipgeolocation` |
 | `IPINFO_TOKEN` | API token for ipinfo.io |
 | `IPGEOLOCATION_KEY` | API key for ipgeolocation.io |
+| `DEFENDER_ABUSEIPDB_KEY` | API key for AbuseIPDB reputation lookups |
 | `DEFENDER_ALERT_MAIL_TO` | Email address for alert notifications |
 | `DEFENDER_SLACK_WEBHOOK` | Slack incoming webhook URL |
 | `DEFENDER_ALERT_WEBHOOK` | Custom webhook URL for alert notifications |
@@ -341,6 +342,14 @@ php artisan defender:ip-logs --ip=1.2.3.4     # Filter by IP
 php artisan defender:ip-logs --limit=100      # Limit results
 ```
 
+### View statistics
+
+```bash
+php artisan defender:stats
+```
+
+Prints a summary from `defender_ip_logs`: total logs, unique IPs, suspicious accesses, and top 5 tables for attacking IPs, countries, routes, and (when reputation scoring is enabled) IPs by AbuseIPDB score.
+
 ### Export logs
 
 ```bash
@@ -393,7 +402,7 @@ Each issue includes a specific remediation tip.
 composer test
 ```
 
-> Requires the `pdo_sqlite` PHP extension. Tests use an SQLite in-memory database via Orchestra Testbench.
+> Requires the `sqlite3` and `pdo_sqlite` PHP extensions. Tests use an SQLite in-memory database via Orchestra Testbench.
 
 ---
 
