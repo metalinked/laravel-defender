@@ -3,7 +3,6 @@
 ## Release process (manual, since release-please was removed)
 
 - Versioning, tagging and `CHANGELOG.md` entries are now done by hand (Conventional Commits style, matching the existing changelog format).
-- ⚠️ Check whether Packagist has a GitHub webhook configured (Settings → Webhooks on the repo) so new tags auto-update the package. The old workflow triggered Packagist's update API directly after each release-please run — without it (and without a webhook), new tags won't reach Packagist until someone manually clicks "Update" on packagist.org.
 
 ## Pending ideas
 
