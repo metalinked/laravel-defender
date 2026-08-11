@@ -1,5 +1,20 @@
 # Changelog
 
+## [2.0.1](https://github.com/metalinked/laravel-defender/compare/v2.0.0...v2.0.1) (2026-08-11)
+
+
+### Bug Fixes
+
+* `BlockedIpMiddleware` now fires `IpBlocked` and routes through `AlertManager::send()` like every other blocking middleware, so blocklist hits are logged, alerted, and observable via the event ([3b17df9](https://github.com/metalinked/laravel-defender/commit/3b17df92fab2ee80ca34eb1617874ba656f341d4))
+* `BlocklistService::isBlocked()` no longer keeps an IP blocked past its `blocked_until` for up to `cache_ttl` seconds after a temporary block expires — the cache now stores the actual expiry instead of a plain boolean ([3b17df9](https://github.com/metalinked/laravel-defender/commit/3b17df92fab2ee80ca34eb1617874ba656f341d4))
+* `DefenderExportLogsCommand::toCsv()` no longer passes `null` into `str_replace()`, which triggered a PHP 8.1+ deprecation warning on any exported row with an empty field ([3b17df9](https://github.com/metalinked/laravel-defender/commit/3b17df92fab2ee80ca34eb1617874ba656f341d4))
+
+
+### Miscellaneous Chores
+
+* collapse redundant `Cache::has()` + `Cache::get()` round trips in `ReputationService` and `GeoService` into a single call ([3b17df9](https://github.com/metalinked/laravel-defender/commit/3b17df92fab2ee80ca34eb1617874ba656f341d4))
+* add regression tests for the blocklist event-firing and stale-cache fixes ([1734f9b](https://github.com/metalinked/laravel-defender/commit/1734f9bbe30aff2186a590304fc665cc832fad71))
+
 ## [2.0.0](https://github.com/metalinked/laravel-defender/compare/v1.19.1...v2.0.0) (2026-07-31)
 
 
