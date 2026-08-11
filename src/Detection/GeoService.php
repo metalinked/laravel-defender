@@ -26,10 +26,11 @@ class GeoService {
 
         // Check cache first (10 min cache by default)
         $cacheTtl = config('defender.geo.cache_minutes', 10);
-        if (Cache::has($cacheKey)) {
-            return Cache::get($cacheKey);
+        $cached = Cache::get($cacheKey);
+        if ($cached !== null) {
+            return $cached;
         }
-        
+
         // Attempt to retrieve from selected provider
         $countryCode = match ($provider) {
             'ip-api' => self::getCountryCodeFromIpApi($ip),

@@ -82,7 +82,7 @@ class DefenderExportLogsCommand extends Command {
         // Convert to CSV string
         $csv = '';
         foreach ($rows as $row) {
-            $csv .= '"' . implode('","', array_map(fn ($v) => str_replace('"', '""', $v), $row)) . '"' . "\n";
+            $csv .= '"' . implode('","', array_map(fn ($v) => str_replace('"', '""', (string) $v), $row)) . '"' . "\n";
         }
 
         return $csv;

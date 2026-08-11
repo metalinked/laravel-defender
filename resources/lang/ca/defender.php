@@ -13,6 +13,7 @@ return [
     'alert_non_allowed_country' => 'Accés des d\'un país no permès: :country',
     'alert_denied_country' => 'Accés des d\'un país denegat: :country',
     'alert_suspicious_pattern' => 'S\'ha detectat un patró sospitós: ":pattern" a la sol·licitud',
+    'alert_blocked_ip' => 'Una IP bloquejada ha intentat accedir',
 
     // IP blocked
     'ip_blocked' => 'Accés denegat.',

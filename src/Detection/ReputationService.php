@@ -19,8 +19,9 @@ class ReputationService {
 
         $cacheKey = "defender_reputation_{$ip}";
 
-        if (Cache::has($cacheKey)) {
-            return Cache::get($cacheKey);
+        $cached = Cache::get($cacheKey);
+        if ($cached !== null) {
+            return $cached;
         }
 
         $provider = strtolower(config('defender.reputation.provider', 'abuseipdb'));

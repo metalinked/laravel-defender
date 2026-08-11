@@ -13,6 +13,7 @@ return [
     'alert_non_allowed_country' => 'Access from non-allowed country: :country',
     'alert_denied_country' => 'Access from denied country: :country',
     'alert_suspicious_pattern' => 'Suspicious pattern detected: ":pattern" in request',
+    'alert_blocked_ip' => 'Blocked IP attempted access',
 
     // IP blocked
     'ip_blocked' => 'Access denied.',
