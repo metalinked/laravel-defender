@@ -6,7 +6,7 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/metalinked/laravel-defender?style=flat-square)](https://packagist.org/packages/metalinked/laravel-defender)
 [![License](https://img.shields.io/packagist/l/metalinked/laravel-defender?style=flat-square)](https://github.com/metalinked/laravel-defender/blob/main/LICENSE.md)
 
-A modular security package for Laravel with advanced threat detection, brute force protection, dynamic IP blocklisting with auto-block, country access control, honeypot spam protection, multi-channel alerts, and a Laravel Pulse dashboard card. Fully configurable and privacy-friendly.
+Security package for Laravel. It detects and blocks suspicious requests (attack routes, malicious user-agents, brute force, unwanted countries), keeps a blocklist of IPs and sends alerts. Everything runs on your own server; external services are only used for the optional geolocation and IP reputation lookups.
 
 ---
 
@@ -22,18 +22,19 @@ A modular security package for Laravel with advanced threat detection, brute for
 
 ## Features
 
-- 🛡️ **Honeypot spam protection** for forms
-- 👁️ **Request logging** and alert system for suspicious activity
-- 🚨 **Advanced risk detection**: malicious user-agents, common attack routes, login attempts with common usernames, path traversal, and fuzzing patterns
-- 🔒 **Brute force protection**: blocks IPs after too many suspicious requests
-- 🌍 **Country access control**: allow or deny by country code, with IP whitelist bypass
-- 🚫 **Dynamic IP blocklist**: block/unblock IPs at runtime via Artisan, no config changes needed
-- 🤖 **Auto-block**: automatically block IPs that trigger repeated events within a configurable time window
-- 🎯 **Laravel Events**: `SuspiciousRequestDetected` and `IpBlocked` for full extensibility
-- 🔔 **Multi-channel alerts**: log, database, mail, Slack, webhook
-- 📊 **Laravel Pulse card**: real-time security dashboard (optional, requires `laravel/pulse`)
-- 🔍 **Security audit command**: detects common Laravel misconfigurations and missing security headers
-- 📝 **Artisan commands**: view, export, and prune logs directly from the console
+- **Honeypot** for forms
+- **Request logging** and alerts for suspicious activity
+- **Attack detection**: malicious user-agents, common attack routes, logins with common usernames, path traversal and fuzzing patterns
+- **Brute force protection**: blocks IPs after too many suspicious requests
+- **Country access control**: allow or deny by country code, with an IP whitelist
+- **IP blocklist**: block and unblock IPs at runtime with Artisan, no config changes needed
+- **Auto-block**: blocks IPs that keep triggering events within a configurable time window
+- **IP reputation**: optional AbuseIPDB score for IPs already flagged as suspicious
+- **Events**: `SuspiciousRequestDetected` and `IpBlocked`, to add your own logic
+- **Alerts** by log, database, mail, Slack or webhook
+- **Laravel Pulse card** with live security activity (optional, requires `laravel/pulse`)
+- **Security audit command**: finds common Laravel misconfigurations and missing security headers
+- **Artisan commands** to view, export and prune logs
 
 ---
 
@@ -299,7 +300,7 @@ php artisan vendor:publish --tag=defender-views
 
 ## Alert System
 
-Defender supports multiple alert channels for real-time notifications.
+Alerts are sent through the channels enabled in `alerts.channels`.
 
 | Channel | Description | Default |
 |---------|-------------|---------|
@@ -424,4 +425,4 @@ MIT © [Metalinked](https://metalinked.net)
 
 ---
 
-💬 [Questions, suggestions or feedback? Open a discussion.](https://github.com/metalinked/laravel-defender/discussions)
+Questions or suggestions: [open a discussion](https://github.com/metalinked/laravel-defender/discussions).
