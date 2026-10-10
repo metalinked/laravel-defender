@@ -1,6 +1,6 @@
 {
     "name": "metalinked/laravel-defender",
-    "description": "Drop-in security middleware for Laravel: brute force & bot protection, AbuseIPDB reputation blocking, dynamic IP blocklist with auto-block, country access control, honeypot spam protection, real-time multi-channel alerts, a Laravel Pulse dashboard card, and a security audit command.",
+    "description": "One-line security middleware for Laravel: attack and scanner detection, failed-login protection, auto-blocking IP blocklist, monitor mode, AbuseIPDB reputation, country access control, honeypot spam protection, throttled multi-channel alerts, a Laravel Pulse card and a security audit command.",
     "keywords": [
         "security",
         "middleware",
@@ -71,7 +71,7 @@
     },
     "suggest": {
         "laravel/pulse": "Required for the Defender Pulse card (^1.0)",
-        "livewire/livewire": "Required for the Defender Pulse card (^3.0)"
+        "livewire/livewire": "Required for the Defender Pulse card (^3.0|^4.0)"
     },
     "minimum-stability": "stable",
     "prefer-stable": true,
