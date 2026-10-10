@@ -3,38 +3,39 @@
 namespace Metalinked\LaravelDefender\Listeners;
 
 use Illuminate\Support\Facades\Cache;
-use Metalinked\LaravelDefender\Events\IpBlocked;
+use Metalinked\LaravelDefender\Defender;
+use Metalinked\LaravelDefender\Events\SuspiciousRequestDetected;
 use Metalinked\LaravelDefender\Services\BlocklistService;
 
+/**
+ * Escalation: an IP with auto_block.after suspicious requests within
+ * auto_block.window_minutes goes to the blocklist for auto_block.hours.
+ */
 class AutoBlockListener {
-    public function handle(IpBlocked $event): void {
-        $threshold = (int) config('defender.blocklist.auto_block_after', 0);
+    public function handle(SuspiciousRequestDetected $event): void {
+        $threshold = (int) config('defender.auto_block.after', 0);
 
-        if (! $threshold || ! config('defender.blocklist.enabled', true)) {
+        if (
+            $threshold <= 0
+            || Defender::monitoring()
+            || ! config('defender.blocklist.enabled', true)
+            || BlocklistService::isBlocked($event->ip)
+        ) {
             return;
         }
 
-        if (BlocklistService::isBlocked($event->ip)) {
-            return;
-        }
-
-        $cacheKey = "defender:auto_block_count:{$event->ip}";
-        $windowHours = (int) config('defender.blocklist.auto_block_window_hours', 24);
-
-        $count = Cache::get($cacheKey, 0) + 1;
-        Cache::put($cacheKey, $count, now()->addHours($windowHours));
+        $key = "defender:incidents:{$event->ip}";
+        Cache::add($key, 0, now()->addMinutes((int) config('defender.auto_block.window_minutes', 60)));
+        $count = (int) Cache::increment($key);
 
         if ($count >= $threshold) {
-            $hours = config('defender.blocklist.auto_block_hours');
-            $until = $hours ? now()->addHours((int) $hours) : null;
-
             BlocklistService::block(
                 $event->ip,
                 __('defender::defender.auto_block_reason', ['count' => $count]),
-                $until
+                BlocklistService::autoBlockUntil(),
             );
 
-            Cache::forget($cacheKey);
+            Cache::forget($key);
         }
     }
 }

@@ -60,7 +60,7 @@ class AdvancedDetectionMiddlewareTest extends TestCase {
 
     public function test_marks_log_as_suspicious_for_suspicious_route() {
         $response = $this->post('/admin/login');
-        $this->assertEquals(429, $response->getStatusCode()); // Should return 429 (blocked)
+        $this->assertEquals(403, $response->getStatusCode());
         $this->assertDatabaseHas('defender_ip_logs', ['is_suspicious' => true]);
     }
 

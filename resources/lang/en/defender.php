@@ -2,21 +2,19 @@
 
 return [
     // General
-    'access_blocked' => 'Access blocked due to suspicious activity.',
+    'access_blocked' => 'Access denied.',
+    'too_many_attempts' => 'Too many attempts. Please try again later.',
 
     // Alerts
     'alert_subject' => '[Defender] Security Alert',
     'alert_suspicious_user_agent' => 'Suspicious user-agent: :user_agent',
     'alert_suspicious_route' => 'Suspicious route accessed: :route',
     'alert_common_username' => 'Login attempt with common username: :username',
-    'alert_too_many_attempts' => 'Too many requests from this IP',
+    'alert_too_many_login_attempts' => 'Too many failed login attempts from this IP',
     'alert_non_allowed_country' => 'Access from non-allowed country: :country',
     'alert_denied_country' => 'Access from denied country: :country',
     'alert_suspicious_pattern' => 'Suspicious pattern detected: ":pattern" in request',
     'alert_blocked_ip' => 'Blocked IP attempted access',
-
-    // IP blocked
-    'ip_blocked' => 'Access denied.',
 
     // Log viewer command
     'logs_header' => 'Defender IP Logs',
@@ -55,7 +53,7 @@ return [
     'honeypot_missing' => 'Missing honeypot',
 
     // Blocklist commands
-    'auto_block_reason' => 'Automatically blocked after :count detected threats',
+    'auto_block_reason' => 'Automatically blocked after :count suspicious requests',
     'reputation_block_reason' => 'Automatically blocked due to bad IP reputation (AbuseIPDB score: :score)',
     'block_ip_invalid' => 'Invalid IP address: :ip',
     'block_ip_permanent' => 'IP :ip has been permanently blocked.',
@@ -104,7 +102,6 @@ return [
     'audit_headers_hsts_tip' => 'Add Strict-Transport-Security header to enforce HTTPS.',
 
     // Database alert messages
-    'db_logging_disabled' => 'Database logging is disabled in config/defender.php.',
     'logs_table_missing' => 'Defender IP logs table does not exist. Run: php artisan vendor:publish --tag=defender-migrations && php artisan migrate',
 
     // Export command

@@ -13,6 +13,7 @@ class DefenderServiceProvider extends ServiceProvider {
 
         $this->publishes([
             __DIR__.'/../resources/views/components/honeypot.blade.php' => resource_path('views/vendor/defender/components/honeypot.blade.php'),
+            __DIR__.'/../resources/views/blocked.blade.php' => resource_path('views/vendor/defender/blocked.blade.php'),
         ], 'defender-views');
 
         $this->publishes([
@@ -31,23 +32,27 @@ class DefenderServiceProvider extends ServiceProvider {
         });
 
         // 4. Register route middleware aliases
-        $this->app['router']->aliasMiddleware('defender.honeypot', \Metalinked\LaravelDefender\Http\Middleware\HoneypotMiddleware::class);
-        $this->app['router']->aliasMiddleware('defender.iplogger', \Metalinked\LaravelDefender\Http\Middleware\IpLoggerMiddleware::class);
-        $this->app['router']->aliasMiddleware('defender.advanced_detection', \Metalinked\LaravelDefender\Http\Middleware\AdvancedDetectionMiddleware::class);
-        $this->app['router']->aliasMiddleware('defender.brute_force', \Metalinked\LaravelDefender\Http\Middleware\BruteForceMiddleware::class);
-        $this->app['router']->aliasMiddleware('defender.country_access', \Metalinked\LaravelDefender\Http\Middleware\CountryAccessMiddleware::class);
-        $this->app['router']->aliasMiddleware('defender.blocked', \Metalinked\LaravelDefender\Http\Middleware\BlockedIpMiddleware::class);
+        $router = $this->app['router'];
+        $router->aliasMiddleware('defender', \Metalinked\LaravelDefender\Http\Middleware\DefenderMiddleware::class);
+        $router->aliasMiddleware('defender.blocked', \Metalinked\LaravelDefender\Http\Middleware\BlockedIpMiddleware::class);
+        $router->aliasMiddleware('defender.advanced_detection', \Metalinked\LaravelDefender\Http\Middleware\AdvancedDetectionMiddleware::class);
+        $router->aliasMiddleware('defender.country_access', \Metalinked\LaravelDefender\Http\Middleware\CountryAccessMiddleware::class);
+        $router->aliasMiddleware('defender.honeypot', \Metalinked\LaravelDefender\Http\Middleware\HoneypotMiddleware::class);
 
         // 5. Auto honeypot protection for web group (if enabled)
         if (config('defender.honeypot.auto_protect_forms') && config('defender.honeypot.enabled')) {
             $this->app['router']->pushMiddlewareToGroup('web', \Metalinked\LaravelDefender\Http\Middleware\HoneypotAutoMiddleware::class);
         }
 
-        // 6. Register auto-block listener
-        $this->app['events']->listen(
-            \Metalinked\LaravelDefender\Events\IpBlocked::class,
+        // 6. Listeners: escalation to the blocklist, and failed-login protection
+        $events = $this->app['events'];
+        $events->listen(
+            \Metalinked\LaravelDefender\Events\SuspiciousRequestDetected::class,
             \Metalinked\LaravelDefender\Listeners\AutoBlockListener::class
         );
+
+        $events->listen(\Illuminate\Auth\Events\Failed::class, [\Metalinked\LaravelDefender\Listeners\LoginProtection::class, 'failed']);
+        $events->listen(\Illuminate\Auth\Events\Attempting::class, [\Metalinked\LaravelDefender\Listeners\LoginProtection::class, 'attempting']);
 
         // 7. Register Pulse card if Laravel Pulse is installed
         if (class_exists(\Laravel\Pulse\Facades\Pulse::class) && class_exists(\Livewire\Livewire::class)) {

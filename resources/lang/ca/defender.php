@@ -2,21 +2,19 @@
 
 return [
     // General
-    'access_blocked' => 'Accés bloquejat per activitat sospitosa.',
+    'access_blocked' => 'Accés denegat.',
+    'too_many_attempts' => 'Massa intents. Torna-ho a provar més tard.',
 
     // Alerts
     'alert_subject' => '[Defender] Alerta de Seguretat',
     'alert_suspicious_user_agent' => 'Agent d\'usuari sospitós: :user_agent',
     'alert_suspicious_route' => 'Ruta sospitosa accedida: :route',
     'alert_common_username' => 'Intent d\'inici de sessió amb nom d\'usuari comú: :username',
-    'alert_too_many_attempts' => 'Massa peticions des d\'aquesta IP',
+    'alert_too_many_login_attempts' => 'Massa intents d\'inici de sessió fallits des d\'aquesta IP',
     'alert_non_allowed_country' => 'Accés des d\'un país no permès: :country',
     'alert_denied_country' => 'Accés des d\'un país denegat: :country',
     'alert_suspicious_pattern' => 'S\'ha detectat un patró sospitós: ":pattern" a la sol·licitud',
     'alert_blocked_ip' => 'Una IP bloquejada ha intentat accedir',
-
-    // IP blocked
-    'ip_blocked' => 'Accés denegat.',
 
     // Log viewer command
     'logs_header' => 'Registres d\'IP de Defender',
@@ -55,7 +53,7 @@ return [
     'honeypot_missing' => 'Falta el honeypot',
 
     // Blocklist commands
-    'auto_block_reason' => 'Bloquejat automàticament després de :count amenaces detectades',
+    'auto_block_reason' => 'Bloquejat automàticament després de :count peticions sospitoses',
     'reputation_block_reason' => 'Bloquejada automàticament per mala reputació d\'IP (puntuació AbuseIPDB: :score)',
     'block_ip_invalid' => 'Adreça IP invàlida: :ip',
     'block_ip_permanent' => 'La IP :ip ha estat bloquejada permanentment.',
@@ -104,7 +102,6 @@ return [
     'audit_headers_hsts_tip' => 'Afegeix la capçalera Strict-Transport-Security per forçar HTTPS.',
 
     // Database alert messages
-    'db_logging_disabled' => 'El registre a la base de dades està desactivat a config/defender.php.',
     'logs_table_missing' => 'La taula de registres d\'IP de Defender no existeix. Executa: php artisan vendor:publish --tag=defender-migrations && php artisan migrate',
 
     // Export command

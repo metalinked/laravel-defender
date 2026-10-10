@@ -12,11 +12,6 @@ class ShowIpLogsCommand extends Command {
 
     public function handle() {
         $table = (new \Metalinked\LaravelDefender\Models\IpLog)->getTable();
-        if (! config('defender.ip_logging.enabled', true)) {
-            $this->warn(__('defender::defender.db_logging_disabled'));
-
-            return;
-        }
         if (! Schema::hasTable($table)) {
             $this->warn(__('defender::defender.logs_table_missing'));
 

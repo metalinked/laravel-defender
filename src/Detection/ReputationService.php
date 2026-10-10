@@ -13,7 +13,7 @@ class ReputationService {
      * are disabled, no API key is configured, or the lookup fails.
      */
     public static function getScore(string $ip): ?int {
-        if (! config('defender.reputation.enabled', false)) {
+        if (! config('defender.reputation.enabled', false) || ! GeoService::isPublicIp($ip)) {
             return null;
         }
 

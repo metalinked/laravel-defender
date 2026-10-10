@@ -57,6 +57,15 @@ class BlocklistService {
         Cache::put(self::cacheKey($ip), $until ?? true, self::cacheTtl());
     }
 
+    /**
+     * Expiry for automatic blocks (incidents, reputation), from auto_block.hours. null = permanent.
+     */
+    public static function autoBlockUntil(): ?\DateTimeInterface {
+        $hours = config('defender.auto_block.hours', 24);
+
+        return $hours ? now()->addHours((int) $hours) : null;
+    }
+
     public static function unblock(string $ip): bool {
         $deleted = BlockedIp::where('ip', $ip)->delete();
         Cache::forget(self::cacheKey($ip));

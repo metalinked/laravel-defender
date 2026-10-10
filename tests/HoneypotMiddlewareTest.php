@@ -22,10 +22,9 @@ class HoneypotMiddlewareTest extends TestCase {
             'valid_from' => Crypt::encrypt(now()->timestamp - 10),
         ]);
 
-        // Expect middleware to abort with HTTP exception
-        $this->expectException(\Symfony\Component\HttpKernel\Exception\HttpException::class);
+        $response = $middleware->handle($request, fn () => response('passed'));
 
-        $middleware->handle($request, fn () => null);
+        $this->assertSame(422, $response->getStatusCode());
     }
 
     public function test_blocks_request_submitted_too_quickly() {
@@ -44,5 +43,25 @@ class HoneypotMiddlewareTest extends TestCase {
         ]);
 
         $response->assertStatus(422);
+    }
+
+    public function test_rejected_submission_is_logged_as_suspicious(): void {
+        Route::post('/contact', fn () => 'ok')->middleware(HoneypotMiddleware::class);
+
+        $this->post('/contact', [
+            config('defender.honeypot.field_prefix') . 'abc' => 'bot',
+            'valid_from' => Crypt::encrypt(now()->timestamp - 10),
+        ])->assertStatus(422);
+
+        $this->assertDatabaseHas('defender_ip_logs', ['is_suspicious' => true, 'reason' => 'Bot detected']);
+    }
+
+    public function test_human_submission_passes(): void {
+        Route::post('/contact', fn () => 'ok')->middleware(HoneypotMiddleware::class);
+
+        $this->post('/contact', [
+            config('defender.honeypot.field_prefix') . 'abc' => '',
+            'valid_from' => Crypt::encrypt(now()->timestamp - 10),
+        ])->assertOk();
     }
 }

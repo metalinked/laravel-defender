@@ -34,14 +34,12 @@ abstract class TestCase extends BaseTestCase {
 
         // Laravel testing environment
         $app['config']->set('app.env', 'testing');
-        $app['config']->set('app.key', 'base64:TEST_KEY_FOR_TESTING_PURPOSES_ONLY=');
+        $app['config']->set('app.key', 'base64:' . base64_encode(str_repeat('k', 32)));
         $app['config']->set('cache.default', 'array');
         $app['config']->set('session.driver', 'array');
         $app['config']->set('queue.default', 'sync');
 
         // Defender configuration
-        $app['config']->set('defender.ip_logging.enabled', true);
-        $app['config']->set('defender.ip_logging.log_all', true);
         $app['config']->set('defender.alerts.channels', ['database']);
         $app['config']->set('defender.honeypot.field_prefix', 'my_full_name_');
         $app['config']->set('defender.honeypot.minimum_time', 2);

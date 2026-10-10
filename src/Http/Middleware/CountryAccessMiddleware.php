@@ -4,62 +4,43 @@ namespace Metalinked\LaravelDefender\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Metalinked\LaravelDefender\Defender;
 use Metalinked\LaravelDefender\Detection\GeoService;
-use Metalinked\LaravelDefender\Events\IpBlocked;
-use Metalinked\LaravelDefender\Services\AlertManager;
+use Symfony\Component\HttpFoundation\IpUtils;
 
 class CountryAccessMiddleware {
     public function handle(Request $request, Closure $next) {
         $config = config('defender.country_access', []);
-        $ip = $request->ip();
-        $countryCode = GeoService::getCountryCode($ip);
+        $countries = array_map('strtoupper', $config['countries'] ?? []);
 
-        $allowedCountries = $config['countries'] ?? [];
-        $mode = $config['mode'] ?? 'allow';
-        $whitelistIps = $config['whitelist_ips'] ?? [];
-
-        if (in_array($ip, $whitelistIps) || ! $countryCode) {
+        // An empty list means the feature is off, so no geo lookup at all.
+        if (! $countries || Defender::isWhitelisted($request)) {
             return $next($request);
         }
 
-        if ($mode === 'allow' && ! in_array($countryCode, $allowedCountries)) {
-            $reason = __('defender::defender.alert_non_allowed_country', ['country' => $countryCode]);
+        $ip = (string) $request->ip();
 
-            AlertManager::send(
-                __('defender::defender.alert_subject'),
-                $reason,
-                [
-                    'ip' => $ip,
-                    'route' => $request->path(),
-                    'is_suspicious' => true,
-                    'request' => $request,
-                    'reason' => $reason,
-                ]
-            );
-
-            event(new IpBlocked($ip, $reason, $request));
-
-            return response($reason, 429);
+        // Pre-3.0 per-feature whitelist, still honoured.
+        $legacyWhitelist = $config['whitelist_ips'] ?? [];
+        if ($legacyWhitelist && IpUtils::checkIp($ip, $legacyWhitelist)) {
+            return $next($request);
         }
 
-        if ($mode === 'deny' && in_array($countryCode, $allowedCountries)) {
-            $reason = __('defender::defender.alert_denied_country', ['country' => $countryCode]);
+        // Unknown country (private IP, provider down): let it through rather than lock everyone out.
+        $country = GeoService::getCountryCode($ip);
+        if (! $country) {
+            return $next($request);
+        }
 
-            AlertManager::send(
-                __('defender::defender.alert_subject'),
-                $reason,
-                [
-                    'ip' => $ip,
-                    'route' => $request->path(),
-                    'is_suspicious' => true,
-                    'request' => $request,
-                    'reason' => $reason,
-                ]
-            );
+        $listed = in_array(strtoupper($country), $countries, true);
+        $reason = match (true) {
+            ($config['mode'] ?? 'allow') === 'deny' && $listed => __('defender::defender.alert_denied_country', ['country' => $country]),
+            ($config['mode'] ?? 'allow') !== 'deny' && ! $listed => __('defender::defender.alert_non_allowed_country', ['country' => $country]),
+            default => null,
+        };
 
-            event(new IpBlocked($ip, $reason, $request));
-
-            return response($reason, 429);
+        if ($reason && $response = Defender::block($request, $reason, 403)) {
+            return $response;
         }
 
         return $next($request);

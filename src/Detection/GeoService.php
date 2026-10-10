@@ -15,39 +15,36 @@ class GeoService {
      * @return string|null Country code or null if not available
      */
     public static function getCountryCode(string $ip, ?string $provider = null): ?string {
-        // Use default provider from config if not specified
-        $provider ??= config('defender.geo.provider', 'ip-api');
+        // Private/reserved addresses (localhost, LAN, docker) have no country: don't ask anyone.
+        if (! self::isPublicIp($ip)) {
+            return null;
+        }
 
-        // Normalize provider name
-        $provider = strtolower($provider);
+        $provider = strtolower($provider ?? config('defender.geo.provider', 'ip-api'));
+        $cacheKey = "defender_geo_{$provider}_{$ip}";
 
-        // Cache key for storing country code
-        $cacheKey = "defender_geo_{$ip}";
-
-        // Check cache first (10 min cache by default)
-        $cacheTtl = config('defender.geo.cache_minutes', 10);
+        // '' marks "looked up, no answer", so a failing provider isn't hit on every request.
         $cached = Cache::get($cacheKey);
         if ($cached !== null) {
-            return $cached;
+            return $cached === '' ? null : $cached;
         }
 
-        // Attempt to retrieve from selected provider
         $countryCode = match ($provider) {
-            'ip-api' => self::getCountryCodeFromIpApi($ip),
             'ipinfo' => self::getCountryCodeFromIpInfo($ip),
             'ipgeolocation' => self::getCountryCodeFromIpGeolocation($ip),
-            'ipapi' => self::getCountryCodeFromIpApi($ip), // Alias for backward compatibility
-            default => self::getCountryCodeFromIpApi($ip)
+            default => self::getCountryCodeFromIpApi($ip), // 'ip-api' (and the old 'ipapi' alias)
         };
-        
-        // If we got a country code, cache it
-        if ($countryCode) {
-            Cache::put($cacheKey, $countryCode, now()->addMinutes($cacheTtl));
-        }
-        
-        return $countryCode;
+
+        $minutes = (int) config('defender.geo.cache_minutes', 60);
+        Cache::put($cacheKey, $countryCode ?: '', now()->addMinutes($countryCode ? $minutes : min($minutes, 5)));
+
+        return $countryCode ?: null;
     }
-    
+
+    public static function isPublicIp(string $ip): bool {
+        return filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) !== false;
+    }
+
     /**
      * Get country code using ip-api.com (free tier)
      */

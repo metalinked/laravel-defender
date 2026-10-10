@@ -33,9 +33,9 @@ class CountryAccessMiddlewareTest extends TestCase {
 
         $this->fakeGeoResponse('DE');
 
-        $response = $this->post('/test-country');
+        $response = $this->withServerVariables(['REMOTE_ADDR' => '8.8.8.8'])->post('/test-country');
 
-        $response->assertStatus(429);
+        $response->assertStatus(403);
         $this->assertDatabaseHas('defender_ip_logs', ['is_suspicious' => true]);
     }
 
@@ -48,7 +48,7 @@ class CountryAccessMiddlewareTest extends TestCase {
 
         $this->fakeGeoResponse('ES');
 
-        $response = $this->post('/test-country');
+        $response = $this->withServerVariables(['REMOTE_ADDR' => '8.8.8.8'])->post('/test-country');
 
         $response->assertStatus(200);
     }
@@ -62,9 +62,9 @@ class CountryAccessMiddlewareTest extends TestCase {
 
         $this->fakeGeoResponse('RU');
 
-        $response = $this->post('/test-country');
+        $response = $this->withServerVariables(['REMOTE_ADDR' => '8.8.8.8'])->post('/test-country');
 
-        $response->assertStatus(429);
+        $response->assertStatus(403);
     }
 
     public function test_deny_mode_allows_non_listed_country(): void {
@@ -76,7 +76,7 @@ class CountryAccessMiddlewareTest extends TestCase {
 
         $this->fakeGeoResponse('ES');
 
-        $response = $this->post('/test-country');
+        $response = $this->withServerVariables(['REMOTE_ADDR' => '8.8.8.8'])->post('/test-country');
 
         $response->assertStatus(200);
     }
@@ -85,11 +85,11 @@ class CountryAccessMiddlewareTest extends TestCase {
         config([
             'defender.country_access.mode' => 'allow',
             'defender.country_access.countries' => ['ES'],
-            'defender.country_access.whitelist_ips' => ['127.0.0.1'],
+            'defender.country_access.whitelist_ips' => ['8.8.8.8'],
         ]);
 
-        // No Http::fake needed — whitelist check runs before GeoService is called
-        $response = $this->post('/test-country');
+        // Pre-3.0 per-feature whitelist is still honoured
+        $response = $this->withServerVariables(['REMOTE_ADDR' => '8.8.8.8'])->post('/test-country');
 
         $response->assertStatus(200);
     }
@@ -106,7 +106,7 @@ class CountryAccessMiddlewareTest extends TestCase {
             'http://ip-api.com/*' => Http::response([], 500),
         ]);
 
-        $response = $this->post('/test-country');
+        $response = $this->withServerVariables(['REMOTE_ADDR' => '8.8.8.8'])->post('/test-country');
 
         // If country cannot be determined, request is allowed through
         $response->assertStatus(200);
@@ -125,11 +125,52 @@ class CountryAccessMiddlewareTest extends TestCase {
 
         $this->fakeGeoResponse('CN');
 
-        $this->post('/test-country');
+        $this->withServerVariables(['REMOTE_ADDR' => '8.8.8.8'])->post('/test-country');
 
         \Illuminate\Support\Facades\Event::assertDispatched(
             \Metalinked\LaravelDefender\Events\IpBlocked::class,
-            fn ($e) => $e->ip === '127.0.0.1'
+            fn ($e) => $e->ip === '8.8.8.8'
         );
+    }
+
+    public function test_empty_country_list_disables_the_check_without_geo_lookup(): void {
+        config(['defender.country_access.countries' => []]);
+        Http::fake();
+
+        $this->withServerVariables(['REMOTE_ADDR' => '8.8.8.8'])->post('/test-country')->assertOk();
+
+        Http::assertNothingSent();
+    }
+
+    public function test_private_ip_is_never_looked_up(): void {
+        config(['defender.country_access.countries' => ['ES']]);
+        Http::fake();
+
+        $this->post('/test-country')->assertOk(); // 127.0.0.1
+
+        Http::assertNothingSent();
+    }
+
+    public function test_failed_lookup_is_cached_instead_of_retried_every_request(): void {
+        config(['defender.country_access.countries' => ['ES']]);
+        Http::fake(['http://ip-api.com/*' => Http::response(['status' => 'fail'], 200)]);
+
+        for ($i = 0; $i < 5; $i++) {
+            $this->withServerVariables(['REMOTE_ADDR' => '8.8.8.8'])->post('/test-country')->assertOk();
+        }
+
+        Http::assertSentCount(1);
+    }
+
+    public function test_global_whitelist_bypasses_country_check(): void {
+        config([
+            'defender.country_access.countries' => ['ES'],
+            'defender.whitelist.ips' => ['8.8.0.0/16'],
+        ]);
+        Http::fake();
+
+        $this->withServerVariables(['REMOTE_ADDR' => '8.8.8.8'])->post('/test-country')->assertOk();
+
+        Http::assertNothingSent();
     }
 }

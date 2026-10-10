@@ -2,21 +2,19 @@
 
 return [
     // General
-    'access_blocked' => 'Acceso bloqueado debido a actividad sospechosa.',
+    'access_blocked' => 'Acceso denegado.',
+    'too_many_attempts' => 'Demasiados intentos. Inténtalo de nuevo más tarde.',
 
     // Alerts
     'alert_subject' => '[Defender] Alerta de Seguridad',
     'alert_suspicious_user_agent' => 'User-agent sospechoso: :user_agent',
     'alert_suspicious_route' => 'Ruta sospechosa accedida: :route',
     'alert_common_username' => 'Intento de inicio de sesión con nombre de usuario común: :username',
-    'alert_too_many_attempts' => 'Demasiadas peticiones desde esta IP',
+    'alert_too_many_login_attempts' => 'Demasiados intentos de inicio de sesión fallidos desde esta IP',
     'alert_non_allowed_country' => 'Acceso desde país no permitido: :country',
     'alert_denied_country' => 'Acceso desde país denegado: :country',
     'alert_suspicious_pattern' => 'Patrón sospechoso detectado: ":pattern" en la solicitud',
     'alert_blocked_ip' => 'IP bloqueada intentó acceder',
-
-    // IP blocked
-    'ip_blocked' => 'Acceso denegado.',
 
     // Log viewer command
     'logs_header' => 'Registros de IP de Defender',
@@ -55,7 +53,7 @@ return [
     'honeypot_missing' => 'Falta el honeypot',
 
     // Blocklist commands
-    'auto_block_reason' => 'Bloqueado automáticamente tras :count amenazas detectadas',
+    'auto_block_reason' => 'Bloqueado automáticamente tras :count peticiones sospechosas',
     'reputation_block_reason' => 'Bloqueado automáticamente por mala reputación de IP (puntuación AbuseIPDB: :score)',
     'block_ip_invalid' => 'Dirección IP inválida: :ip',
     'block_ip_permanent' => 'La IP :ip ha sido bloqueada permanentemente.',
@@ -104,7 +102,6 @@ return [
     'audit_headers_hsts_tip' => 'Añade la cabecera Strict-Transport-Security para forzar HTTPS.',
 
     // Database alert messages
-    'db_logging_disabled' => 'El registro en base de datos está deshabilitado en config/defender.php.',
     'logs_table_missing' => 'La tabla de registros de IP de Defender no existe. Ejecuta: php artisan vendor:publish --tag=defender-migrations && php artisan migrate',
 
     // Export command

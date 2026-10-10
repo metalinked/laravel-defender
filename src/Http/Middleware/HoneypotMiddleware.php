@@ -1,33 +1,27 @@
 <?php
+
 namespace Metalinked\LaravelDefender\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Metalinked\LaravelDefender\Defender;
+use Metalinked\LaravelDefender\Http\Middleware\Concerns\ChecksHoneypot;
 
+/**
+ * Per-route honeypot: the form must include @defenderHoneypot.
+ */
 class HoneypotMiddleware {
-    public function handle(Request $request, Closure $next) {
-        $prefix = config('defender.honeypot.field_prefix', 'my_full_name_');
-        $honeypotField = collect($request->all())
-            ->filter(fn ($value, $key) => str_starts_with($key, $prefix))
-            ->keys()
-            ->first();
+    use ChecksHoneypot;
 
-        if ($honeypotField && $request->filled($honeypotField)) {
-            abort(422, __('defender::defender.honeypot_bot_detected'));
+    public function handle(Request $request, Closure $next) {
+        if (Defender::isWhitelisted($request)) {
+            return $next($request);
         }
 
-        if ($request->has('valid_from')) {
-            try {
-                $timestamp = decrypt($request->input('valid_from'));
-                $minTime = config('defender.honeypot.minimum_time', 2);
-                if (now()->timestamp - $timestamp < $minTime) {
-                    abort(422, __('defender::defender.honeypot_too_quick'));
-                }
-            } catch (\Exception $e) {
-                abort(422, __('defender::defender.honeypot_invalid'));
-            }
-        } else {
-            abort(422, __('defender::defender.honeypot_missing'));
+        $reason = $this->honeypotFailure($request, $this->honeypotField($request));
+
+        if ($reason && $response = Defender::block($request, $reason, 422)) {
+            return $response;
         }
 
         return $next($request);
