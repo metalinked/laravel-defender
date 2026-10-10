@@ -1,5 +1,40 @@
 # Changelog
 
+## [3.0.0](https://github.com/metalinked/laravel-defender/compare/v2.0.1...v3.0.0) (2026-10-10)
+
+
+### ⚠ BREAKING CHANGES
+
+* `BruteForceMiddleware` (`defender.brute_force`) and `IpLoggerMiddleware` (`defender.iplogger`) removed — repeat offenders are now handled by `auto_block`, failed logins by `login_protection`. See [UPGRADE.md](UPGRADE.md) ([da5dd2b](https://github.com/metalinked/laravel-defender/commit/da5dd2bf97dab7ff26ded52ad5f28131138e8e57))
+* attack detection and country access return **403** instead of 429; blocked responses are a generic "Access denied." page (or JSON) instead of the matched rule ([da5dd2b](https://github.com/metalinked/laravel-defender/commit/da5dd2bf97dab7ff26ded52ad5f28131138e8e57))
+* config: `ip_logging`, `brute_force`, `blocklist.auto_block_*` and `reputation.auto_block_hours` replaced by `auto_block`; `country_access.countries` defaults to `[]` (off) instead of `['ES']` ([da5dd2b](https://github.com/metalinked/laravel-defender/commit/da5dd2bf97dab7ff26ded52ad5f28131138e8e57))
+* auto-block (5 incidents in 60 min → 24 h) and login protection are on by default; request bodies are no longer scanned by default; `curl`, `python`, `wget` are no longer blocked user-agents ([da5dd2b](https://github.com/metalinked/laravel-defender/commit/da5dd2bf97dab7ff26ded52ad5f28131138e8e57))
+
+
+### Features
+
+* `DefenderMiddleware` (alias `defender`): blocklist, attack detection and country access as one global middleware ([da5dd2b](https://github.com/metalinked/laravel-defender/commit/da5dd2bf97dab7ff26ded52ad5f28131138e8e57))
+* monitor mode (`DEFENDER_MODE=monitor`): detect, log and alert without blocking anything ([da5dd2b](https://github.com/metalinked/laravel-defender/commit/da5dd2bf97dab7ff26ded52ad5f28131138e8e57))
+* global whitelist of IPs (CIDR ranges supported) and paths ([da5dd2b](https://github.com/metalinked/laravel-defender/commit/da5dd2bf97dab7ff26ded52ad5f28131138e8e57))
+* login protection through Laravel's auth events: after 5 failed logins per IP, further attempts get 429 before the credentials are checked ([da5dd2b](https://github.com/metalinked/laravel-defender/commit/da5dd2bf97dab7ff26ded52ad5f28131138e8e57))
+* `mail`, `slack` and `webhook` alerts throttled to one per IP every 10 minutes (`alerts.throttle_minutes`) ([da5dd2b](https://github.com/metalinked/laravel-defender/commit/da5dd2bf97dab7ff26ded52ad5f28131138e8e57))
+* `advanced_detection.scan_body`, `extra_patterns` and `ignore_patterns`; more probe routes (`/.env`, `/.git`, `/vendor/phpunit`...) and scanner user-agents ([da5dd2b](https://github.com/metalinked/laravel-defender/commit/da5dd2bf97dab7ff26ded52ad5f28131138e8e57))
+* customisable blocked page (`defender-views` publish tag) ([da5dd2b](https://github.com/metalinked/laravel-defender/commit/da5dd2bf97dab7ff26ded52ad5f28131138e8e57))
+
+
+### Bug Fixes
+
+* **security:** the `log` channel and webhook context no longer receive the `Request` object, which was logged as the raw HTTP request — session cookies and form fields, passwords included ([da5dd2b](https://github.com/metalinked/laravel-defender/commit/da5dd2bf97dab7ff26ded52ad5f28131138e8e57))
+* attack patterns containing `/` (`php://`, `file://`, `etc/passwd`) never matched; SQL injection with spaces, `+` or `/**/` wasn't detected ([da5dd2b](https://github.com/metalinked/laravel-defender/commit/da5dd2bf97dab7ff26ded52ad5f28131138e8e57))
+* overly generic patterns (`shell`, `passwd`, `base64,`, `<!--`, `cmd=`) blocked normal content such as comments and pasted images ([da5dd2b](https://github.com/metalinked/laravel-defender/commit/da5dd2bf97dab7ff26ded52ad5f28131138e8e57))
+* geolocation no longer calls the provider on every request for private IPs or when a lookup fails ([da5dd2b](https://github.com/metalinked/laravel-defender/commit/da5dd2bf97dab7ff26ded52ad5f28131138e8e57))
+* honeypot rejections are now logged, alerted and counted towards auto-block ([da5dd2b](https://github.com/metalinked/laravel-defender/commit/da5dd2bf97dab7ff26ded52ad5f28131138e8e57))
+
+
+### Documentation
+
+* README rewritten: three-step quick start, what each protection does, trusted proxies, avoiding false positives; new UPGRADE guide ([a87b578](https://github.com/metalinked/laravel-defender/commit/a87b578d7797811f6b8d702c51b59d8761a0c54f))
+
 ## [2.0.1](https://github.com/metalinked/laravel-defender/compare/v2.0.0...v2.0.1) (2026-08-11)
 
 
