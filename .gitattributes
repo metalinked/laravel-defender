@@ -1,5 +1,5 @@
 # Files excluded from Composer dist packages
-TODO.md export-ignore
+SECURITY.md export-ignore
 .github/ export-ignore
 tests/ export-ignore
 phpunit.xml export-ignore
